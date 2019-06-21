@@ -8,11 +8,25 @@ export default class GroceryHome extends Component {
     super(props);
     this.state = {
       camera: "true",
-      list: []
+      items: [],
+      input: ""
     };
 
-    // addAFoodItem = () => {};
+    // addAFoodItem = () => {}
   }
+
+  onSubmit = e => {
+    e.preventDefault();
+    this.setState({
+      items: [...this.state.items, this.state.input],
+      input: ""
+    });
+  };
+
+  onChange = e => {
+    this.setState({ input: e.target.value });
+  };
+
   render() {
     return (
       <>
@@ -20,10 +34,23 @@ export default class GroceryHome extends Component {
         <div>Donation List</div>
 
         <div>
-          Add food item
+          <Form onSubmit={this.onSubmit}>
+            <Form.Label>Add an item </Form.Label>
+            <input
+              type="text"
+              placeholder="item"
+              onChange={this.onChange}
+              value={this.state.input}
+            />
+          </Form>
           <Button variant="link" type="submit">
             <img src="/images/add.png" width="36" height="36" />
           </Button>
+          <ul>
+            {this.state.items.map(item => {
+              return <li key={item}>{item}</li>;
+            })}
+          </ul>
         </div>
       </>
     );
