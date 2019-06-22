@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import NavBar from "./NavBar";
 import DonationForm from "./DonationForm";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 export default function GroceryHome() {
   const [camera, updateCamera] = useState(true);
@@ -24,10 +25,14 @@ export default function GroceryHome() {
     updateFormData(newFormData);
   };
 
+  // const handleDonation = () => {
+  //   fetch('')
+  // }
+
   return (
     <>
       <NavBar camera={camera} />
-      <div>Donation List</div>
+      <div>Make a donation</div>
       <DonationForm
         items={items}
         formData={formData}
@@ -35,6 +40,7 @@ export default function GroceryHome() {
         handleChange={handleChange}
       />
       <ul className="donation-list">
+        {items.length > 0 && <div>Your donations</div>}
         {items.map(item => {
           return (
             <li key={item.product}>
@@ -44,8 +50,10 @@ export default function GroceryHome() {
           );
         })}
       </ul>
-      {/* this button is to make a post request/ to add the donated items in the database */}
-      <Button variant="outline-success">Donate!</Button>
+      {/* this button is to make a post request/ to add the donated items in the database. Call handleDonation at onClick and make a fetch request to backend*/}
+      <Link to={"/"}>
+        <Button variant="outline-success">Donate!</Button>
+      </Link>
     </>
   );
 }
