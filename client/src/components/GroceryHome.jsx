@@ -51,6 +51,9 @@ export default class GroceryHome extends Component {
           onSubmit={this.onSubmit}
           handleChange={this.handleChange}
         />
+        {this.state.items.map(item => {
+          return <li key={item.product}>{item.product}</li>;
+        })}
       </>
     );
   }
