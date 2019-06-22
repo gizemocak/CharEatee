@@ -18,6 +18,25 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
+// App routes
+
+app.post("/register", (req, res) => {
+
+});
+
+app.post("/login_grocer", (req, res) => {
+
+});
+
+app.post("/login_charity", (req, res) => {
+
+});
+
+
+
+
+
+
 const port = process.env.PORT || 8080;
 app.listen(port);
 
