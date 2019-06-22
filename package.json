@@ -1,23 +1,34 @@
 {
   "name": "final-project",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Project description: - The application is to create opportunity for grocery stores to reduce waste as more than half of all food produced in Canada is lost or wasted, report says, this also create hugh enviromental impacts.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^8.0.0",
+
+    "bootstrap": "^4.3.1",
     "express": "^4.17.1",
+    "react-bootstrap": "^1.0.0-beta.9",
+    "bookshelf": "^0.15.1",
+    "dotenv": "^8.0.0",
     "knex": "^0.17.6",
     "pg": "^7.11.0"
   },
+  "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/gizemocak/final-project"
-  }
+    "url": "git+https://github.com/gizemocak/final-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gizemocak/final-project/issues"
+  },
+  "homepage": "https://github.com/gizemocak/final-project#readme"
+
 }
