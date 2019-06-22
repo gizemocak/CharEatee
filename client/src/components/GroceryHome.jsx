@@ -10,20 +10,34 @@ export default class GroceryHome extends Component {
     this.state = {
       camera: "true",
       items: [],
-      input: ""
+      formData: {
+        product: "",
+        quantity: 0,
+        unit: "",
+        expiryDate: ""
+      }
     };
   }
 
   onSubmit = e => {
+    //
+    this.setState(
+      {
+        items: [...this.state.items, this.state.formData]
+      },
+      () => {
+        console.log("new state", this.state);
+      }
+    );
     e.preventDefault();
-    this.setState({
-      items: [...this.state.items, this.state.input],
-      input: ""
-    });
   };
 
-  onChange = e => {
-    this.setState({ input: e.target.value });
+  handleChange = (e, propertyName) => {
+    console.log("e", e.target.value);
+    console.log("property name", propertyName);
+    const formData = { ...this.state.formData };
+    formData[propertyName] = e.target.value;
+    this.setState({ formData });
   };
 
   render() {
@@ -31,40 +45,12 @@ export default class GroceryHome extends Component {
       <>
         <NavBar camera={this.state.camera} />
         <div>Donation List</div>
-        {/* <div>
-          <Form onSubmit={this.onSubmit}>
-            <Form.Label>Add an item </Form.Label>
-            <input
-              type="text"
-              placeholder="  item"
-              onChange={this.onChange}
-              value={this.state.input}
-            />
-          </Form>
-          <Button variant="link" type="submit">
-            <img src="/images/add.png" width="36" height="36" />
-          </Button>
-          <ul>
-            {this.state.items.map(item => {
-              return <li key={item}>{item}</li>;
-            })}
-          </ul>
-        </div>
-        <div>
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Food Item</Form.Label>
-            <Form.Control type="text" placeholder="Food Item" />
-          </Form.Group>
-          <Form.Group controlId="formGridState">
-            <Form.Control as="select" />
-            <option>piece</option>
-            <option>lbs</option>
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </div> */}
-        <DonationForm />
+        <DonationForm
+          items={this.state.items}
+          formData={this.state.formData}
+          onSubmit={this.onSubmit}
+          handleChange={this.handleChange}
+        />
       </>
     );
   }
