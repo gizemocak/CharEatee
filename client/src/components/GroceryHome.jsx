@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import NavBar from "./NavBar";
+import DonationForm from "./DonationForm";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
@@ -11,8 +12,6 @@ export default class GroceryHome extends Component {
       items: [],
       input: ""
     };
-
-    // addAFoodItem = () => {}
   }
 
   onSubmit = e => {
@@ -32,13 +31,12 @@ export default class GroceryHome extends Component {
       <>
         <NavBar camera={this.state.camera} />
         <div>Donation List</div>
-
-        <div>
+        {/* <div>
           <Form onSubmit={this.onSubmit}>
             <Form.Label>Add an item </Form.Label>
             <input
               type="text"
-              placeholder="item"
+              placeholder="  item"
               onChange={this.onChange}
               value={this.state.input}
             />
@@ -52,6 +50,21 @@ export default class GroceryHome extends Component {
             })}
           </ul>
         </div>
+        <div>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Food Item</Form.Label>
+            <Form.Control type="text" placeholder="Food Item" />
+          </Form.Group>
+          <Form.Group controlId="formGridState">
+            <Form.Control as="select" />
+            <option>piece</option>
+            <option>lbs</option>
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </div> */}
+        <DonationForm />
       </>
     );
   }
