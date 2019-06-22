@@ -24,9 +24,15 @@ app.post("/register", (req, res) => {
 
 });
 
-app.post("/login", (req, res) => {
-  
+app.post("/login_grocer", (req, res) => {
+
 });
+
+app.post("/login_charity", (req, res) => {
+
+});
+
+
 
 
 
