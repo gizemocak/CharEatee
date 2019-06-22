@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import NavBar from "./NavBar";
 import DonationForm from "./DonationForm";
+import Button from "react-bootstrap/Button";
 
 export default function GroceryHome() {
   const [camera, updateCamera] = useState(true);
@@ -33,9 +34,18 @@ export default function GroceryHome() {
         onSubmit={onSubmit}
         handleChange={handleChange}
       />
-      {items.map(item => {
-        return <li key={item.product}>{item.product}</li>;
-      })}
+      <ul className="donation-list">
+        {items.map(item => {
+          return (
+            <li key={item.product}>
+              {item.product} - {item.quantity}
+              {item.unit} - {item.expiryDate}
+            </li>
+          );
+        })}
+      </ul>
+      {/* this button is to make a post request/ to add the donated items in the database */}
+      <Button variant="outline-success">Donate!</Button>
     </>
   );
 }

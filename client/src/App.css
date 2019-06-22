@@ -32,3 +32,8 @@
   bottom: -26px;
   right: 150px;
 }
+
+.donation-list {
+  margin-top: 45px;
+  list-style: none
+}
