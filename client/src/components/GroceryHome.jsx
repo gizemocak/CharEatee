@@ -1,60 +1,41 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import NavBar from "./NavBar";
 import DonationForm from "./DonationForm";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 
-export default class GroceryHome extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      camera: "true",
-      items: [],
-      formData: {
-        product: "",
-        quantity: 0,
-        unit: "",
-        expiryDate: ""
-      }
-    };
-  }
+export default function GroceryHome() {
+  const [camera, updateCamera] = useState(true);
+  const [items, updateItems] = useState([]);
+  const [formData, updateFormData] = useState({
+    product: "",
+    quantity: 0,
+    unit: "",
+    expiryDate: ""
+  });
 
-  onSubmit = e => {
-    //
-    this.setState(
-      {
-        items: [...this.state.items, this.state.formData]
-      },
-      () => {
-        console.log("new state", this.state);
-      }
-    );
+  const onSubmit = e => {
     e.preventDefault();
+    updateItems([...items, formData]);
   };
 
-  handleChange = (e, propertyName) => {
-    console.log("e", e.target.value);
-    console.log("property name", propertyName);
-    const formData = { ...this.state.formData };
-    formData[propertyName] = e.target.value;
-    this.setState({ formData });
+  const handleChange = (e, propertyName) => {
+    const newFormData = { ...formData };
+    newFormData[propertyName] = e.target.value;
+    updateFormData(newFormData);
   };
 
-  render() {
-    return (
-      <>
-        <NavBar camera={this.state.camera} />
-        <div>Donation List</div>
-        <DonationForm
-          items={this.state.items}
-          formData={this.state.formData}
-          onSubmit={this.onSubmit}
-          handleChange={this.handleChange}
-        />
-        {this.state.items.map(item => {
-          return <li key={item.product}>{item.product}</li>;
-        })}
-      </>
-    );
-  }
+  return (
+    <>
+      <NavBar camera={camera} />
+      <div>Donation List</div>
+      <DonationForm
+        items={items}
+        formData={formData}
+        onSubmit={onSubmit}
+        handleChange={handleChange}
+      />
+      {items.map(item => {
+        return <li key={item.product}>{item.product}</li>;
+      })}
+    </>
+  );
 }
