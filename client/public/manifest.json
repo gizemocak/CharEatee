@@ -5,7 +5,7 @@
     {
       "src": "/images/heart1.png",
       "sizes": "192x192",
-      "type": "iimage/png"
+      "type": "image/png"
     }
   ],
   "start_url": ".",
