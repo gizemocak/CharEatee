@@ -10,11 +10,10 @@ import * as serviceWorker from './serviceWorker';
 
 
 ReactDOM.render(
-  <HttpsRedirect>
+  
   <BrowserRouter>
     <App />
-  </BrowserRouter>
-  </HttpsRedirect>,
+  </BrowserRouter>,
   document.getElementById("root")
 );
 
