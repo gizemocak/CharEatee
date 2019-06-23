@@ -19,7 +19,9 @@
     "express": "^4.17.1",
     "knex": "^0.17.6",
     "pg": "^7.11.0",
-    "react-bootstrap": "^1.0.0-beta.9"
+    "react-bootstrap": "^1.0.0-beta.9",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
   },
   "devDependencies": {},
   "repository": {

@@ -1,9 +1,5 @@
 const express = require('express');
 const path = require('path');
-const functions = require("firebase-functions");
-const gcs = require('@google-cloud/storage')();
-const os = require('os');
-const spawn = require('child-process-promise').spawn;
 
 const app = express();
 
@@ -24,12 +20,17 @@ app.get('*', (req, res) => {
 
 // App routes
 
-// Create and deploy Cloud Functions
-exports.onFileChange = functions.storage.object().onChange(event => {
+app.post("/register", (req, res) => {
 
 });
 
-exports.uploadFile
+app.post("/login_grocer", (req, res) => {
+
+});
+
+app.post("/login_charity", (req, res) => {
+
+});
 
 
 

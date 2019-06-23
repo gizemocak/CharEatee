@@ -18,7 +18,7 @@ export default class GroceryHome extends Component {
   }
 
   fileUploadHandler = () => {
-    axios.post
+  
   }
 
   render() {
