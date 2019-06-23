@@ -1,10 +1,2 @@
 node_modules
-
-{
-  "user": "labber",
-  "password": "labber",
-  "database": "finalproject",
-  "hostname": "localhost",
-  "port": 5432,
-  "ssl": true
-}
+.env
