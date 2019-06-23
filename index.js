@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
+const enforce = require('express-sslify');
 
 const app = express();
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req, res) => {
