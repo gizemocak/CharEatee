@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import MapContainer from './MapContainer'
-import NavBar from "./NavBar";
+import MapContainer from '../components/MapContainer'
 
-function CharityHome () {
+function DonationPage () {
   const [apiKey, setApiKey] = useState(null)
   
   useEffect(() => {
@@ -20,12 +19,7 @@ function CharityHome () {
     })
   }, [])
 
-return (
-<>
-<NavBar />
-{ apiKey && <MapContainer apiKey={apiKey} /> } 
-</>
-)
+return <div>{ apiKey && <MapContainer apiKey={apiKey} /> } </div>
 }
 
-export default CharityHome
+export default DonationPage
