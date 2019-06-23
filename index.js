@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
+
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -14,15 +15,7 @@ app.get('/api/getList', (req, res) => {
 
 // Handles any requests that don't match the ones above
 app.get('*', (req, res) => {
-  if (req.secure) {
-    // request was via https, so do no special handling
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
-} else {
-    // request was via http, so redirect to https
-    res.redirect('https://' + req.headers.host + req.url);
-}
-  
-  
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 // App routes
