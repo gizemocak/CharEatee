@@ -3,10 +3,26 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 const GoogleMap = props => {
   const [icon, setIcon] = useState("");
+  const [showingInfoWindow, updateShowingInfoWindow] = useState(false);
+  const [activeMarker, setActiveMarker] = useState({});
+  const [selectedPlace, updateSelectedPlace] = useState({});
 
   const changeIconColor = (mapProps, map) => {
     const { google } = mapProps;
     setIcon(google.maps.SymbolPath.CIRCLE);
+  };
+
+  const onMarkerClick = (props, marker, e) => {
+    updateSelectedPlace(props);
+    updateShowingInfoWindow(true);
+    setActiveMarker(marker);
+  };
+
+  const onMapClicked = props => {
+    if (showingInfoWindow) {
+      updateShowingInfoWindow(false);
+      setActiveMarker(null);
+    }
   };
 
   return (
