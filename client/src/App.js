@@ -7,8 +7,7 @@ import SignUpForm from './components/SignupForm';
 import Login from './components/Login';
 import CharityHome from './components/CharityHome';
 import GroceryHome from './components/GroceryHome'
-import MapContainer from './components/MapContainer';
-import DonationPage from './pages/Donations'
+
 class App extends Component {
   render() {
     return (
@@ -20,7 +19,7 @@ class App extends Component {
           <Route path='/login' component={Login}/>
           <Route path='/grocery/home/:id' component={GroceryHome}/>
           <Route path='/charity/home/:id' component={CharityHome}/>
-          <Route path='/map' component={DonationPage}/>
+          
         </Switch>
       </div>
     );
