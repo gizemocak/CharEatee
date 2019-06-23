@@ -1,31 +1,42 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
-class GoogleMap extends Component {
-  render() {
-    return (
-      <Map
-        google={this.props.google}
-        zoom={14}
-        initialCenter={this.props.geoLocation}
-      >
-        <Marker onClick={this.onMarkerClick} name={"Current location"} />
+const GoogleMap = props => {
+  const [icon, setIcon] = useState("");
 
-        <Marker
-          title={"Charity"}
-          name={"Canadian Foundation for Health and Prosperity"}
-          position={{ lat: 43.663788, lng: -79.3782 }}
-        />
-        <Marker
-          name={"CanadaHelps"}
-          position={{ lat: 43.65325, lng: -79.3983 }}
-        />
+  const changeIconColor = (mapProps, map) => {
+    const { google } = mapProps;
+    setIcon(google.maps.SymbolPath.CIRCLE);
+  };
 
-        <InfoWindow onClose={this.onInfoWindowClose} />
-      </Map>
-    );
-  }
-}
+  return (
+    <Map
+      google={props.google}
+      zoom={14}
+      initialCenter={props.geoLocation}
+      onReady={changeIconColor}
+    >
+      <Marker
+        name={"Current location"}
+        icon={{
+          path: icon,
+          strokeColor: "#467DFE",
+          scale: 6.5
+        }}
+      />
+
+      <Marker
+        title={"Charity"}
+        name={"Canadian Foundation for Health and Prosperity"}
+        position={{ lat: 43.663788, lng: -79.3782 }}
+      />
+      <Marker
+        name={"CanadaHelps"}
+        position={{ lat: 43.65325, lng: -79.3983 }}
+      />
+    </Map>
+  );
+};
 
 export default GoogleApiWrapper(props => ({
   apiKey: props.apiKey,
