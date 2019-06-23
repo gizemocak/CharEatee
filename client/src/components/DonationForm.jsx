@@ -2,8 +2,25 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 export default class GroceryHome extends Component {
+
+  state = {
+    selectedFile: null
+  }
+
+  fileSelectHandler = event => {
+    console.log(event.target.files[0]);
+    this.setState({
+      selectedFile: event.target.files[0]
+    })
+  }
+
+  fileUploadHandler = () => {
+    axios.post
+  }
+
   render() {
     const { formData } = this.props;
     return (
@@ -61,10 +78,12 @@ export default class GroceryHome extends Component {
               value={formData.expiryDate}
             />
           </Form.Group>
-          <Link to={"/"}>
-            <img src="/images/camera.png" width="50" height="50" />
-          </Link>
-          <Button variant="link" type="submit" className="donate-button">
+            <div className="imageUpload">
+              <input type="file" onChange={this.fileSelectHandler}/>
+              <button onClick={this.fileUploadHandler}>Upload images</button>
+            {/* <img src="/images/camera.png" width="50" height="50" /> */}
+            </div>
+          <Button variant="link" type="file" className="donate-button">
             <img src="/images/add.png" width="60" height="60" />
           </Button>
         </Form>
