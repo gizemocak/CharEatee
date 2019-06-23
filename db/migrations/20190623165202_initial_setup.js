@@ -7,10 +7,12 @@ exports.up = function(knex, Promise) {
     table.increments('id');
     table.string('name').notNullable();
     table.string('password').notNullable();
+    table.string('email');
     table.string('address').notNullable();
+    table.string('imgurl');
     table.json('profile');
-    table.decimal('latitude', 9, 6).notNullable();
-    table.decimal('longitude', 9, 6).notNullable();
+    table.float('latitude').notNullable();
+    table.float('longitude').notNullable();
    }),
 
    knex.schema
@@ -18,21 +20,21 @@ exports.up = function(knex, Promise) {
     table.increments('id');
     table.string('name').notNullable();
     table.string('password').notNullable();
+    table.string('email');
     table.string('address').notNullable();
+    table.string('imgurl');
     table.json('profile');
-    table.decimal('latitude', 9, 6).notNullable();
-    table.decimal('longitude', 9, 6).notNullable();
+    table.float('latitude').notNullable();
+    table.float('longitude').notNullable();
    }),
 
-   knex.schema.createTable('donations', (table) => {
+   knex.schema.createTable('products', (table) => {
      table.increments('id');
-     table.string('product').notNullable();
-     table.string('image');
+     table.string('name').notNullable();
+     table.string('imgurl');
      table.integer('quantity').notNullable();
-     table.integer('unit').notNullable();
-     table.date('expiredate').notNullable();
-     table.decimal('latitude', 9, 6).notNullable();
-     table.decimal('longitude', 9, 6).notNullable();
+     table.string('unit').notNullable();
+     table.date('expiry_date').notNullable();
      table.integer('grocer_id').references('id').inTable('grocers');
      table.timestamps();
    }),
@@ -40,7 +42,7 @@ exports.up = function(knex, Promise) {
    knex.schema.createTable('orders', (table)=>{
     table.increments('id');
      table.integer('quantity').notNullable();
-     table.integer('unit');
+     table.string('unit');
      table.integer('charity_id').references('id').inTable('charities');
      table.timestamps();
    }),
@@ -48,9 +50,9 @@ exports.up = function(knex, Promise) {
    knex.schema.createTable('line_items', (table)=>{
     table.increments('id');
      table.integer('quantity').notNullable();
-     table.integer('unit');
+     table.string('unit');
      table.integer('order_id').references('id').inTable('orders');
-     table.integer('donation_id').references('id').inTable('donations');
+     table.integer('product_id').references('id').inTable('products');
      table.timestamps();
    })
   ])
@@ -58,14 +60,14 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.table('grocers', function (table) {
-        table.dropColumn('password');
-    }),
-    knex.schema.table('charities', function (table) {
-      table.dropColumn('password');
-  }),
-    knex.schema.dropTable('donations')
+    knex.schema .dropTable('line_items')
+                .dropTable('products')
                 .dropTable('orders')
-                .dropTable('line_items')
+                .dropTable('grocers')
+                .dropTable('charities')
+
+                
   ])
 };
+
+

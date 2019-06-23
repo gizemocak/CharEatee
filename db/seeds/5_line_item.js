@@ -6,7 +6,7 @@ exports.seed = function(knex, Promise) {
       quantity: 6,
       unit: 'lb',
       order_id: 1,
-      donation_id: 1
+      product_id: 1
     })
   ]);
 };
