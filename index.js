@@ -12,16 +12,16 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req, res) => {
-  console.log('logging')
   const list = ["item1", "item2", "item3"];
   res.json(list);
   console.log('Sent list of items');
 });
 
-app.get('/api/getApiKey',(req, res) => {
+app.get('/api/getApiKey', (req, res) => {
   const key = process.env.GOOGLEMAPS_APIKEY
-  console.log(process.env.GOOGLEMAPS_APIKEY)
-  res.send({apiKey: key})
+  res.send({
+    apiKey: key
+  })
 })
 
 // Handles any requests that don't match the ones above
