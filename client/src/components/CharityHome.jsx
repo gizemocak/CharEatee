@@ -31,7 +31,9 @@ export default function CharityHome() {
   return (
     <>
       <NavBar />
-      {apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} />}
+      {apiKey && geoLoc.lat && (
+        <MapContainer apiKey={apiKey} geoLocation={geoLoc} />
+      )}
     </>
   );
 }
