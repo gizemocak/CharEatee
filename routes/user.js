@@ -4,6 +4,30 @@ const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcrypt')
 const cookieSession = require('cookie-session')
+const NodeGeocoder = require('node-geocoder');
+const saltRounds = 10;
+
+
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["key1", "key2"]
+  })
+);
+
+
+var options = {
+  provider: 'google',
+  // Optional depending on the providers
+  httpAdapter: 'https', // Default
+  apiKey: process.env.GOOGLEMAPS_APIKEY, // for Mapquest, OpenCage, Google Premier
+  formatter: null         // 'gpx', 'string', ...
+};
+
+var geocoder = NodeGeocoder(options);
+
+
+
 
 module.exports = (knex) => {
 
@@ -22,23 +46,38 @@ module.exports = (knex) => {
     const email = req.body.email;
     const password = req.body.password;
     const address = req.body.address;
-    const salt = bcrypt.genSaltSync(5);
-    const hashedPassword = bcrypt.hashSync(password, salt);
+    
+    const hashedPassword = bcrypt.hashSync(password, saltRounds);
 
     knex.select('name', 'id').from('grocers').then((grocers) => {
       for (let i = 0; i < grocers.length; i ++) {
-        if (grocers[i].name === grocername ||grocers[i].email === email ) {
+        if (email.length === 0 || password.length === 0) {
+          res.status(400).send("Email or password is empty");
+        } else if 
+        (grocers[i].name === grocername ||grocers[i].email === email ) {
           res.status(403).send('User already exists')
           return false
         }
       }
+      const latitude = ''
+      const longitude = ''
+
+
+      geocoder.geocode(req.body.address, function(err, res) {
+        console.log(res);
+        latitude = res[0].latitude
+        longitude = res[0].longitude
+      });
+
       knex('users')
         .returning('id')
         .insert([{
           name: grocername, 
           email: email,
           password: hashedPassword,
-          address: address
+          address: address,
+          latitude: latitude,
+          longitude: longitude
         }])
         .then((ids) => {
           var user_id = ids[0];
@@ -51,7 +90,7 @@ module.exports = (knex) => {
   router.post("/login", (req, res) => {
 
     const email = req.body.email;
-    const pswrd = req.body.password;
+    const password = req.body.password;
     let flag = false
     let pswrdFromDatabase = ''
     let userIndex = 0
