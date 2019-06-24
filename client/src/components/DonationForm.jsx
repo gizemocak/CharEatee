@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Camera from "./Camera";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { NONAME } from "dns";
@@ -90,16 +91,18 @@ export default class GroceryHome extends Component {
           </Form.Group>
             <div className="imageUpload">
               <input 
-              style={{display: 'none'}}
+              // style={{display: 'none'}}
               type="file" 
+              id="file"
               onChange={this.fileSelectHandler}
-              ref={fileInput => this.fileInput = fileInput}/>
+              ref={fileInput => this.fileInput = fileInput}
+              multiple/>
              <Button style={{backgroundColor: '#F8F9FA', border: 'none'}} onClick={() => this.fileInput.click()}>
                <img src="/images/camera.png" width="50" height="50" />
               </Button>
               <button onClick={this.fileUploadHandler}>Upload images</button>
             </div>
-          <Button variant="link" type="file" className="donate-button">
+            <Button variant="link" type="file" className="donate-button">
             <img src="/images/add.png" width="60" height="60" />
           </Button>
         </Form>
