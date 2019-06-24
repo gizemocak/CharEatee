@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import { NONAME } from "dns";
 
 export default class GroceryHome extends Component {
 
@@ -18,7 +19,16 @@ export default class GroceryHome extends Component {
   }
 
   fileUploadHandler = () => {
-  
+    const formData = new FormData();
+    formData.append('image', this.state.selectedFile, this.state.selectedFile.name)
+    axios.post('https://us-central1-chareatee-a86d8.cloudfunctions.net/uploadFile', formData, {
+      onUploadProgress: progressEvent => {
+        console.log('Upload progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
+      }
+    })
+    .then(res => {
+      console.log(res);
+    });
   }
 
   render() {
@@ -79,9 +89,15 @@ export default class GroceryHome extends Component {
             />
           </Form.Group>
             <div className="imageUpload">
-              <input type="file" onChange={this.fileSelectHandler}/>
+              <input 
+              style={{display: 'none'}}
+              type="file" 
+              onChange={this.fileSelectHandler}
+              ref={fileInput => this.fileInput = fileInput}/>
+             <Button style={{backgroundColor: '#F8F9FA', border: 'none'}} onClick={() => this.fileInput.click()}>
+               <img src="/images/camera.png" width="50" height="50" />
+              </Button>
               <button onClick={this.fileUploadHandler}>Upload images</button>
-            {/* <img src="/images/camera.png" width="50" height="50" /> */}
             </div>
           <Button variant="link" type="file" className="donate-button">
             <img src="/images/add.png" width="60" height="60" />
