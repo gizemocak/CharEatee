@@ -1,37 +1,48 @@
 const express = require('express');
 const path = require('path');
 const enforce = require('express-sslify');
+require('dotenv').config()
 
 const app = express();
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
-app.use(enforce.HTTPS({ trustProtoHeader: true }));
+// app.use(enforce.HTTPS({ trustProtoHeader: true }));
+
 
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req, res) => {
-  var list = ["item1", "item2", "item3"];
+  const list = ["item1", "item2", "item3"];
   res.json(list);
   console.log('Sent list of items');
 });
 
+app.get('/api/getApiKey', (req, res) => {
+  const key = process.env.GOOGLEMAPS_APIKEY
+  res.send({
+    apiKey: key
+  })
+})
+
 // Handles any requests that don't match the ones above
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
 
 // App routes
 
-app.post("/register", (req, res) => {
+app.post("api/register", (req, res) => {
 
 });
 
-app.post("/login_grocer", (req, res) => {
+app.post("api/login_grocer", (req, res) => {
 
 });
 
-app.post("/login_charity", (req, res) => {
+app.post("api/login_charity", (req, res) => {
 
+});
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 
