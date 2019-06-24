@@ -15,7 +15,7 @@
     "bookshelf": "^0.15.1",
     "bootstrap": "^4.3.1",
     "express": "^4.17.1",
-
+    "dotenv": "^8.0.0",
     "express-sslify": "^1.2.0",
     "google-maps-react": "^2.0.2",
     "knex": "^0.17.6",
@@ -24,7 +24,7 @@
     "react-https-redirect": "^1.1.0"
   },
   "devDependencies": {
-    "dotenv": "^8.0.0"
+
   },
   "repository": {
     "type": "git",
