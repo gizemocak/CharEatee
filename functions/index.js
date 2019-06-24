@@ -18,15 +18,7 @@ const gcs = new Storage({
     keyFilename: keyFilename
 });
 
-// const gcconfig = {
-//   projectId: "chareatee-a86d8",
-//   keyFilename: "chareatee-a86d8-firebase-adminsdk-84fm7-46ca06f9d1.json"
-// };
 
-// const gcs = require("@google-cloud/storage")(gcconfig);
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
 exports.onFileChange = functions.storage.object().onFinalize(event => {
   const object = event.data;
   const bucket = object.bucket;
@@ -80,7 +72,7 @@ exports.uploadFile = functions.https.onRequest((req, res) => {
     });
 
     busboy.on("finish", () => {
-      const bucket = gcs.bucket("fb-cloud-functions-demo.appspot.com");
+      const bucket = gcs.bucket("chareatee-a86d8.appspot.com");
       bucket
         .upload(uploadData.file, {
           uploadType: "media",
