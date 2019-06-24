@@ -30,7 +30,6 @@ export default function CharityHome() {
 
   return (
     <>
-      <div>Charity Home page</div>
       <NavBar />
       {apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} />}
     </>

@@ -36,6 +36,14 @@ const GoogleMap = props => {
 
   // }
 
+  const style = {
+    position: "absolute",
+    width: "100vw",
+    height: "100vh",
+    top: "-68px",
+    left: "-40px"
+  };
+
   return (
     <Map
       google={props.google}
@@ -43,6 +51,7 @@ const GoogleMap = props => {
       initialCenter={props.geoLocation}
       onReady={changeIconColor}
       onClick={onMapClicked}
+      style={style}
     >
       <Marker
         name={"Current location"}
