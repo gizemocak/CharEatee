@@ -8,16 +8,26 @@ const cors = require("cors")({ origin: true });
 const Busboy = require("busboy");
 const fs = require("fs");
 
-const gcconfig = {
-  projectId: "chareatee-a86d8",
-  keyFilename: "chareatee-a86d8-firebase-adminsdk-84fm7-46ca06f9d1.json"
-};
+const projectId = 'chareatee-a86d8';
+const keyFilename = 'chareatee-a86d8-firebase-adminsdk-84fm7-46ca06f9d1.json';
 
-const {gcs} = require("@google-cloud/storage")(gcconfig);
+const {Storage} = require('@google-cloud/storage');
+
+const gcs = new Storage({
+    projectId: projectId,
+    keyFilename: keyFilename
+});
+
+// const gcconfig = {
+//   projectId: "chareatee-a86d8",
+//   keyFilename: "chareatee-a86d8-firebase-adminsdk-84fm7-46ca06f9d1.json"
+// };
+
+// const gcs = require("@google-cloud/storage")(gcconfig);
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-exports.onFileChange = functions.storage.object().onChange(event => {
+exports.onFileChange = functions.storage.object().onFinalize(event => {
   const object = event.data;
   const bucket = object.bucket;
   const contentType = object.contentType;
