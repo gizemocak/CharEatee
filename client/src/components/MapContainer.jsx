@@ -40,7 +40,7 @@ const GoogleMap = props => {
     position: "absolute",
     width: "100vw",
     height: "100vh",
-    top: "-68px",
+    top: "-10px",
     left: "-40px"
   };
 
