@@ -123,11 +123,49 @@ app.post("/api/login", (req, res) => {
     })
 
 });
-//////////// App routes////////////////////
 
-app.post("/api/product", (req, res) => {
-
+//////////// Make a donation////////////////////
+ app.post("/api/product", (req, res) => {
+  const { name, quantity, unit, expiry_date } = req.body
+  if(req.session.user_id){
+    knex('products').insert({
+      name: name,
+      quantity: quantity,
+      unit: unit,
+      expiry_date: expiry_date,
+      user_id: req.session.user_id
+    }).then(product => {
+      console.log('product', product)
+      res.status(200).send("Ok")
+    })
+  }
 }); 
+
+////////////Get A Donation/////////////////////
+app.get("/products", (req, res) => {
+  //check if query string exists, search that query in the database and show the ones that have the key
+  const {
+    search
+  } = req.query;
+  if (search) {
+    knex
+      .select("*")
+      .from("products")
+      .where("name", "like", `%${search}%`)
+      .then(products => {
+        console.log("searched products",products)
+        res.json(products);
+      });
+  } else {
+    knex
+      .select("*")
+      .from("products")
+      .then(products => {
+          console.log("products", products);
+          res.json(products);
+      });
+  }
+});
 
 
 
