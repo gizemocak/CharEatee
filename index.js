@@ -41,6 +41,14 @@ app.get('/api/getList', (req, res) => {
   console.log('Sent list of items');
 });
 
+///////////GEt google api key////////////
+app.get('/api/getApiKey', (req, res) => {
+  const key = process.env.GOOGLEMAPS_APIKEY
+  res.send({
+    apiKey: key
+  })
+})
+
 ////Home page/////
 app.get('/', (req, res) => {
   knex
