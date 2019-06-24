@@ -1,14 +1,37 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import MapContainer from "./MapContainer";
 import NavBar from "./NavBar";
 
-export default class CharityHome extends Component {
-  render() {
-    return (
-      <>
-        <NavBar />
-        <div>I am Charity Home</div>
-        <img src="/images/Simple-Location-Picker.png" width="400" />
-      </>
-    );
-  }
+export default function CharityHome() {
+  const [apiKey, setApiKey] = useState(null);
+  const [geoLoc, setGeoLoc] = useState({});
+
+  useEffect(() => {
+    getGeoLocation();
+    fetch("/api/getApiKey")
+      .then(res => res.json())
+      .then(data => setApiKey(data.apiKey))
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  const getGeoLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        setGeoLoc(pos);
+      });
+    }
+  };
+
+  return (
+    <>
+      <NavBar />
+      {apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} />}
+    </>
+  );
 }
