@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import MapContainer from "./MapContainer";
 import NavBar from "./NavBar";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 export default function CharityHome() {
   const [apiKey, setApiKey] = useState(null);
@@ -32,6 +34,9 @@ export default function CharityHome() {
     <>
       <NavBar />
       {apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} />}
+      <Link to={"/map/search"}>
+        <Button variant="outline-success" className="search-button">Search</Button>
+      </Link>
     </>
   );
 }
