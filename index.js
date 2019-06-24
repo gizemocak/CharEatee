@@ -125,7 +125,7 @@ app.post("/api/login", (req, res) => {
 });
 
 //////////// Make a donation////////////////////
- app.post("/api/product", (req, res) => {
+ app.post("/api/products", (req, res) => {
   const { name, quantity, unit, expiry_date } = req.body
   if(req.session.user_id){
     knex('products').insert({
@@ -142,7 +142,7 @@ app.post("/api/login", (req, res) => {
 }); 
 
 ////////////Get A Donation/////////////////////
-app.get("/products", (req, res) => {
+app.get("/api/products", (req, res) => {
   //check if query string exists, search that query in the database and show the ones that have the key
   const {
     search
@@ -166,6 +166,35 @@ app.get("/products", (req, res) => {
       });
   }
 });
+////////////get order/////////////////////\\COME BACK!!!
+app.get("/api/orders", (req, res) => {
+  //check if query string exists, search that query in the database and show the ones that have the key
+    knex
+      .select("*")
+      .from("orders")
+      .where("user_id", "like", `%${req.session.user_id}%`)
+      .then(orders => {
+        console.log("searched products",orders)
+        res.json(orders);
+      });
+});
+
+
+////////////place order/////////////////////
+app.post("/api/order", (req, res) => {
+  const { quantity, unit } = req.body
+  if(req.session.user_id){
+    knex('orders').insert({
+      quantity: quantity,
+      unit: unit,
+      user_id: req.session.user_id
+    }).then(order => {
+      console.log('order', order)
+      res.status(200).send("Ok")
+    })
+  }
+}); 
+
 
 
 
