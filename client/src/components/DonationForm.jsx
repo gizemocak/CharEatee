@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Camera from "./Camera";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { NONAME } from "dns";
@@ -9,14 +8,23 @@ import { NONAME } from "dns";
 export default class GroceryHome extends Component {
 
   state = {
-    selectedFile: null
+    selectedFile: null,
+    imagePreviewUrl: null
   }
 
   fileSelectHandler = event => {
     console.log(event.target.files[0]);
+    event.preventDefault();
+    let reader = new FileReader();
+    let file = event.target.files[0];
+
+    reader.onloadend = () => {
     this.setState({
-      selectedFile: event.target.files[0]
+      selectedFile: file,
+      imagePreviewUrl: reader.result
     })
+  }
+  reader.readAsDataURL(file)
   }
 
   fileUploadHandler = () => {
@@ -34,6 +42,15 @@ export default class GroceryHome extends Component {
 
   render() {
     const { formData } = this.props;
+    let {imagePreviewUrl} = this.state;
+    let $imagePreview = null;
+
+    if (imagePreviewUrl) {
+      $imagePreview = (<img src={imagePreviewUrl} style={{height: '7em'}}/>);
+    } else {
+      $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
+    }
+
     return (
       <div className="donation-form">
         <Form onSubmit={this.props.onSubmit}>
@@ -106,6 +123,9 @@ export default class GroceryHome extends Component {
             <img src="/images/add.png" width="60" height="60" />
           </Button>
         </Form>
+        <div className="imgPreview">
+          {$imagePreview}
+        </div>
       </div>
     );
   }
