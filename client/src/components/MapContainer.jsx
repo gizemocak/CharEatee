@@ -55,14 +55,14 @@ const GoogleMap = props => {
       />
 
       <Marker
-        title={"Charity"}
-        name={"Canadian Foundation for Health and Prosperity"}
-        position={{ lat: 43.663788, lng: -79.3782 }}
+        title={"grocery store"}
+        name={"Fresh & Wild Food Market"}
+        position={{ lat: 43.6457, lng: -79.39477 }}
         onClick={onMarkerClick}
       />
       <Marker
-        name={"CanadaHelps"}
-        position={{ lat: 43.65325, lng: -79.3983 }}
+        name={"Loblaws"}
+        position={{ lat: 43.64756, lng: -79.40159 }}
         onClick={onMarkerClick}
       />
 
