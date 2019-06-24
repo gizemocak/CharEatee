@@ -5,12 +5,9 @@ const cookieSession = require('cookie-session')
 const NodeGeocoder = require('node-geocoder');
 const saltRounds = 10;
 const path = require('path');
-<<<<<<< HEAD
-=======
 const enforce = require('express-sslify');
 require('dotenv').config()
 
->>>>>>> b07bf7acb0c61564bec8f268a437fc1fcc4069e7
 const app = express();
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
@@ -19,7 +16,6 @@ const knexLogger = require('knex-logger');
 require('dotenv').config()
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
-<<<<<<< HEAD
 app.use(knexLogger(knex));
 app.use(
   cookieSession({
@@ -37,10 +33,6 @@ var options = {
 };
 
 var geocoder = NodeGeocoder(options);
-=======
-// app.use(enforce.HTTPS({ trustProtoHeader: true }));
-
->>>>>>> b07bf7acb0c61564bec8f268a437fc1fcc4069e7
 
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req, res) => {
@@ -49,7 +41,6 @@ app.get('/api/getList', (req, res) => {
   console.log('Sent list of items');
 });
 
-<<<<<<< HEAD
 ////Home page/////
 app.get('/', (req, res) => {
   knex
@@ -206,37 +197,6 @@ app.post("/api/order", (req, res) => {
     })
   }
 }); 
-=======
-app.get('/api/getApiKey', (req, res) => {
-  const key = process.env.GOOGLEMAPS_APIKEY
-  res.send({
-    apiKey: key
-  })
-})
-
-// Handles any requests that don't match the ones above
-
-// App routes
-
-app.post("api/register", (req, res) => {
-
-});
-
-app.post("api/login_grocer", (req, res) => {
-
-});
-
-app.post("api/login_charity", (req, res) => {
-
-});
-
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
-
-
->>>>>>> b07bf7acb0c61564bec8f268a437fc1fcc4069e7
 
 
 
