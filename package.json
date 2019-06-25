@@ -1,5 +1,5 @@
 {
-  "nsme": "final-project",
+  "name": "final-project",
   "version": "1.0.0",
   "description": "## Project description: - The application is to create opportunity for grocery stores to reduce waste as more than half of all food produced in Canada is lost or wasted, report says, this also create hugh enviromental impacts.",
   "main": "index.js",
