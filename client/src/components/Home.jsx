@@ -26,6 +26,9 @@ export default class Home extends Component {
         <Link to={"/charity/home/:id"}>
           <Button variant="outline-success">Charity Home Page</Button>
         </Link>
+        <Link to={"/grocery/home/:id"}>
+          <Button variant="outline-success">Grocery Home Page</Button>
+        </Link>
       </div>
     );
   }

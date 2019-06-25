@@ -30,6 +30,7 @@ export default class GroceryHome extends Component {
 
   fileUploadHandler = () => {
     const formData = new FormData();
+    if (this.state.selectedFile.name) {
     formData.append('image', this.state.selectedFile, `${this.state.selectedFile.name}-${uuid.v4()}.jpg`)
     axios.post('https://us-central1-chareatee-a86d8.cloudfunctions.net/uploadFile', formData, {
       onUploadProgress: progressEvent => {
@@ -39,6 +40,7 @@ export default class GroceryHome extends Component {
     .then(res => {
       console.log(res);
     });
+  }
   }
 
   render() {
@@ -91,8 +93,8 @@ export default class GroceryHome extends Component {
                 }}
                 value={formData.unit}
               >
-                <option>lb</option>
-                <option>piece</option>
+                <option>lbs</option>
+                <option>pieces</option>
               </Form.Control>
             </Form.Group>
           </div>
@@ -118,9 +120,8 @@ export default class GroceryHome extends Component {
              <Button style={{backgroundColor: '#F8F9FA', border: 'none'}} onClick={() => this.fileInput.click()}>
                <img src="/images/camera.png" width="50" height="50" />
               </Button>
-              <button onClick={this.fileUploadHandler}>Upload images</button>
             </div>
-            <Button variant="link" type="file" className="donate-button">
+            <Button variant="link" type="submit" className="donate-button" onClick={this.fileUploadHandler}>
             <img src="/images/add.png" width="60" height="60" />
           </Button>
         </Form>

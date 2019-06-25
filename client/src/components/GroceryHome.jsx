@@ -10,8 +10,9 @@ export default function GroceryHome() {
   const [formData, updateFormData] = useState({
     product: "",
     quantity: 0,
-    unit: "",
-    expiryDate: ""
+    unit: "lbs",
+    expiryDate: "",
+    imgUrl: ""
   });
 
   const onSubmit = e => {
@@ -20,6 +21,7 @@ export default function GroceryHome() {
   };
 
   const handleChange = (e, propertyName) => {
+    console.log('eeeeeeeeeeeeeeeeeeeeee', propertyName)
     const newFormData = { ...formData };
     newFormData[propertyName] = e.target.value;
     updateFormData(newFormData);
@@ -41,11 +43,11 @@ export default function GroceryHome() {
       />
       <ul className="donation-list">
         {items.length > 0 && <div>Your donations</div>}
-        {items.map(item => {
+        {items.map((item, index) => {
+          console.log('queiiywqyueywqueyqieywqueywqeywiey', item)
           return (
-            <li key={item.product}>
-              {item.product} - {item.quantity}
-              {item.unit} - {item.expiryDate}
+            <li key={item.product + index}>
+              {index + 1}. {item.product}, Quantity: {item.quantity} {item.unit}, Expiry Date: {item.expiryDate}
             </li>
           );
         })}
