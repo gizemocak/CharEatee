@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 const GoogleMap = props => {
@@ -6,6 +6,7 @@ const GoogleMap = props => {
   const [showingInfoWindow, updateShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
   const [selectedPlace, updateSelectedPlace] = useState({});
+  const [pins, setPins] = useState([]);
 
   const changeIconColor = (mapProps, map) => {
     const { google } = mapProps;
@@ -35,6 +36,16 @@ const GoogleMap = props => {
   // const mapResize = () => {
 
   // }
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/products', {
+      method: 'get',
+      headers: {'Content-Type':'application/json'},
+     })
+     .then(res => res.json())
+     .then(res => console.log(res))
+     //.then(res => setPins(res))
+  },[])
 
   const style = {
     position: "absolute",
