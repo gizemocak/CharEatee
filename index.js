@@ -40,7 +40,7 @@ var options = {
   apiKey: process.env.GOOGLEMAPS_APIKEY, // for Mapquest, OpenCage, Google Premier
   formatter: null         // 'gpx', 'string', ...
 };
-
+console.log("api", process.env.GOOGLEMAPS_APIKEY)
 var geocoder = NodeGeocoder(options);
 
 // An api endpoint that returns a short list of items
@@ -71,7 +71,7 @@ app.get('/', (req, res) => {
 ////////////REGISTER ROUTES///////////////
 
 app.post("/api/register", (req, res) => {
-
+  console.log("register reqbody", req.body)
   const username = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
@@ -88,12 +88,14 @@ app.post("/api/register", (req, res) => {
         return false
       }
     }
-    const latitude = ''
-    const longitude = ''
-    geocoder.geocode(req.body.address, function(err, res) {
+    let latitude = ''
+    let longitude = ''
+    geocoder.geocode({address:req.body.address, city:req.body.city, zipcode: req.body.postalcode},function(err, res) {
       console.log('this is res from registration', res);
       latitude = res[0].latitude
       longitude = res[0].longitude
+      console.log("latitute", latitude)
+      console.log("longtitute", longitude)
     });
 
     knex('users')
