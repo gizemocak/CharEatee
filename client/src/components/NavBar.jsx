@@ -7,6 +7,7 @@ export default class Home extends Component {
       <Navbar bg="light" variant="light" fixed="top">
         <Navbar.Brand href="/">
           <img src="/images/watermelon.png" width="30" height="30" />
+          CharEatee
         </Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/">Home</Nav.Link>

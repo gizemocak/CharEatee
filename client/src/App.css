@@ -37,3 +37,10 @@
   margin-top: 45px;
   list-style: none
 }
+
+.search-button {
+  z-index: 9999;
+  position: absolute;
+  bottom:0;
+  width:20px;
+}
