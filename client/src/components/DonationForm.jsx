@@ -30,7 +30,9 @@ export default class GroceryHome extends Component {
 
   fileUploadHandler = () => {
     const formData = new FormData();
-    if (this.state.selectedFile.name) {
+    if (!this.state.selectedFile) {
+      return;
+    }
     formData.append('image', this.state.selectedFile, `${this.state.selectedFile.name}-${uuid.v4()}.jpg`)
     axios.post('https://us-central1-chareatee-a86d8.cloudfunctions.net/uploadFile', formData, {
       onUploadProgress: progressEvent => {
@@ -40,7 +42,6 @@ export default class GroceryHome extends Component {
     .then(res => {
       console.log(res);
     });
-  }
   }
 
   render() {
