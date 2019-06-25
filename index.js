@@ -134,12 +134,14 @@ app.post("/api/login", (req, res) => {
       knex('users')
         .returning('id')
         .then((ids) => {
-          req.session.grocer_id = ids[userIndex].id;
+          req.session.user_id = ids[userIndex].id;
           res.json({
             success: true,
           })
           res.redirect("/")
       })
+      } else {
+        res.sendStatus(401)
       }
     })
 
