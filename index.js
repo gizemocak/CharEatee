@@ -7,6 +7,7 @@ const saltRounds = 10;
 const path = require('path');
 const enforce = require('express-sslify');
 require('dotenv').config()
+var bodyParser = require('body-parser')
 
 const app = express();
 const knexConfig = require("./knexfile");
@@ -15,6 +16,14 @@ const knexLogger = require('knex-logger');
 
 require('dotenv').config()
 // Serve the static files from the React app
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.use(bodyParser.json())
+
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(knexLogger(knex));
 app.use(
@@ -106,6 +115,7 @@ app.post("/api/register", (req, res) => {
 });
 ///////////LOGIN ROUTES///////////////////
 app.post("/api/login", (req, res) => {
+  console.log(req.body)
   const email = req.body.email;
     const password = req.body.password;
     let flag = false
