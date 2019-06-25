@@ -26,7 +26,8 @@
     "react-https-redirect": "^1.1.0",
     "react-images-uploader": "^1.2.0-rc1",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "request-promise": "^4.2.4",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {},
   "repository": {

@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { NONAME } from "dns";
+import uuid from "uuid";
 
 export default class GroceryHome extends Component {
 
@@ -17,6 +18,7 @@ export default class GroceryHome extends Component {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
+    // file.name = 'apple';
 
     reader.onloadend = () => {
     this.setState({
@@ -29,7 +31,7 @@ export default class GroceryHome extends Component {
 
   fileUploadHandler = () => {
     const formData = new FormData();
-    formData.append('image', this.state.selectedFile, this.state.selectedFile.name)
+    formData.append('image', this.state.selectedFile, `${this.state.selectedFile.name}-${uuid.v4()}.jpg`)
     axios.post('https://us-central1-chareatee-a86d8.cloudfunctions.net/uploadFile', formData, {
       onUploadProgress: progressEvent => {
         console.log('Upload progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
