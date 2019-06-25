@@ -1,50 +1,101 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import NavBar from './NavBar';
 import { Link } from "react-router-dom";
 
 
-export default class SignUpForm extends Component {
-  render() {
+export default function SignUpForm () {
+  const [formData, updateFormData] = useState({
+    type:"",
+    name:"",
+    address:"",
+    email: "",
+    city: "",
+    province: "",
+    postalcode: "",
+    password: ""
+  });
+
+  const formSubmit = (e) => {
+    e.preventDefault();
+    handleLogin()
+   }
+ 
+   const handleLogin = () => {
+     console.log("form data", formData)
+     fetch('http://localhost:8080/api/register', {
+       method: 'post',
+       headers: {'Content-Type':'application/json'},
+       body: JSON.stringify(formData)
+      }).then(res => {
+           console.log("response",res);
+         })
+   }
+
+   const handleChange = (e, propertyName) => {
+    const newFormData = { ...formData };
+    newFormData[propertyName] = e.target.value;
+    updateFormData(newFormData);
+  }
+
     return (
       <>
       <h1>Register your account</h1>
       <NavBar/>
-      <Form>
+      <Form onSubmit={formSubmit}>
       <Form.Group controlId="exampleForm.ControlSelect1">
-        <Form.Control as="select">
+        <Form.Control 
+        as="select" 
+        value={formData.type}
+        onChange={e => {
+          handleChange(e, 'type')}}
+        >
             <option>What type of user are you?</option>
             <option>Grocer/Restaurant</option>
             <option>Charity</option>
         </Form.Control>
       </Form.Group>
 
-      <Form.Control type="text" placeholder="Your Business Name" />
+      <Form.Control 
+        type="text" 
+        placeholder="Your Business Name" 
+        value={formData.name}
+        onChange={e => {
+          handleChange(e, 'name')}}/>
 
       <br/>
 
     <Form.Group controlId="formGridAddress1">
     <Form.Label>Address</Form.Label>
-    <Form.Control placeholder="Ex: 1234 Main St" />
+    <Form.Control 
+    value={formData.address}
+    onChange={e => {
+      handleChange(e, 'address')}}
+    placeholder="Ex: 1234 Main St" />
   </Form.Group>
 
-  <Form.Group controlId="formGridAddress2">
-    <Form.Label>Address 2</Form.Label>
-    <Form.Control placeholder="Apartment, studio, or floor" />
-  </Form.Group>
 
   <Form.Row>
     <Form.Group as={Col} controlId="formGridCity">
       <Form.Label>City</Form.Label>
-      <Form.Control />
+      <Form.Control 
+    value={formData.city}
+        onChange={e => {
+          handleChange(e, 'city')}}
+    placeholder="Toronto" />
+
     </Form.Group>
 
     <Form.Group as={Col} controlId="formGridState">
       <Form.Label>Province</Form.Label>
-      <Form.Control as="select">
+      <Form.Control 
+      as="select"
+      value={formData.province}
+      onChange={e => {
+      handleChange(e, 'province')}}
+      >
         <option>Choose...</option>
         <option>Alberta</option>
         <option>British Columbia</option>
@@ -61,7 +112,11 @@ export default class SignUpForm extends Component {
 
     <Form.Group as={Col} controlId="formGridZip">
       <Form.Label>Postal Code</Form.Label>
-      <Form.Control placeholder="A1A B1B"/>
+      <Form.Control 
+      value={formData.postalcode}
+      onChange={e => {
+        handleChange(e, 'postalcode')}}
+      placeholder="A1A B1B"/>
     </Form.Group>
   </Form.Row>
 
@@ -69,7 +124,12 @@ export default class SignUpForm extends Component {
 
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
+        <Form.Control 
+        type="email" 
+        value={formData.email}
+      onChange={e => {
+        handleChange(e, 'email')}}
+        placeholder="Enter email" />
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
         </Form.Text>
@@ -77,7 +137,12 @@ export default class SignUpForm extends Component {
     
       <Form.Group controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
+        <Form.Control 
+        type="password"
+        value={formData.password}
+      onChange={e => {
+        handleChange(e, 'password')}}
+         placeholder="Password" />
       </Form.Group>
       
       <Button variant="primary" type="submit">
@@ -88,5 +153,4 @@ export default class SignUpForm extends Component {
     <Link to={"/login"}>Already had an account? Sign In</Link>
     </>
     );
-  }
 }

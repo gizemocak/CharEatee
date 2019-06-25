@@ -83,7 +83,7 @@ app.post("/api/register", (req, res) => {
       if (email.length === 0 || password.length === 0) {
         res.status(400).send("Email or password is empty");
       } else if 
-      (users[i].name === grocername ||users[i].email === email ) {
+      (users[i].name === username ||users[i].email === email ) {
         res.status(403).send('User already exists')
         return false
       }
@@ -91,7 +91,7 @@ app.post("/api/register", (req, res) => {
     const latitude = ''
     const longitude = ''
     geocoder.geocode(req.body.address, function(err, res) {
-      console.log(res);
+      console.log('this is res from registration', res);
       latitude = res[0].latitude
       longitude = res[0].longitude
     });
