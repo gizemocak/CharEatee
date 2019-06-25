@@ -7,9 +7,8 @@ exports.seed = function(knex, Promise) {
       quantity: 6,
       unit: 'lb',
       expiry_date: 'Sat, 06 Jul 2019',
-      grocer_id: 1
+      user_id: 1
     })
   ]);
 };
-
 

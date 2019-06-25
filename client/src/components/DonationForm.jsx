@@ -18,7 +18,6 @@ export default class GroceryHome extends Component {
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
-    // file.name = 'apple';
 
     reader.onloadend = () => {
     this.setState({
