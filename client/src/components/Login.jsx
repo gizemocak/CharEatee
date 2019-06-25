@@ -2,39 +2,26 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import NavBar from './NavBar';
-import axios from 'axios';
-
 
 export default function Login () {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [formData, updateFormData] = useState({
     email: "",
     password: ""
   });
 
   const formSubmit = (e) => {
-    console.log("submit")
    e.preventDefault();
-  //  console.log(formData)
    handleLogin()
   }
 
   const handleLogin = () => {
     console.log("form data", formData)
-    // axios.post('http://localhost:8080/api/login', formData )
-    //   .then(res => {
-    //     console.log("response",res);
-    //     console.log("response data",res.data);
-    //   })
-
     fetch('http://localhost:8080/api/login', {
       method: 'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(formData)
      }).then(res => {
           console.log("response",res);
-          console.log("response data",res.data);
         })
   }
 
@@ -42,8 +29,6 @@ export default function Login () {
     const newFormData = { ...formData };
     newFormData[propertyName] = e.target.value;
     updateFormData(newFormData);
-    // setEmail()
-    // setPassword()
   }
 
     return (
