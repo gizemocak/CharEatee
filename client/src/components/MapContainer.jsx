@@ -43,9 +43,14 @@ const GoogleMap = props => {
       headers: {'Content-Type':'application/json'},
      })
      .then(res => res.json())
-     .then(res => console.log(res))
-     //.then(res => setPins(res))
+     .then(res => {
+       setPins(res)
+       console.log("state pins!",pins)
+      }
+      )
   },[])
+
+ 
 
   const style = {
     position: "absolute",
@@ -55,13 +60,14 @@ const GoogleMap = props => {
     left: "-40px"
   };
 
+
   return (
     <Map
       google={props.google}
       zoom={14}
       initialCenter={props.geoLocation}
       onReady={changeIconColor}
-      onClick={onMapClicked}
+      onClick={() => console.log("pins", pins)}
       style={style}
     >
       <Marker
@@ -96,6 +102,7 @@ const GoogleMap = props => {
         </div>
       </InfoWindow>
     </Map>
+
   );
 };
 

@@ -165,6 +165,9 @@ app.post("/api/login", (req, res) => {
   }
 }); 
 
+
+/////////Get stores//////////
+
 ////////////Get A Donation/////////////////////
 app.get("/api/products", (req, res) => {
   //check if query string exists, search that query in the database and show the ones that have the key
