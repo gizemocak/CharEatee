@@ -76,6 +76,9 @@ app.post("/api/register", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const address = req.body.address;
+  const city = req.body.city;
+  const province = req.body.province;
+  const postalcode = req.body.postalcode;
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
   const type = req.body.type;
 
@@ -100,6 +103,9 @@ app.post("/api/register", (req, res) => {
         email: email,
         password: hashedPassword,
         address: address,
+        city: city,
+        province: province,
+        postalcode: postalcode,
         latitude: res[0].latitude,
         longitude: res[0].longitude
       }])
