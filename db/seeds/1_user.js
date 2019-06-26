@@ -1,4 +1,3 @@
-
 exports.seed = function(knex, Promise) {
   return Promise.all([
     knex('users').insert({
@@ -23,6 +22,3 @@ exports.seed = function(knex, Promise) {
     })
   ]);
 };
-
-
-
