@@ -33,24 +33,22 @@ const GoogleMap = props => {
     }
   };
 
-  // const mapResize = () => {
-
-  // }
-
   useEffect(() => {
-    fetch('http://localhost:8080/api/products', {
+    handleFetchStore()
+  },[])
+
+
+  const handleFetchStore = () => {
+    fetch('http://localhost:8080/api/stores', {
       method: 'get',
       headers: {'Content-Type':'application/json'},
      })
      .then(res => res.json())
      .then(res => {
-       setPins(res)
-       console.log("state pins!",pins)
+      setPins(res)
       }
-      )
-  },[])
-
- 
+    )
+  }
 
   const style = {
     position: "absolute",
@@ -67,7 +65,7 @@ const GoogleMap = props => {
       zoom={14}
       initialCenter={props.geoLocation}
       onReady={changeIconColor}
-      onClick={() => console.log("pins", pins)}
+      onClick={onMapClicked}
       style={style}
     >
       <Marker
@@ -91,6 +89,18 @@ const GoogleMap = props => {
         position={{ lat: 43.64756, lng: -79.40159 }}
         onClick={onMarkerClick}
       />
+
+      {pins.length > 0  && pins.map(item => {
+        return (
+              <Marker
+              key={item.email}
+              title={"Grocer/Restaurant"}
+              name={item.email}
+              position={{ lat: item.latitude, lng: item.longitude }}
+              onClick={onMarkerClick}
+            />
+             )
+      })}
 
       <InfoWindow
         marker={activeMarker}

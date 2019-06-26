@@ -123,7 +123,7 @@ app.post("/api/register", (req, res) => {
 });
 ///////////LOGIN ROUTES///////////////////
 app.post("/api/login", (req, res) => {
-  console.log(req.body)
+  //console.log(req.body)
   const email = req.body.email;
     const password = req.body.password;
     let flag = false
@@ -143,7 +143,7 @@ app.post("/api/login", (req, res) => {
         .returning('id')
         .then((ids) => {
           req.session.user_id = ids[userIndex].id;
-          console.log("ids[userIndex].id", ids[userIndex].id)
+          //console.log("ids[userIndex].id", ids[userIndex].id)
           res.send({
             email: ids[userIndex].email,
             address: ids[userIndex].address
@@ -168,7 +168,7 @@ app.post("/api/login", (req, res) => {
       expiry_date: expiry_date,
       user_id: req.session.user_id
     }).then(product => {
-      console.log('product', product)
+      //console.log('product', product)
       res.status(200).send("Ok")
     })
   }
@@ -176,6 +176,16 @@ app.post("/api/login", (req, res) => {
 
 
 /////////Get stores//////////
+app.get("/api/stores", (req, res) => {
+  //check if query string exists, search that query in the database and show the ones that have the key
+    knex.select("*")
+    .from("users")
+    .join("products", {"users.id": "products.user_id"})
+    .then(users =>{
+      console.log("users:",users)
+      res.send(users)
+    })
+});
 
 ////////////Get A Donation/////////////////////
 app.get("/api/products", (req, res) => {
@@ -210,7 +220,7 @@ app.get("/api/orders", (req, res) => {
       .from("orders")
       .where("user_id", "like", `%${req.session.user_id}%`)
       .then(orders => {
-        console.log("searched products",orders)
+       // console.log("searched products",orders)
         res.json(orders);
       });
 });
@@ -225,7 +235,7 @@ app.post("/api/order", (req, res) => {
       unit: unit,
       user_id: req.session.user_id
     }).then(order => {
-      console.log('order', order)
+     // console.log('order', order)
       res.status(200).send("Ok")
     })
   }
