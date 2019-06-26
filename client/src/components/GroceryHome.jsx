@@ -16,16 +16,25 @@ export default function GroceryHome() {
   });
 
   const onSubmit = e => {
+    console.log('submitting', items)
     e.preventDefault();
     updateItems([...items, formData]);
   };
 
-  const handleChange = (e, propertyName) => {
-    console.log('eeeeeeeeeeeeeeeeeeeeee', propertyName)
+
+  const handleChange = (value, propertyName) => {
     const newFormData = { ...formData };
-    newFormData[propertyName] = e.target.value;
+    newFormData[propertyName] = value;
+    console.log('updating', newFormData);
     updateFormData(newFormData);
   };
+
+  const handleImage = (value) => {
+    items[items.length - 1].imgUrl = value;
+    updateItems([...items]);
+  };
+
+  
 
   // const handleDonation = () => {
   //   fetch('')
@@ -40,6 +49,7 @@ export default function GroceryHome() {
         formData={formData}
         onSubmit={onSubmit}
         handleChange={handleChange}
+        handleImage={handleImage}
       />
       <ul className="donation-list">
         {items.length > 0 && <div>Your donations</div>}
@@ -47,7 +57,7 @@ export default function GroceryHome() {
           console.log('queiiywqyueywqueyqieywqueywqeywiey', item)
           return (
             <li key={item.product + index}>
-              {index + 1}. {item.product}, Quantity: {item.quantity} {item.unit}, Expiry Date: {item.expiryDate}
+              {index + 1}. {item.product}, Quantity: {item.quantity} {item.unit}, Expiry Date: {item.expiryDate}, Image: <img src={item.imgUrl} style={{height: '5em'}}/>
             </li>
           );
         })}
