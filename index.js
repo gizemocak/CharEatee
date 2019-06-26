@@ -136,10 +136,8 @@ app.post("/api/login", (req, res) => {
         .returning('id')
         .then((ids) => {
           req.session.user_id = ids[userIndex].id;
-          res.json({
-            success: true,
-          })
-          res.redirect("/")
+          res.send({email: req.body.email})
+          // res.redirect("/")
       })
       } else {
         res.sendStatus(401)
