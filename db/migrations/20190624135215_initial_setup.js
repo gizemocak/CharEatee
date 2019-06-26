@@ -52,8 +52,8 @@ exports.down = function(knex, Promise) {
     knex.schema .dropTable('line_items')
                 .dropTable('products')
                 .dropTable('orders')
-                .dropTable('grocers')
-                .dropTable('charities')
+                .dropTable('users')
+
 
                 
   ])
