@@ -143,7 +143,11 @@ app.post("/api/login", (req, res) => {
         .returning('id')
         .then((ids) => {
           req.session.user_id = ids[userIndex].id;
-          res.send({email: req.body.email})
+          console.log("ids[userIndex].id", ids[userIndex].id)
+          res.send({
+            email: ids[userIndex].email,
+            address: ids[userIndex].address
+          })
           // res.redirect("/")
       })
       } else {

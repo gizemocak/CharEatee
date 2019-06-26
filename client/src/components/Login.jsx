@@ -3,11 +3,12 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import NavBar from './NavBar';
 
-export default function Login () {
+export default function Login (props) {
   const [formData, updateFormData] = useState({
     email: "",
     password: ""
   });
+  const [isLoggedIn, setIsloggedIn] = useState({})
 
   const formSubmit = (e) => {
    e.preventDefault();
@@ -20,15 +21,22 @@ export default function Login () {
       method: 'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(formData)
-     }).then(res => {
-          console.log("response",res);
-        })
+     })
+     .then(res => res.json())
+     .then(res => {
+       setIsloggedIn(res)
+     })
   }
 
   const handleChange = (e, propertyName) => {
     const newFormData = { ...formData };
     newFormData[propertyName] = e.target.value;
     updateFormData(newFormData);
+  }
+
+  if(isLoggedIn.email){
+    props.history.push("/")
+    // return null
   }
 
     return (
@@ -63,7 +71,7 @@ export default function Login () {
         />
       </Form.Group>
       
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" >
         Submit
       </Button>
     </Form>
