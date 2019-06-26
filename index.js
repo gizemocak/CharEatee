@@ -78,7 +78,7 @@ app.post("/api/register", (req, res) => {
   const address = req.body.address;
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
   const type = req.body.type;
-  // if (req.body.type === 'grocer'){}
+
   knex.select('name', 'id').from('users').then((users) => {
     for (let i = 0; i < users.length; i ++) {
       if (email.length === 0 || password.length === 0) {
@@ -92,7 +92,6 @@ app.post("/api/register", (req, res) => {
     let latitude = ''
     let longitude = ''
     geocoder.geocode({address:req.body.address, city:req.body.city, zipcode: req.body.postalcode},function(err, res) {
-      console.log('this is res from registration', res);
       knex('users')
       .returning('id')
       .insert([{
@@ -105,7 +104,9 @@ app.post("/api/register", (req, res) => {
         longitude: res[0].longitude
       }])
       .then((ids) => {
-        var user_id = ids[0];
+        console.log("ids", ids)
+        let user_id = ids[0];
+        console.log("user_id", user_id)
         req.session.user_id = user_id;
     })      
     });
