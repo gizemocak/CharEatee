@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 const GoogleMap = props => {
@@ -6,6 +6,7 @@ const GoogleMap = props => {
   const [showingInfoWindow, updateShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
   const [selectedPlace, updateSelectedPlace] = useState({});
+  const [pins, setPins] = useState([]);
 
   const changeIconColor = (mapProps, map) => {
     const { google } = mapProps;
@@ -32,9 +33,22 @@ const GoogleMap = props => {
     }
   };
 
-  // const mapResize = () => {
+  useEffect(() => {
+    handleFetchStore()
+  },[])
 
-  // }
+
+  const handleFetchStore = () => {
+    fetch('http://localhost:8080/api/stores', {
+      method: 'get',
+      headers: {'Content-Type':'application/json'},
+     })
+     .then(res => res.json())
+     .then(res => {
+      setPins(res)
+      }
+    )
+  }
 
   const style = {
     position: "absolute",
@@ -43,6 +57,7 @@ const GoogleMap = props => {
     top: "-10px",
     left: "-40px"
   };
+
 
   return (
     <Map
@@ -75,6 +90,18 @@ const GoogleMap = props => {
         onClick={onMarkerClick}
       />
 
+      {pins.length > 0  && pins.map(item => {
+        return (
+              <Marker
+              key={item.email}
+              title={"Grocer/Restaurant"}
+              name={item.username}
+              position={{ lat: item.latitude, lng: item.longitude }}
+              onClick={onMarkerClick}
+            />
+             )
+      })}
+
       <InfoWindow
         marker={activeMarker}
         visible={showingInfoWindow}
@@ -85,6 +112,7 @@ const GoogleMap = props => {
         </div>
       </InfoWindow>
     </Map>
+
   );
 };
 

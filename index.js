@@ -7,6 +7,7 @@ const saltRounds = 10;
 const path = require('path');
 const enforce = require('express-sslify');
 require('dotenv').config()
+var bodyParser = require('body-parser')
 
 const app = express();
 const knexConfig = require("./knexfile");
@@ -15,6 +16,14 @@ const knexLogger = require('knex-logger');
 
 require('dotenv').config()
 // Serve the static files from the React app
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.use(bodyParser.json())
+
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(knexLogger(knex));
 app.use(
@@ -31,7 +40,7 @@ var options = {
   apiKey: process.env.GOOGLEMAPS_APIKEY, // for Mapquest, OpenCage, Google Premier
   formatter: null         // 'gpx', 'string', ...
 };
-
+console.log("api", process.env.GOOGLEMAPS_APIKEY)
 var geocoder = NodeGeocoder(options);
 
 // An api endpoint that returns a short list of items
@@ -62,50 +71,59 @@ app.get('/', (req, res) => {
 ////////////REGISTER ROUTES///////////////
 
 app.post("/api/register", (req, res) => {
-
+  console.log("register reqbody", req.body)
   const username = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
   const address = req.body.address;
+  const city = req.body.city;
+  const province = req.body.province;
+  const postalcode = req.body.postalcode;
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
-  // if (req.body.type === 'grocer'){}
+  const type = req.body.type;
+
   knex.select('name', 'id').from('users').then((users) => {
     for (let i = 0; i < users.length; i ++) {
       if (email.length === 0 || password.length === 0) {
         res.status(400).send("Email or password is empty");
       } else if 
-      (users[i].name === grocername ||users[i].email === email ) {
+      (users[i].name === username ||users[i].email === email ) {
         res.status(403).send('User already exists')
         return false
       }
     }
-    const latitude = ''
-    const longitude = ''
-    geocoder.geocode(req.body.address, function(err, res) {
-      console.log(res);
-      latitude = res[0].latitude
-      longitude = res[0].longitude
-    });
-
-    knex('users')
+    let latitude = ''
+    let longitude = ''
+    geocoder.geocode({address:req.body.address, city:req.body.city, zipcode: req.body.postalcode},function(err, res) {
+      knex('users')
       .returning('id')
       .insert([{
+        type:type,
         name: username, 
         email: email,
         password: hashedPassword,
         address: address,
-        latitude: latitude,
-        longitude: longitude
+        city: city,
+        province: province,
+        postalcode: postalcode,
+        latitude: res[0].latitude,
+        longitude: res[0].longitude
       }])
       .then((ids) => {
-        var user_id = ids[0];
+        console.log("ids", ids)
+        let user_id = ids[0];
+        console.log("user_id", user_id)
         req.session.user_id = user_id;
-        res.send("Ok")
-    })
+    })      
+    });
+
+    console.log("latitute", typeof latitude)
+    console.log("longtitute", typeof longitude)
   })
 });
 ///////////LOGIN ROUTES///////////////////
 app.post("/api/login", (req, res) => {
+  //console.log(req.body)
   const email = req.body.email;
     const password = req.body.password;
     let flag = false
@@ -124,12 +142,16 @@ app.post("/api/login", (req, res) => {
       knex('users')
         .returning('id')
         .then((ids) => {
-          req.session.grocer_id = ids[userIndex].id;
-          res.json({
-            success: true,
+          req.session.user_id = ids[userIndex].id;
+          //console.log("ids[userIndex].id", ids[userIndex].id)
+          res.send({
+            email: ids[userIndex].email,
+            address: ids[userIndex].address
           })
-          res.redirect("/")
+          // res.redirect("/")
       })
+      } else {
+        res.sendStatus(401)
       }
     })
 
@@ -146,11 +168,24 @@ app.post("/api/login", (req, res) => {
       expiry_date: expiry_date,
       user_id: req.session.user_id
     }).then(product => {
-      console.log('product', product)
+      //console.log('product', product)
       res.status(200).send("Ok")
     })
   }
 }); 
+
+
+/////////Get stores//////////
+app.get("/api/stores", (req, res) => {
+  //check if query string exists, search that query in the database and show the ones that have the key
+    knex.select("*")
+    .from("users")
+    .join("products", {"users.id": "products.user_id"})
+    .then(users =>{
+      console.log("users:",users)
+      res.send(users)
+    })
+});
 
 ////////////Get A Donation/////////////////////
 app.get("/api/products", (req, res) => {
@@ -185,7 +220,7 @@ app.get("/api/orders", (req, res) => {
       .from("orders")
       .where("user_id", "like", `%${req.session.user_id}%`)
       .then(orders => {
-        console.log("searched products",orders)
+       // console.log("searched products",orders)
         res.json(orders);
       });
 });
@@ -200,13 +235,11 @@ app.post("/api/order", (req, res) => {
       unit: unit,
       user_id: req.session.user_id
     }).then(order => {
-      console.log('order', order)
+     // console.log('order', order)
       res.status(200).send("Ok")
     })
   }
 }); 
-
-
 
 
 // Handles any requests that don't match the ones above
