@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 export default function SignUpForm () {
   const [formData, updateFormData] = useState({
     type:"",
-    name:"",
+    username:"",
     address:"",
     email: "",
     city: "",
@@ -61,9 +61,9 @@ export default function SignUpForm () {
       <Form.Control 
         type="text" 
         placeholder="Your Business Name" 
-        value={formData.name}
+        value={formData.username}
         onChange={e => {
-          handleChange(e, 'name')}}/>
+          handleChange(e, 'username')}}/>
 
       <br/>
 
