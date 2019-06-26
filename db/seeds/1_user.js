@@ -3,7 +3,7 @@ exports.seed = function(knex, Promise) {
   return Promise.all([
     knex('users').insert({
       id: 1,
-      name: 'Sobeys',
+      username: 'Sobeys',
       email: "a@a.com",
       password: '123456',
       address: '777 Bay Street Toronto ON M5G 2C8',
@@ -13,7 +13,7 @@ exports.seed = function(knex, Promise) {
     }),
     knex('users').insert({
       id: 2,
-      name: 'Canadian Foundation for Health and Prosperity',
+      username: 'Canadian Foundation for Health and Prosperity',
       email: 'b@b.com',
       password: '123456',
       address: '285 MUTUAL STREET TORONTO	ON',

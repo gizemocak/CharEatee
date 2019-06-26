@@ -95,7 +95,7 @@ const GoogleMap = props => {
               <Marker
               key={item.email}
               title={"Grocer/Restaurant"}
-              name={item.email}
+              name={item.username}
               position={{ lat: item.latitude, lng: item.longitude }}
               onClick={onMarkerClick}
             />
