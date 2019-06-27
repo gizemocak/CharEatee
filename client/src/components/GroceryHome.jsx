@@ -18,8 +18,27 @@ export default function GroceryHome() {
 
   const onSubmit = e => {
     const newFormData = { ...formData };
+    let found = false;
     console.log('submitting', items)
     e.preventDefault();
+
+    if (formData.product.length === 0 || formData.quantity === 0) {
+      if (formData.product.length === 0) {
+        alert('Please fill in product you want to donate')
+      }
+      if (formData.quantity === 0) {
+        alert('quantity cannot be 0')
+      }
+      return;
+    }
+    items.forEach(i => {
+      if (i.product === formData.product) {
+        alert('you have same product in your list');
+        found = true;
+        return;
+      }
+    })
+    if (!found)
     updateItems([...items, newFormData]);
   };
 
@@ -54,9 +73,10 @@ export default function GroceryHome() {
         handleImage={handleImage}
       />
 
-        {items.length > 0 && <div>Your donations</div>}
-           
-            <Table striped bordered hover size="sm">
+        {items.length > 0 && 
+        <div>
+          Your donations
+          <Table striped bordered hover size="sm">
   <thead>
     <tr>
       <th>#</th>
@@ -82,6 +102,9 @@ export default function GroceryHome() {
 })}
   </tbody>
 </Table>
+
+        </div>}
+           
 
       {/* this button is to make a post request/ to add the donated items in the database. Call handleDonation at onClick and make a fetch request to backend*/}
       <Link to={"/"}>
