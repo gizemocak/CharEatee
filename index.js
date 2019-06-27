@@ -72,7 +72,7 @@ app.get('/', (req, res) => {
 
 app.post("/api/register", (req, res) => {
   console.log("register reqbody", req.body)
-  const username = req.body.name;
+  const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
   const address = req.body.address;
@@ -82,12 +82,12 @@ app.post("/api/register", (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
   const type = req.body.type;
 
-  knex.select('name', 'id').from('users').then((users) => {
+  knex.select('username', 'id').from('users').then((users) => {
     for (let i = 0; i < users.length; i ++) {
       if (email.length === 0 || password.length === 0) {
         res.status(400).send("Email or password is empty");
       } else if 
-      (users[i].name === username ||users[i].email === email ) {
+      (users[i].username === username ||users[i].email === email ) {
         res.status(403).send('User already exists')
         return false
       }
@@ -99,7 +99,7 @@ app.post("/api/register", (req, res) => {
       .returning('id')
       .insert([{
         type:type,
-        name: username, 
+        username: username, 
         email: email,
         password: hashedPassword,
         address: address,

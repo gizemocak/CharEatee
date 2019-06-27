@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
 import MapContainer from "./MapContainer";
 import NavBar from "./NavBar";
-import Button from "react-bootstrap/Button";
+import Form from 'react-bootstrap/Form';
 import { Link } from "react-router-dom";
 
 export default function CharityHome() {
   const [apiKey, setApiKey] = useState(null);
   const [geoLoc, setGeoLoc] = useState({});
+  const [pins, setPins] = useState([]);
+  const [searchValue, setSearchValue] = useState("")
+  const [searchList, setSearchList] = useState(false)
+
 
   useEffect(() => {
     getGeoLocation();
@@ -16,6 +21,7 @@ export default function CharityHome() {
       .catch(error => {
         console.log(error);
       });
+      handleFetchStore()
   }, []);
 
   const getGeoLocation = () => {
@@ -30,13 +36,58 @@ export default function CharityHome() {
     }
   };
 
+
+  const handleFetchStore = () => {
+    fetch('http://localhost:8080/api/stores', {
+      method: 'get',
+      headers: {'Content-Type':'application/json'},
+     })
+     .then(res => res.json())
+     .then(res => {
+      setPins(res)
+      }
+    )
+  }
+
+const onChange = (e) => {
+   console.log(e.target.value)
+   setSearchValue(e.target.value)
+}
+
+const onSubmit = (e) => {
+e.preventDefault()
+setSearchList(true)
+}
+  
+
   return (
     <>
       <NavBar />
-      {apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} />}
-      <Link to={"/map/search"}>
-        <Button variant="outline-success" className="search-button">Search</Button>
-      </Link>
+      {!searchList && apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins}/>}
+         <Form onSubmit={onSubmit}>
+      <Form.Group>
+        <Form.Control 
+        type="text"
+        placeholder="search an item" 
+        value={searchValue}
+        onChange={onChange}
+        className="search-button"
+        />
+      </Form.Group>
+      <Button variant="primary" type="submit" className="search-button">
+       Search
+      </Button>
+    </Form>
+    {searchList && pins.length > 0 && 
+        pins.map(item => {
+          return (
+          <>
+          <li>{item.name}  from  {item.username}</li>
+          <li>{item.name}  from  <Link to="/grocer/profile">{item.username}</Link></li>
+          </>
+          )
+        })
+    }
     </>
   );
 }
