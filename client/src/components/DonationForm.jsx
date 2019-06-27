@@ -76,7 +76,7 @@ export default class GroceryHome extends Component {
             <Form.Label>Product</Form.Label>
             <Form.Control
               as="textarea"
-              rows="3"
+              rows="2"
               onChange={e => {
                 this.props.handleChange(e.target.value, "product");
               }}

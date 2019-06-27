@@ -23,6 +23,7 @@ export default function GroceryHome() {
   
   // Handle Bootstrap Modal for editing entries
   const [formItem, handleFormItem] = useState({});
+  const [formItemIndex, handleFormItemIndex] = useState(0);
 
   const [show, updateShow] = useState(false);
 
@@ -34,17 +35,30 @@ export default function GroceryHome() {
     handleFormItem(e)
   }
 
+  const updateFormItemInItems = () => {
+    console.log('formItem', formItem);
+    console.log('items', items);
+
+    const currentItems = [...items];
+    currentItems[formItemIndex] = formItem;
+    updateItems(currentItems);
+  }
+
   const handleShow = (evt) => {
-    console.log('modal items', items)
-    setFormItem(items.find( e => e.name = evt.target.value))
+    setFormItem(items.find( e => e.product === evt.target.value))
+    handleFormItemIndex(items.findIndex(e => e.product === evt.target.value))
     updateShow(true);
   }
 
+  const handleUpdateFormChange = (value, propertyName) => {
+    const newFormItem = {...formItem};
+    newFormItem[propertyName] = value;
+    handleFormItem(newFormItem);
+  }
 
   const onSubmit = e => {
     const newFormData = { ...formData };
     let found = false;
-    console.log('submitting', items)
     e.preventDefault();
 
     if (formData.product.length === 0 || formData.quantity === 0) {
@@ -131,23 +145,23 @@ export default function GroceryHome() {
 </Table>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>{formItem.name}</Modal.Title>
+            <Modal.Title>{formItem.product}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <UpdateDonationForm 
                 items={items}
                 formData={formData}
                 onSubmit={onSubmit}
-                handleChange={handleChange}
                 handleImage={handleImage}
                 formItem={formItem}
-                handleShow={handleShow}/>
+                handleShow={handleShow}
+                handleUpdateFormChange={handleUpdateFormChange}/>
             </Modal.Body>
             <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" type="submit" onClick={() => {handleClose(); updateFormItemInItems();}}>
               Save Changes
             </Button>
               </Modal.Footer>
