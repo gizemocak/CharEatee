@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
+import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import axios from 'axios';
@@ -137,9 +138,11 @@ export default class GroceryHome extends Component {
               </Button>
               <Button type="button" onClick={this.fileUploadHandler}>Upload image</Button>
             </div>
-            <Button variant="link" type="submit" className="donate-button" onClick={this.fileUploadHandler}>
-            <img src="/images/add.png" width="60" height="60" />
+            <div style={{float: 'right'}}>
+            <Button variant="success" type="submit" className="donate-button" onClick={this.fileUploadHandler}>
+              <strong>+</strong>
           </Button>
+          </div>
         </Form>
         <div className="imgPreview">
           {$imagePreview}

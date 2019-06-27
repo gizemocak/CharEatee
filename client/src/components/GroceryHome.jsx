@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import DonationForm from "./DonationForm";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import Table from "react-bootstrap/Table";
 
 export default function GroceryHome() {
   const [camera, updateCamera] = useState(true);
@@ -51,17 +52,36 @@ export default function GroceryHome() {
         handleChange={handleChange}
         handleImage={handleImage}
       />
-      <ul className="donation-list">
+
         {items.length > 0 && <div>Your donations</div>}
+           
+            <Table striped bordered hover size="sm">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unit</th>
+      <th>Expiry Date</th>
+      <th>Image</th>
+    </tr>
+  </thead>
+  <tbody>
         {items.map((item, index) => {
-          console.log('queiiywqyueywqueyqieywqueywqeywiey', item)
           return (
-            <li key={item.product + index}>
-              {index + 1}. {item.product}, Quantity: {item.quantity} {item.unit}, Expiry Date: {item.expiryDate}, Image: <img src={item.imgUrl} style={{height: '5em'}}/>
-            </li>
-          );
-        })}
-      </ul>
+    <tr key={item.product + index}>
+      <td>{index + 1}</td>
+      <td>{item.product}</td>
+      <td>{item.quantity}</td>
+      <td>{item.unit}</td>
+      <td>{item.expiryDate}</td>
+      <td><img src={item.imgUrl} style={{height: '5em'}}/></td>
+    </tr>
+  );
+})}
+  </tbody>
+</Table>
+
       {/* this button is to make a post request/ to add the donated items in the database. Call handleDonation at onClick and make a fetch request to backend*/}
       <Link to={"/"}>
         <Button variant="outline-success">Donate!</Button>
