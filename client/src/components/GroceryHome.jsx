@@ -4,8 +4,10 @@ import DonationForm from "./DonationForm";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
+import Modal from 'react-bootstrap/Modal'
 
 export default function GroceryHome() {
+  // Setup state for this page
   const [camera, updateCamera] = useState(true);
   const [items, updateItems] = useState([]);
   const [formData, updateFormData] = useState({
@@ -15,6 +17,18 @@ export default function GroceryHome() {
     expiryDate: "",
     imgUrl: ""
   });
+
+  // Bootstrap Modal
+  const [show, updateShow] = useState(false);
+
+  const handleClose = () => {
+    updateShow(false);
+  }
+
+  const handleShow = () => {
+    updateShow(true);
+  }
+
 
   const onSubmit = e => {
     const newFormData = { ...formData };
@@ -85,6 +99,7 @@ export default function GroceryHome() {
       <th>Unit</th>
       <th>Expiry Date</th>
       <th>Image</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -97,11 +112,26 @@ export default function GroceryHome() {
       <td>{item.unit}</td>
       <td>{item.expiryDate}</td>
       <td><img src={item.imgUrl} style={{height: '5em'}}/></td>
+      <td><Button variant="info" onClick={handleShow}>Edit</Button></td>
     </tr>
   );
 })}
   </tbody>
 </Table>
+<Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         </div>}
            
