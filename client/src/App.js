@@ -7,6 +7,7 @@ import SignUpForm from './components/SignupForm';
 import Login from './components/Login';
 import CharityHome from './components/CharityHome';
 import GroceryHome from './components/GroceryHome'
+import SearchForm from './components/SearchForm';
 class App extends Component {
   render() {
     return (

@@ -3,25 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 export default function SearchForm () {
-  // const [list, setList] = useState([]);
-
-  // useEffect(() => {
-  //   handleFetchStore()
-  // },[])
-
-  // const handleFetchStore = () => {
-  //   fetch('http://localhost:8080/api/stores', {
-  //     method: 'get',
-  //     headers: {'Content-Type':'application/json'},
-  //    })
-  //    .then(res => res.json())
-  //    .then(res => {
-  //     console.log("res for userjoinproduct", res)
-
-  //     setList(res)
-  //     }
-  //   )
-  // }
+ 
   return (
     <>
       <Form>
@@ -29,9 +11,7 @@ export default function SearchForm () {
           <Form.Control type="text" placeholder="Food Item" y />
         </Form.Group>
 
-        <Button variant="primary" type="submit" onClick>
-          Submit
-        </Button>
+        <input variant="primary" type="text" className="search-button"/>
       </Form>
     </>
   );

@@ -6,7 +6,7 @@ const GoogleMap = props => {
   const [showingInfoWindow, updateShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
   const [selectedPlace, updateSelectedPlace] = useState({});
-  const [pins, setPins] = useState([]);
+  // const [pins, setPins] = useState([]);
 
   const changeIconColor = (mapProps, map) => {
     const { google } = mapProps;
@@ -33,22 +33,22 @@ const GoogleMap = props => {
     }
   };
 
-  useEffect(() => {
-    handleFetchStore()
-  },[])
+  // useEffect(() => {
+  //   handleFetchStore()
+  // },[])
 
 
-  const handleFetchStore = () => {
-    fetch('http://localhost:8080/api/stores', {
-      method: 'get',
-      headers: {'Content-Type':'application/json'},
-     })
-     .then(res => res.json())
-     .then(res => {
-      setPins(res)
-      }
-    )
-  }
+  // const handleFetchStore = () => {
+  //   fetch('http://localhost:8080/api/stores', {
+  //     method: 'get',
+  //     headers: {'Content-Type':'application/json'},
+  //    })
+  //    .then(res => res.json())
+  //    .then(res => {
+  //     setPins(res)
+  //     }
+  //   )
+  // }
 
   const style = {
     position: "absolute",
@@ -90,7 +90,7 @@ const GoogleMap = props => {
         onClick={onMarkerClick}
       />
 
-      {pins.length > 0  && pins.map(item => {
+      {props.pins.length > 0  && props.pins.map(item => {
         return (
               <Marker
               key={item.email}
