@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
-import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import axios from 'axios';

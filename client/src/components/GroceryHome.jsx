@@ -17,9 +17,10 @@ export default function GroceryHome() {
   });
 
   const onSubmit = e => {
+    const newFormData = { ...formData };
     console.log('submitting', items)
     e.preventDefault();
-    updateItems([...items, formData]);
+    updateItems([...items, newFormData]);
   };
 
 
