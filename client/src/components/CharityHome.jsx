@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import MapContainer from "./MapContainer";
 import NavBar from "./NavBar";
-import { Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
+import { Link } from "react-router-dom";
 
 export default function CharityHome() {
   const [apiKey, setApiKey] = useState(null);
@@ -81,7 +81,10 @@ setSearchList(true)
     {searchList && pins.length > 0 && 
         pins.map(item => {
           return (
-          <li>{item.name}    {item.username}</li>
+          <>
+          <li>{item.name}  from  {item.username}</li>
+          <li>{item.name}  from  <Link to="/grocer/profile">{item.username}</Link></li>
+          </>
           )
         })
     }
