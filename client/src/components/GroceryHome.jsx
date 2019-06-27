@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import NavBar from "./NavBar";
 import DonationForm from "./DonationForm";
+import UpdateDonationForm from "./UpdateDonationForm";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import Modal from 'react-bootstrap/Modal'
+import Form from "react-bootstrap/Form";
 
 export default function GroceryHome() {
   // Setup state for this page
@@ -18,14 +20,23 @@ export default function GroceryHome() {
     imgUrl: ""
   });
 
-  // Bootstrap Modal
+  
+  // Handle Bootstrap Modal for editing entries
+  const [formItem, handleFormItem] = useState({});
+
   const [show, updateShow] = useState(false);
 
   const handleClose = () => {
     updateShow(false);
   }
+  
+  const setFormItem = e => {
+    handleFormItem(e)
+  }
 
-  const handleShow = () => {
+  const handleShow = (evt) => {
+    console.log('modal items', items)
+    setFormItem(items.find( e => e.name = evt.target.value))
     updateShow(true);
   }
 
@@ -103,35 +114,44 @@ export default function GroceryHome() {
     </tr>
   </thead>
   <tbody>
-        {items.map((item, index) => {
-          return (
-    <tr key={item.product + index}>
-      <td>{index + 1}</td>
-      <td>{item.product}</td>
-      <td>{item.quantity}</td>
-      <td>{item.unit}</td>
-      <td>{item.expiryDate}</td>
-      <td><img src={item.imgUrl} style={{height: '5em'}}/></td>
-      <td><Button variant="info" onClick={handleShow}>Edit</Button></td>
-    </tr>
+    {items.map((item, index) => {
+      return (
+        <tr key={item.product + index}>
+          <td>{index + 1}</td>
+          <td>{item.product}</td>
+          <td>{item.quantity}</td>
+          <td>{item.unit}</td>
+          <td>{item.expiryDate}</td>
+          <td><img src={item.imgUrl} style={{height: '5em'}}/></td>
+          <td><Button variant="info"  value={item.product} onClick={evt=> handleShow(evt)}>Edit</Button></td>
+          </tr>
   );
 })}
   </tbody>
 </Table>
-<Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-          <Modal.Footer>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+            <Modal.Title>{formItem.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <UpdateDonationForm 
+                items={items}
+                formData={formData}
+                onSubmit={onSubmit}
+                handleChange={handleChange}
+                handleImage={handleImage}
+                formItem={formItem}
+                handleShow={handleShow}/>
+            </Modal.Body>
+            <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
             <Button variant="primary" onClick={handleClose}>
               Save Changes
             </Button>
-          </Modal.Footer>
-        </Modal>
+              </Modal.Footer>
+            </Modal>
 
         </div>}
            
