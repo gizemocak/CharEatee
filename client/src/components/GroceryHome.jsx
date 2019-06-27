@@ -79,6 +79,13 @@ export default function GroceryHome() {
     })
     if (!found)
     updateItems([...items, newFormData]);
+    updateFormData({
+      product: "",
+      quantity: 0,
+      unit: "lbs",
+      expiryDate: "",
+      imgUrl: ""
+    })
   };
 
 

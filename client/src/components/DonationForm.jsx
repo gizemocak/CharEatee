@@ -7,7 +7,7 @@ import { NONAME } from "dns";
 import uuid from "uuid";
 import {storage} from '../firebase';
 
-export default class GroceryHome extends Component {
+export default class DonationForm extends Component {
 
   state = {
     selectedFile: null,
@@ -57,6 +57,14 @@ export default class GroceryHome extends Component {
       })
     })
   }
+
+    clearImage = () => {
+      this.setState({
+        selectedFile: null,
+        imagePreviewUrl: null,
+        url: null
+      })
+    }
 
   render() {
     const { formData } = this.props;
@@ -138,7 +146,7 @@ export default class GroceryHome extends Component {
               <Button type="button" onClick={this.fileUploadHandler}>Upload image</Button>
             </div>
             <div style={{float: 'right'}}>
-            <Button variant="success" type="submit" className="donate-button" onClick={this.fileUploadHandler}>
+            <Button variant="success" type="submit" className="donate-button" onClick={() => {this.fileUploadHandler(); this.clearImage()}}>
               <strong>+</strong>
           </Button>
           </div>
