@@ -4,7 +4,6 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 
 export default function Profile () {
   const formData = useStoreState(state => {
-    console.log("state",state)
     return state.formData
   }
   );
@@ -13,6 +12,7 @@ export default function Profile () {
       <>
       <NavBar/>
       <h1>profile</h1>
+      {formData.email}
     </>
     );
 }

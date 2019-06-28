@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "./NavBar";
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 
 export default class Home extends Component {
   render() {
@@ -10,12 +9,10 @@ export default class Home extends Component {
         <Navbar />
         <h1>Project Home</h1>
         <h1>Login as</h1>
-        <Link to={"/login"}>
-          <Button variant="outline-success">Grocery Store</Button>
-        </Link>
-        <Link to={"/login"}>
-          <Button variant="outline-success">Charity</Button>
-        </Link>
+        <Link to={"/login"}>Grocery Store</Link>
+        <hr/>
+        <Link to={"/login"}>Charity</Link>
+        <hr/>
         <Link to={"/signup"}>Don't have an account?Sign Up</Link>
         {/* Link to List.js */}
         {/* <Link to={'./list'}>
@@ -23,9 +20,8 @@ export default class Home extends Component {
             My List
         </button>
       </Link> */}
-        <Link to={"/charity/home/:id"}>
-          <Button variant="outline-success">Charity Home Page</Button>
-        </Link>
+      <hr/>
+        <Link to={"/charity/home/:id"}>Charity Home Page</Link>
       </div>
     );
   }
