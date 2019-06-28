@@ -81,14 +81,14 @@ export default class DonationForm extends Component {
       <div className="donation-form">
         <Form onSubmit={this.props.onSubmit}>
           <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Product</Form.Label>
+            <Form.Label>Product Name</Form.Label>
             <Form.Control
               as="textarea"
               rows="2"
               onChange={e => {
-                this.props.handleChange(e.target.value, "product");
+                this.props.handleChange(e.target.value, "name");
               }}
-              value={formData.product}
+              value={formData.name}
             />
           </Form.Group>
 
@@ -127,9 +127,9 @@ export default class DonationForm extends Component {
               type="date"
               placeholder="Date"
               onChange={e => {
-                this.props.handleChange(e.target.value, "expiryDate");
+                this.props.handleChange(e.target.value, "expiry_date");
               }}
-              value={formData.expiryDate}
+              value={formData.expiry_date}
             />
           </Form.Group>
             <div className="imageUpload">

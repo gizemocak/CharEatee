@@ -159,19 +159,28 @@ app.post("/api/login", (req, res) => {
 
 //////////// Make a donation////////////////////
  app.post("/api/products", (req, res) => {
-  const { name, quantity, unit, expiry_date } = req.body
-  if(req.session.user_id){
-    knex('products').insert({
-      name: name,
-      quantity: quantity,
-      unit: unit,
-      expiry_date: expiry_date,
-      user_id: req.session.user_id
-    }).then(product => {
-      //console.log('product', product)
-      res.status(200).send("Ok")
+  const { name, quantity, unit, expiry_date, imgurl } = req.body
+  let rows = req.body
+  let chunkSize = 1000;
+  console.log('bbbbbbbbbbbbbbbody',req.body)
+    knex.batchInsert('products', rows, chunkSize)
+    .then(product => {
+      console.log('product', product)
+      res.status(200.).send('OK')
     })
-  }
+  // if(req.session.user_id){
+    // knex('products').insert({
+    //   name: name,
+    //   imgurl: imgurl,
+    //   quantity: quantity,
+    //   unit: unit,
+    //   expiry_date: expiry_date,
+    //   // user_id: req.session.user_id
+    // }).then(product => {
+    //   console.log('product', product)
+    //   res.status(200).send("Ok")
+    // })
+  // }
 }); 
 
 
