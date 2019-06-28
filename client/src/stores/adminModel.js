@@ -3,14 +3,16 @@ import { action, thunk } from "easy-peasy";
 const admin = {
   formData: {},
   // Thunks
-  fetchFormData: thunk(async actions => {
+  fetchFormData: thunk(async (actions, formData) => {
     const res = await fetch('http://localhost:8080/api/login', {
       method: 'post',
       headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(formData)
      })
-    const formData = await res.json();
 
     actions.updateFormData(formData);
+
+    return res.json();
   }),
   updateFormData: action((state, formData) => {
     state.formData = formData;

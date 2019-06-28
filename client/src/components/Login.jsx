@@ -18,7 +18,7 @@ export default function Login (props) {
   }
 
   const handleLogin = () => {
-    fetchFormData().then(res => {
+    fetchFormData(formData).then(res => {
        setIsloggedIn(res)
      })
   }
