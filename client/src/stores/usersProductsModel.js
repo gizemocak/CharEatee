@@ -1,6 +1,6 @@
 import { action, thunk } from "easy-peasy";
 
-export default {
+const usersProducts = {
   pins: [],
   // Thunks
   fetchPins: thunk(async actions => {
@@ -16,3 +16,5 @@ export default {
     state.pins = pins;
   }),
 };
+
+export default usersProducts

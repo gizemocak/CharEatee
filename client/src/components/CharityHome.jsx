@@ -4,17 +4,16 @@ import MapContainer from "./MapContainer";
 import NavBar from "./NavBar";
 import Form from 'react-bootstrap/Form';
 import { Link } from "react-router-dom";
-import { useStore, useActions } from "easy-peasy";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 export default function CharityHome() {
   const [apiKey, setApiKey] = useState(null);
   const [geoLoc, setGeoLoc] = useState({});
-  // const [pins, setPins] = useState([]);
   const [searchValue, setSearchValue] = useState("")
   const [searchList, setSearchList] = useState(false)
 
-  const pins = useStore(state => state.pins);
-  const fetchPins = useActions(actions => actions.fetchPins);
+  const pins = useStoreState(state => state.pins);
+  const fetchPins = useStoreActions(actions => actions.fetchPins);
 
 
   useEffect(() => {

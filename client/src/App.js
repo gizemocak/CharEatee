@@ -7,9 +7,8 @@ import SignUpForm from './components/SignupForm';
 import Login from './components/Login';
 import CharityHome from './components/CharityHome';
 import GroceryHome from './components/GroceryHome'
-import GrocerProfile from './components/GrocerProfile'
 import {createStore, StoreProvider} from 'easy-peasy'
-import usersProductsModel from "./stores/usersProducts"
+import usersProductsModel from "./stores/usersProductsModel"
 
 const store = createStore({
   ...usersProductsModel
@@ -26,7 +25,6 @@ function App() {
           <Route path='/login' component={Login}/>
           <Route path='/grocery/home/:id' component={GroceryHome}/>
           <Route path='/charity/home/:id' component={CharityHome}/>
-          <Route path='/grocer/profile' component={GrocerProfile}/>
         </Switch>
       </div>
       </StoreProvider>
