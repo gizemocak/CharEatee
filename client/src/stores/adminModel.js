@@ -12,10 +12,12 @@ const admin = {
 
     actions.updateFormData(formData);
 
-    return res.json();
+    const jsonResponse = await res.json()
+    localStorage.setItem('user', JSON.stringify(jsonResponse))
+
+    return jsonResponse;
   }),
-  updateFormData: action((state, formData) => {
-    localStorage.setItem('admin.formData', JSON.stringify(formData))
+  updateFormData: action((state, formData = {}) => {
     state.formData = formData;
   })
 };
