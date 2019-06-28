@@ -61,12 +61,12 @@ export default function GroceryHome() {
     let found = false;
     e.preventDefault();
 
-    if (formData.product.length === 0 || formData.quantity === 0) {
+    if (formData.product.length === 0 || formData.quantity <= 0) {
       if (formData.product.length === 0) {
         alert('Please fill in product you want to donate')
       }
-      if (formData.quantity === 0) {
-        alert('quantity cannot be 0')
+      if (formData.quantity <= 0) {
+        alert('input valid quantity')
       }
       return;
     }
@@ -152,7 +152,7 @@ export default function GroceryHome() {
 </Table>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>{formItem.product}</Modal.Title>
+            <Modal.Title>Edit {formItem.product}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <UpdateDonationForm 
