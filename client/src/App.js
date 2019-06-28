@@ -7,6 +7,7 @@ import SignUpForm from './components/SignupForm';
 import Login from './components/Login';
 import CharityHome from './components/CharityHome';
 import GroceryHome from './components/GroceryHome'
+import Profile from './components/Profile'
 import {createStore, StoreProvider} from 'easy-peasy'
 import usersProductsModel from "./stores/usersProductsModel"
 import adminModel from "./stores/adminModel"
@@ -27,6 +28,7 @@ function App() {
           <Route path='/login' component={Login}/>
           <Route path='/grocery/home/:id' component={GroceryHome}/>
           <Route path='/charity/home/:id' component={CharityHome}/>
+          <Route path='/profile' component={Profile}/>
         </Switch>
       </div>
       </StoreProvider>

@@ -15,7 +15,7 @@ export default function CharityHome() {
   const pins = useStoreState(state => state.pins);
   const fetchPins = useStoreActions(actions => actions.fetchPins);
 
-
+  console.log("ppp",pins)
   useEffect(() => {
     getGeoLocation();
     fetch("/api/getApiKey")
