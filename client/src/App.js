@@ -19,7 +19,7 @@ class App extends Component {
           <Route path='/login' component={Login}/>
           <Route path='/grocery/home/:id' component={GroceryHome}/>
           <Route path='/charity/home/:id' component={CharityHome}/>
-          <Route path='/grocer/profile' component={GrocerProfile}/>
+          {/* <Route path='/grocer/profile' component={GrocerProfile}/> */}
 
         </Switch>
       </div>
