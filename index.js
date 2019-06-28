@@ -146,7 +146,8 @@ app.post("/api/login", (req, res) => {
           //console.log("ids[userIndex].id", ids[userIndex].id)
           res.send({
             email: ids[userIndex].email,
-            address: ids[userIndex].address
+            address: ids[userIndex].address,
+            user_id: ids[userIndex].id
           })
           // res.redirect("/")
       })

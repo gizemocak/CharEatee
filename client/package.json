@@ -10,6 +10,8 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@google-cloud/storage": "^2.5.0",
     "bootstrap": "^4.3.1",
+    "easy-peasy": "^2.6.4",
+    "google-maps-react": "^2.0.2",
     "firebase": "^6.2.3",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
