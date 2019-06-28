@@ -9,9 +9,11 @@ import CharityHome from './components/CharityHome';
 import GroceryHome from './components/GroceryHome'
 import {createStore, StoreProvider} from 'easy-peasy'
 import usersProductsModel from "./stores/usersProductsModel"
+import adminModel from "./stores/adminModel"
 
 const store = createStore({
-  ...usersProductsModel
+  ...usersProductsModel,
+  ...adminModel
 })
 
 function App() {

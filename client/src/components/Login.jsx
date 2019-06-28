@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import NavBar from './NavBar';
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 export default function Login (props) {
-  const [formData, updateFormData] = useState({
-    email: "",
-    password: ""
-  });
+  const formData = useStoreState(state => state.formData);
+  const fetchFormData = useStoreActions(actions => actions.fetchFormData);
+  const updateFormData = useStoreActions(actions => actions.updateFormData);
+  
+
   const [isLoggedIn, setIsloggedIn] = useState({})
 
   const formSubmit = (e) => {
@@ -16,14 +18,7 @@ export default function Login (props) {
   }
 
   const handleLogin = () => {
-    console.log("form data", formData)
-    fetch('http://localhost:8080/api/login', {
-      method: 'post',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(formData)
-     })
-     .then(res => res.json())
-     .then(res => {
+    fetchFormData().then(res => {
        setIsloggedIn(res)
      })
   }
@@ -36,7 +31,6 @@ export default function Login (props) {
 
   if(isLoggedIn.email){
     props.history.push("/")
-    // return null
   }
 
     return (
