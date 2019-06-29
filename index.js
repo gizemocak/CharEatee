@@ -146,7 +146,6 @@ app.post("/api/login", (req, res) => {
  app.post("/api/products", (req, res) => {
   let rows = req.body
   console.log('rowwwwwwwwwwwwwwwwww', rows)
-  console.log('uuuuuuuuuuuuuuuuuuuu', req.session.user_id)
   let chunkSize = 1000;
     knex.batchInsert('products', rows, chunkSize)
     .then(product => {

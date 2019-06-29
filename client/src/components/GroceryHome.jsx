@@ -18,7 +18,7 @@ export default function GroceryHome() {
     unit: "lbs",
     expiry_date: "",
     imgurl: "",
-    user_id: 0
+    user_id: JSON.parse(localStorage.getItem('user')).user_id
   });
  
   
@@ -89,8 +89,6 @@ export default function GroceryHome() {
       user_id: JSON.parse(localStorage.getItem('user')).user_id
     })
   };
-
-  console.log("parse",JSON.parse(localStorage.getItem('user')).user_id)
 
 
   const handleChange = (value, propertyName) => {
