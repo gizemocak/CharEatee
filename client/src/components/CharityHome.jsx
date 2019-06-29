@@ -4,15 +4,18 @@ import MapContainer from "./MapContainer";
 import NavBar from "./NavBar";
 import Form from 'react-bootstrap/Form';
 import { Link } from "react-router-dom";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 export default function CharityHome() {
   const [apiKey, setApiKey] = useState(null);
   const [geoLoc, setGeoLoc] = useState({});
-  const [pins, setPins] = useState([]);
   const [searchValue, setSearchValue] = useState("")
   const [searchList, setSearchList] = useState(false)
 
+  const pins = useStoreState(state => state.pins);
+  const fetchPins = useStoreActions(actions => actions.fetchPins);
 
+  console.log("ppp",pins)
   useEffect(() => {
     getGeoLocation();
     fetch("/api/getApiKey")
@@ -21,7 +24,7 @@ export default function CharityHome() {
       .catch(error => {
         console.log(error);
       });
-      handleFetchStore()
+      fetchPins()
   }, []);
 
   const getGeoLocation = () => {
@@ -37,17 +40,17 @@ export default function CharityHome() {
   };
 
 
-  const handleFetchStore = () => {
-    fetch('http://localhost:8080/api/stores', {
-      method: 'get',
-      headers: {'Content-Type':'application/json'},
-     })
-     .then(res => res.json())
-     .then(res => {
-      setPins(res)
-      }
-    )
-  }
+  // const handleFetchStore = () => {
+  //   fetch('http://localhost:8080/api/stores', {
+  //     method: 'get',
+  //     headers: {'Content-Type':'application/json'},
+  //    })
+  //    .then(res => res.json())
+  //    .then(res => {
+  //     setPins(res)
+  //     }
+  //   )
+  // }
 
 const onChange = (e) => {
    console.log(e.target.value)

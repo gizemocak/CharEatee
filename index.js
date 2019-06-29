@@ -82,19 +82,18 @@ app.post("/api/register", (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
   const type = req.body.type;
 
-  knex.select('username', 'id').from('users').then((users) => {
-    for (let i = 0; i < users.length; i ++) {
-      if (email.length === 0 || password.length === 0) {
-        res.status(400).send("Email or password is empty");
-      } else if 
-      (users[i].username === username ||users[i].email === email ) {
+  if (email.length === 0 || password.length === 0) {
+    res.status(400).send("Email or password is empty");
+  } 
+  knex.select('*').from('users').where('email', email).first().then((user) => {
+    console.log('regisger user', user)
+      if (user && (user.username || user.email)) {
         res.status(403).send('User already exists')
         return false
-      }
     }
     let latitude = ''
     let longitude = ''
-    geocoder.geocode({address:req.body.address, city:req.body.city, zipcode: req.body.postalcode},function(err, res) {
+    geocoder.geocode({address, city, zipcode: postalcode},function(err, res) {
       knex('users')
       .returning('id')
       .insert([{
@@ -126,30 +125,16 @@ app.post("/api/login", (req, res) => {
   //console.log(req.body)
   const email = req.body.email;
     const password = req.body.password;
-    let flag = false
-    let pswrdFromDatabase = ''
-    let userIndex = 0
 
-    knex.select('email', 'id', 'password').from('users').then((users) => {
-      for (let i = 0; i < users.length; i ++) {
-        if (users[i].email === email) {
-          flag = true
-          pswrdFromDatabase = users[i].password
-          userIndex = i
-        }
-      }
-      if (flag === true && (bcrypt.compareSync(password, pswrdFromDatabase))) {
-      knex('users')
-        .returning('id')
-        .then((ids) => {
-          req.session.user_id = ids[userIndex].id;
-          //console.log("ids[userIndex].id", ids[userIndex].id)
-          res.send({
-            email: ids[userIndex].email,
-            address: ids[userIndex].address
-          })
-          // res.redirect("/")
-      })
+    knex.select('*').from('users').where('email', email).first().then((user) => {
+      console.log('userusersueruseruser',user);
+      if (bcrypt.compareSync(password, user.password)) {
+        req.session.user_id = user.id;
+        res.send({
+          email: user.email,
+          address: user.address,
+          user_id: user.id
+        })
       } else {
         res.sendStatus(401)
       }
@@ -159,28 +144,15 @@ app.post("/api/login", (req, res) => {
 
 //////////// Make a donation////////////////////
  app.post("/api/products", (req, res) => {
-  const { name, quantity, unit, expiry_date, imgurl } = req.body
   let rows = req.body
+  console.log('rowwwwwwwwwwwwwwwwww', rows)
+  console.log('uuuuuuuuuuuuuuuuuuuu', req.session.user_id)
   let chunkSize = 1000;
-  console.log('bbbbbbbbbbbbbbbody',req.body)
     knex.batchInsert('products', rows, chunkSize)
     .then(product => {
       console.log('product', product)
       res.status(200.).send('OK')
     })
-  // if(req.session.user_id){
-    // knex('products').insert({
-    //   name: name,
-    //   imgurl: imgurl,
-    //   quantity: quantity,
-    //   unit: unit,
-    //   expiry_date: expiry_date,
-    //   // user_id: req.session.user_id
-    // }).then(product => {
-    //   console.log('product', product)
-    //   res.status(200).send("Ok")
-    // })
-  // }
 }); 
 
 

@@ -17,9 +17,10 @@ export default function GroceryHome() {
     quantity: 0,
     unit: "lbs",
     expiry_date: "",
-    imgurl: ""
+    imgurl: "",
+    user_id: 0
   });
-
+ 
   
   // Handle Bootstrap Modal for editing entries
   const [formItem, handleFormItem] = useState({});
@@ -84,9 +85,12 @@ export default function GroceryHome() {
       quantity: 0,
       unit: "lbs",
       expiry_date: "",
-      imgurl: ""
+      imgurl: "",
+      user_id: JSON.parse(localStorage.getItem('user')).user_id
     })
   };
+
+  console.log("parse",JSON.parse(localStorage.getItem('user')).user_id)
 
 
   const handleChange = (value, propertyName) => {
