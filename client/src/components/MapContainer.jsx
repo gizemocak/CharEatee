@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { withRouter } from "react-router";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
+import {Link} from 'react-router-dom'
 
 const GoogleMap = props => {
   const [icon, setIcon] = useState("");
@@ -17,6 +20,8 @@ const GoogleMap = props => {
     updateSelectedPlace(props);
     setActiveMarker(marker);
     updateShowingInfoWindow(true);
+    console.log(marker)
+    //window.location = '/profile/'+ marker.id
   };
 
   const onClose = props => {
@@ -58,6 +63,16 @@ const GoogleMap = props => {
     left: "-40px"
   };
 
+  const onInfoWindowOpen = (selectedPlace, e) => {
+    console.log(selectedPlace, props)
+    const button = (
+    <div>
+      <a onClick={e => {props.history.push(`/profile/${selectedPlace.id}`);}}>{selectedPlace.name}</a>
+      </div>
+      );
+    ReactDOM.render(React.Children.only(button), document.getElementById("iwc"));
+  }
+
 
   return (
     <Map
@@ -91,13 +106,15 @@ const GoogleMap = props => {
       />
 
       {props.pins.length > 0  && props.pins.map(item => {
+        // console.log(item)
         return (
               <Marker
-              key={item.email}
+              key={item.email + "" + item.id}
               title={"Grocer/Restaurant"}
               name={item.username}
               position={{ lat: item.latitude, lng: item.longitude }}
               onClick={onMarkerClick}
+              id={item.id}
             />
              )
       })}
@@ -106,17 +123,20 @@ const GoogleMap = props => {
         marker={activeMarker}
         visible={showingInfoWindow}
         onClose={onClose}
+        onOpen={(e) => {
+          onInfoWindowOpen(selectedPlace,e)
+        }}
       >
-        <div>
-          <h1>{selectedPlace.name}</h1>
-        </div>
+        <div id="iwc" />
       </InfoWindow>
     </Map>
 
   );
 };
 
-export default GoogleApiWrapper(props => ({
+export default GoogleApiWrapper(props =>{ 
+  console.log('props', props)
+  return ({
   apiKey: props.apiKey,
   LoadingContainer: () => <div>loading...</div>
-}))(GoogleMap);
+})})(withRouter(GoogleMap));

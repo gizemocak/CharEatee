@@ -148,7 +148,8 @@ app.post("/api/login", (req, res) => {
             address: ids[userIndex].address,
             user_id: ids[userIndex].id,
             type: ids[userIndex].type,
-            email: ids[userIndex].email
+            email: ids[userIndex].email,
+            name: ids[userIndex].username
           })
           // res.redirect("/")
       })

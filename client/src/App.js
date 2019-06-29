@@ -28,7 +28,7 @@ function App() {
           <Route path='/login' component={Login}/>
           <Route path='/grocery/home/:id' component={GroceryHome}/>
           <Route path='/charity/home/:id' component={CharityHome}/>
-          <Route path='/profile' component={Profile}/>
+          <Route path='/profile/:id' component={Profile}/>
         </Switch>
       </div>
       </StoreProvider>

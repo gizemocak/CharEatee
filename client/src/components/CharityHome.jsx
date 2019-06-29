@@ -6,7 +6,8 @@ import Form from 'react-bootstrap/Form';
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
-export default function CharityHome() {
+export default function CharityHome(props) {
+  console.log('props', props)
   const [apiKey, setApiKey] = useState(null);
   const [geoLoc, setGeoLoc] = useState({});
   const [searchValue, setSearchValue] = useState("")

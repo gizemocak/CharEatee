@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import NavBar from './NavBar';
 import {useStoreState, useStoreActions } from "easy-peasy";
+import Button from "react-bootstrap/Button";
 
 export default function Profile () {
   const usersInfo = useStoreState(state => state.pins);
@@ -15,18 +16,18 @@ console.log(usersInfo)
     return (
       <>
       <NavBar/>
-      <div className="user_nav">
+      <div>{user.name}</div>
+      <ul>
       {user.type === "Grocer/Restaurant" && usersInfo && usersInfo.map(item => {
-        console.log(item)
-        console.log("item.id " , item.id)
-        console.log(user.user_id)
         if(item.email === user.email){
-          return <li>{item.name}</li>
-        } else {
-          return false
+          return (
+          <div>
+          <li key={item.id}>{item.name}  {item.quantity} {item.unit} <Button>Add to Cart</Button></li>
+          </div>
+          )
         }
       })}
-      </div>
+      </ul>
     </>
     );
 }
