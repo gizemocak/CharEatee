@@ -43,3 +43,14 @@
   position: absolute;
   bottom:0;
 }
+
+.user_nav{
+  background:#F7B5DD;
+  height:100px;
+  display:flex;
+  align-items:center
+}
+
+.user_nav h1{
+  font-size:20px;
+}
