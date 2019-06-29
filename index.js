@@ -122,18 +122,19 @@ app.post("/api/register", (req, res) => {
 });
 ///////////LOGIN ROUTES///////////////////
 app.post("/api/login", (req, res) => {
-  //console.log(req.body)
+  console.log(req.body)
   const email = req.body.email;
     const password = req.body.password;
 
     knex.select('*').from('users').where('email', email).first().then((user) => {
       console.log('userusersueruseruser',user);
-      if (bcrypt.compareSync(password, user.password)) {
+      if ( bcrypt.compareSync(password, user.password)) {
         req.session.user_id = user.id;
         res.send({
           email: user.email,
           address: user.address,
-          user_id: user.id
+          user_id: user.id,
+          type: user.type
         })
       } else {
         res.sendStatus(401)

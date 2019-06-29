@@ -38,22 +38,6 @@ const GoogleMap = props => {
     }
   };
 
-  // useEffect(() => {
-  //   handleFetchStore()
-  // },[])
-
-
-  // const handleFetchStore = () => {
-  //   fetch('http://localhost:8080/api/stores', {
-  //     method: 'get',
-  //     headers: {'Content-Type':'application/json'},
-  //    })
-  //    .then(res => res.json())
-  //    .then(res => {
-  //     setPins(res)
-  //     }
-  //   )
-  // }
 
   const style = {
     position: "absolute",

@@ -19,7 +19,15 @@ export default function Login (props) {
 
   const handleLogin = () => {
     fetchFormData(formData).then(res => {
+
        setIsloggedIn(res)
+       console.log('res', res)
+        if(res.type === 'Grocer/Restaurant'){
+          props.history.push(`/grocery/home/${res.user_id}`)
+        } else {
+          props.history.push(`/charity/home/${res.user_id}`)
+        }
+      
      })
   }
 
@@ -30,14 +38,14 @@ export default function Login (props) {
   }
   
   console.log(isLoggedIn)
-  if(isLoggedIn.type){
+ /*  if(isLoggedIn.type){
     let userType = (JSON.parse(localStorage.getItem('user'))).type
     if(userType === 'Grocer/Restaurant'){
       props.history.push("/grocery/home/:id")
     } else {
       props.history.push("/charity/home/:id")
     }
-  }
+  } */
 
     return (
       <>
