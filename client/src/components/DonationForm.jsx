@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { NONAME } from "dns";
 import uuid from "uuid";
+import {storage} from '../firebase';
 
-export default class GroceryHome extends Component {
+export default class DonationForm extends Component {
 
   state = {
     selectedFile: null,
-    imagePreviewUrl: null
+    imagePreviewUrl: null,
+    url: null
   }
 
   fileSelectHandler = event => {
@@ -29,17 +31,40 @@ export default class GroceryHome extends Component {
   }
 
   fileUploadHandler = () => {
+
     const formData = new FormData();
-    formData.append('image', this.state.selectedFile, `${this.state.selectedFile.name}-${uuid.v4()}.jpg`)
-    axios.post('https://us-central1-chareatee-a86d8.cloudfunctions.net/uploadFile', formData, {
-      onUploadProgress: progressEvent => {
-        console.log('Upload progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
-      }
+    const {selectedFile} = this.state;
+    
+    if (!selectedFile) {
+      return;
+    }
+    const name = `${selectedFile.name}-${uuid.v4()}.jpg`;
+    const uploadTask = storage.ref(name).put(selectedFile);
+    uploadTask.on('state_changed', 
+    (snapshot) => {
+      //progress function
+      console.log(snapshot);
+    }, 
+    (error) => {
+      // error function
+      console.log(error);
+    }, 
+    () => {
+      // complete function
+      storage.ref(name).getDownloadURL().then(url => {
+        console.log(url);
+        this.props.handleImage(url)
+      })
     })
-    .then(res => {
-      console.log(res);
-    });
   }
+
+    clearImage = () => {
+      this.setState({
+        selectedFile: null,
+        imagePreviewUrl: null,
+        url: null
+      })
+    }
 
   render() {
     const { formData } = this.props;
@@ -56,14 +81,14 @@ export default class GroceryHome extends Component {
       <div className="donation-form">
         <Form onSubmit={this.props.onSubmit}>
           <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Product</Form.Label>
+            <Form.Label>Product Name</Form.Label>
             <Form.Control
               as="textarea"
-              rows="3"
+              rows="2"
               onChange={e => {
-                this.props.handleChange(e, "product");
+                this.props.handleChange(e.target.value, "name");
               }}
-              value={formData.product}
+              value={formData.name}
             />
           </Form.Group>
 
@@ -74,7 +99,7 @@ export default class GroceryHome extends Component {
                 type="number"
                 placeholder="Quantity"
                 onChange={e => {
-                  this.props.handleChange(e, "quantity");
+                  this.props.handleChange(e.target.value, "quantity");
                 }}
                 value={formData.quantity}
               />
@@ -87,12 +112,12 @@ export default class GroceryHome extends Component {
               <Form.Control
                 as="select"
                 onChange={e => {
-                  this.props.handleChange(e, "unit");
+                  this.props.handleChange(e.target.value, "unit");
                 }}
                 value={formData.unit}
               >
-                <option>lb</option>
-                <option>piece</option>
+                <option>lbs</option>
+                <option>pieces</option>
               </Form.Control>
             </Form.Group>
           </div>
@@ -102,14 +127,14 @@ export default class GroceryHome extends Component {
               type="date"
               placeholder="Date"
               onChange={e => {
-                this.props.handleChange(e, "expiryDate");
+                this.props.handleChange(e.target.value, "expiry_date");
               }}
-              value={formData.expiryDate}
+              value={formData.expiry_date}
             />
           </Form.Group>
             <div className="imageUpload">
               <input 
-              // style={{display: 'none'}}
+              style={{display: 'none'}}
               type="file" 
               id="file"
               onChange={this.fileSelectHandler}
@@ -118,11 +143,13 @@ export default class GroceryHome extends Component {
              <Button style={{backgroundColor: '#F8F9FA', border: 'none'}} onClick={() => this.fileInput.click()}>
                <img src="/images/camera.png" width="50" height="50" />
               </Button>
-              <button onClick={this.fileUploadHandler}>Upload images</button>
+              <Button type="button" onClick={this.fileUploadHandler}>Upload image</Button>
             </div>
-            <Button variant="link" type="file" className="donate-button">
-            <img src="/images/add.png" width="60" height="60" />
+            <div style={{float: 'right'}}>
+            <Button variant="success" type="submit" className="donate-button" onClick={() => {this.fileUploadHandler(); this.clearImage()}}>
+              <strong>+</strong>
           </Button>
+          </div>
         </Form>
         <div className="imgPreview">
           {$imagePreview}

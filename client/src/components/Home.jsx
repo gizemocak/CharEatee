@@ -14,6 +14,8 @@ export default class Home extends Component {
         <Link to={"/login"}>Charity</Link>
         <hr/>
         <Link to={"/signup"}>Don't have an account?Sign Up</Link>
+        <hr/>
+        <Link to={'/grocery/home/:id'}>Grocery Home</Link>
         {/* Link to List.js */}
         {/* <Link to={'./list'}>
         <button variant="raised">
