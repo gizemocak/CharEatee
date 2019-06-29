@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Frijole&display=swap');
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 5rem;
+    background-color: white;
+    .logo {
+        font-family: 'Frijole', cursive;
+        font-size: 1rem;
+        color: black !important;
+    }
+    a:hover {
+        text-decoration: none !important;
+    }
+}
+
+
+.waterm {
+    width: 30px;
+    height: 30px;
+}
