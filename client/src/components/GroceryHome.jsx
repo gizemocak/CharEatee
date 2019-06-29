@@ -13,13 +13,14 @@ export default function GroceryHome() {
   const [camera, updateCamera] = useState(true);
   const [items, updateItems] = useState([]);
   const [formData, updateFormData] = useState({
-    product: "",
+    name: "",
     quantity: 0,
     unit: "lbs",
-    expiryDate: "",
-    imgUrl: ""
+    expiry_date: "",
+    imgurl: "",
+    user_id: JSON.parse(localStorage.getItem('user')).user_id
   });
-
+ 
   
   // Handle Bootstrap Modal for editing entries
   const [formItem, handleFormItem] = useState({});
@@ -45,8 +46,8 @@ export default function GroceryHome() {
   }
 
   const handleShow = (evt) => {
-    setFormItem(items.find( e => e.product === evt.target.value))
-    handleFormItemIndex(items.findIndex(e => e.product === evt.target.value))
+    setFormItem(items.find( e => e.name === evt.target.value))
+    handleFormItemIndex(items.findIndex(e => e.name === evt.target.value))
     updateShow(true);
   }
 
@@ -61,9 +62,9 @@ export default function GroceryHome() {
     let found = false;
     e.preventDefault();
 
-    if (formData.product.length === 0 || formData.quantity <= 0) {
-      if (formData.product.length === 0) {
-        alert('Please fill in product you want to donate')
+    if (formData.name.length === 0 || formData.quantity <= 0) {
+      if (formData.name.length === 0) {
+        alert('Please fill in product name you want to donate')
       }
       if (formData.quantity <= 0) {
         alert('input valid quantity')
@@ -71,8 +72,8 @@ export default function GroceryHome() {
       return;
     }
     items.forEach(i => {
-      if (i.product === formData.product) {
-        alert('you have same product in your list');
+      if (i.name === formData.name) {
+        alert('you have the same product in your list');
         found = true;
         return;
       }
@@ -80,11 +81,12 @@ export default function GroceryHome() {
     if (!found)
     updateItems([...items, newFormData]);
     updateFormData({
-      product: "",
+      name: "",
       quantity: 0,
       unit: "lbs",
-      expiryDate: "",
-      imgUrl: ""
+      expiry_date: "",
+      imgurl: "",
+      user_id: JSON.parse(localStorage.getItem('user')).user_id
     })
   };
 
@@ -97,15 +99,20 @@ export default function GroceryHome() {
   };
 
   const handleImage = (value) => {
-    items[items.length - 1].imgUrl = value;
+    items[items.length - 1].imgurl = value;
     updateItems([...items]);
   };
 
-  
-
-  // const handleDonation = () => {
-  //   fetch('')
-  // }
+  const handleDonationSubmit = () => {
+    console.log("itemsssssssssss", items)
+     fetch('http://localhost:8080/api/products', {
+       method: 'post',
+       headers: {'Content-Type':'application/json'},
+       body: JSON.stringify(items)
+      }).then(res => {
+        console.log("response",res);
+    })
+  }
 
   return (
     <>
@@ -126,7 +133,7 @@ export default function GroceryHome() {
   <thead>
     <tr>
       <th>#</th>
-      <th>Product</th>
+      <th>Product Name</th>
       <th>Quantity</th>
       <th>Unit</th>
       <th>Expiry Date</th>
@@ -137,14 +144,14 @@ export default function GroceryHome() {
   <tbody>
     {items.map((item, index) => {
       return (
-        <tr key={item.product + index}>
+        <tr key={item.name + index}>
           <td>{index + 1}</td>
-          <td>{item.product}</td>
+          <td>{item.name}</td>
           <td>{item.quantity}</td>
           <td>{item.unit}</td>
-          <td>{item.expiryDate}</td>
-          <td><img src={item.imgUrl} style={{height: '5em'}}/></td>
-          <td><Button variant="info"  value={item.product} onClick={evt=> handleShow(evt)}>Edit</Button></td>
+          <td>{item.expiry_date}</td>
+          <td><img src={item.imgurl} style={{height: '5em'}}/></td>
+          <td><Button variant="info"  value={item.name} onClick={evt=> handleShow(evt)}>Edit</Button></td>
           </tr>
   );
 })}
@@ -152,7 +159,7 @@ export default function GroceryHome() {
 </Table>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>Edit {formItem.product}</Modal.Title>
+            <Modal.Title>Edit {formItem.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <UpdateDonationForm 
@@ -179,7 +186,7 @@ export default function GroceryHome() {
 
       {/* this button is to make a post request/ to add the donated items in the database. Call handleDonation at onClick and make a fetch request to backend*/}
       <Link to={"/"}>
-        <Button variant="outline-success">Donate!</Button>
+        <Button variant="outline-success" onClick={handleDonationSubmit}>Donate!</Button>
       </Link>
     </>
   );

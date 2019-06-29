@@ -8,13 +8,13 @@ export default class UpdateDonationForm extends Component {
     return(
       <Form>
         <Form.Group controlId="exampleForm.ControlTextarea1">
-          <Form.Label>Product</Form.Label>
+          <Form.Label>Product Name</Form.Label>
           <Form.Control as="textarea" 
           rows="2" 
           onChange={e => {
-            this.props.handleUpdateFormChange(e.target.value, "product");
+            this.props.handleUpdateFormChange(e.target.value, "name");
           }}
-          value={formItem.product}/>
+          value={formItem.name}/>
          </Form.Group>
 
          <Form.Group controlId="exampleForm.ControlInput1">
@@ -41,9 +41,9 @@ export default class UpdateDonationForm extends Component {
               type="date"
               placeholder="Date"
               onChange={e => {
-                this.props.handleUpdateFormChange(e.target.value, "expiryDate");
+                this.props.handleUpdateFormChange(e.target.value, "expiry_date");
             }}
-            value={formItem.expiryDate}
+            value={formItem.expiry_date}
           />
         </Form.Group>
       </Form>
