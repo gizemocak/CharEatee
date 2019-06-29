@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
-import {useStoreState } from "easy-peasy";
+import {useStoreState, useStoreActions } from "easy-peasy";
 
 export default function Profile () {
   const usersInfo = useStoreState(state => state.pins);
-  let userId = (JSON.parse(localStorage.getItem('user'))).user_id
+  const fetchUserInfo = useStoreActions(actions => actions.fetchPins);
 
-  console.log(usersInfo)
+  useEffect(() => {
+    fetchUserInfo()
+  },[])
+
+  let user = JSON.parse(localStorage.getItem('user'))
+console.log(usersInfo)
     return (
       <>
       <NavBar/>
       <div className="user_nav">
-      {/* <h1>{userId.name}</h1> */}
+      {user.type === "Grocer/Restaurant" && usersInfo && usersInfo.map(item => {
+        console.log(item)
+        console.log("item.id " , item.id)
+        console.log(user.user_id)
+        if(item.email === user.email){
+          return <li>{item.name}</li>
+        } else {
+          return false
+        }
+      })}
       </div>
     </>
     );
