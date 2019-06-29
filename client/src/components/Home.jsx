@@ -22,6 +22,8 @@ export default class Home extends Component {
       </Link> */}
       <hr/>
         <Link to={"/charity/home/:id"}>Charity Home Page</Link>
+        <hr/>
+        <Link to={"/login"}>Login</Link>
       </div>
     );
   }

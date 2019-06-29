@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import NavBar from './NavBar';
-import { useStoreActions, useStoreState } from "easy-peasy";
+import {useStoreState } from "easy-peasy";
 
 export default function Profile () {
-  const formData = useStoreState(state => {
-    return state.formData
-  }
-  );
-     console.log("formdata",formData)
+  const usersInfo = useStoreState(state => state.pins);
+  let userId = (JSON.parse(localStorage.getItem('user'))).user_id
+
+  console.log(usersInfo)
     return (
       <>
       <NavBar/>
-      <h1>profile</h1>
-      {formData.email}
+      <div className="user_nav">
+      {/* <h1>{userId.name}</h1> */}
+      </div>
     </>
     );
 }

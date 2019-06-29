@@ -28,9 +28,15 @@ export default function Login (props) {
     newFormData[propertyName] = e.target.value;
     updateFormData(newFormData);
   }
-
-  if(isLoggedIn.email){
-    props.history.push("/")
+  
+  console.log(isLoggedIn)
+  if(isLoggedIn.type){
+    let userType = (JSON.parse(localStorage.getItem('user'))).type
+    if(userType === 'Grocer/Restaurant'){
+      props.history.push("/grocery/home/:id")
+    } else {
+      props.history.push("/charity/home/:id")
+    }
   }
 
     return (

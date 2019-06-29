@@ -40,18 +40,6 @@ export default function CharityHome() {
   };
 
 
-  // const handleFetchStore = () => {
-  //   fetch('http://localhost:8080/api/stores', {
-  //     method: 'get',
-  //     headers: {'Content-Type':'application/json'},
-  //    })
-  //    .then(res => res.json())
-  //    .then(res => {
-  //     setPins(res)
-  //     }
-  //   )
-  // }
-
 const onChange = (e) => {
    console.log(e.target.value)
    setSearchValue(e.target.value)
