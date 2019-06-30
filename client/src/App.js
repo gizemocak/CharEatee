@@ -12,10 +12,12 @@ import {createStore, StoreProvider} from 'easy-peasy'
 import usersProductsModel from "./stores/usersProductsModel"
 import adminModel from "./stores/adminModel"
 import Cart from "./components/Cart"
+import cartModel from "./stores/cartModel"
 
 const store = createStore({
   ...usersProductsModel,
-  ...adminModel
+  ...adminModel,
+  ...cartModel
 })
 
 function App() {

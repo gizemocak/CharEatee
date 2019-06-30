@@ -17,6 +17,7 @@ export default function Profile (props) {
 
   const [clicked, updateClickedButton] = useState(false)
 
+  console.log(cart)
   useEffect(() => {
     fetchUserInfo()
   },[])
@@ -25,11 +26,11 @@ export default function Profile (props) {
   let item = e.target.value
   
   console.log('item', item)
-  if(!cart.includes(cart, item)){
+  if(!cart.includes(item)){
     // const newCart = [...cart, item]
     // console.log('newcart', newCart)
     // setCart(newCart)
-    addToCart(item)
+    addToCart(cart, item)
   } else {
     // console.log('cart1', cart)
     let index = cart.indexOf(item)
