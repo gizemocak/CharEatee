@@ -8,9 +8,13 @@ import {Link} from "react-router-dom"
 export default function Profile (props) {
   const usersInfo = useStoreState(state => state.pins);
   const [username, setUserName] = useState('')
-
   const fetchUserInfo = useStoreActions(actions => actions.fetchPins);
-  const [cart, setCart] = useState([])
+
+  // const [cart, setCart] = useState([])
+  const cart = useStoreState(state => state.cart)
+  const addToCart = useStoreActions(action => action.addToCart);
+  const removeFromCart = useStoreActions(action => action.removeFromCart)
+
   const [clicked, updateClickedButton] = useState(false)
 
   useEffect(() => {
@@ -21,16 +25,18 @@ export default function Profile (props) {
   let item = e.target.value
   
   console.log('item', item)
-  if(!cart.includes(item)){
-    const newCart = [...cart, item]
-    console.log('newcart', newCart)
-    setCart(newCart)
+  if(!cart.includes(cart, item)){
+    // const newCart = [...cart, item]
+    // console.log('newcart', newCart)
+    // setCart(newCart)
+    addToCart(item)
   } else {
-    console.log('cart1', cart)
+    // console.log('cart1', cart)
     let index = cart.indexOf(item)
-    let newCart = [...cart]
-    newCart.splice(index, 1)
-    setCart(newCart)
+    // let newCart = [...cart]
+    // newCart.splice(index, 1)
+    // setCart(newCart)
+    removeFromCart(cart, index)
   }
 
   if(clicked){
