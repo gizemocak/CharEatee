@@ -131,6 +131,7 @@ app.post("/api/login", (req, res) => {
       if ( bcrypt.compareSync(password, user.password)) {
         req.session.user_id = user.id;
         res.send({
+          name: user.username,
           email: user.email,
           address: user.address,
           user_id: user.id,
