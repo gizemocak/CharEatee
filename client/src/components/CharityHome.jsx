@@ -16,6 +16,8 @@ export default function CharityHome(props) {
   const pins = useStoreState(state => state.pins);
   const fetchPins = useStoreActions(actions => actions.fetchPins);
 
+  console.log("her id",props.match.params.id)
+
   console.log("ppp",pins)
   useEffect(() => {
     getGeoLocation();
@@ -54,7 +56,7 @@ setSearchList(true)
 
   return (
     <>
-      <NavBar />
+      <NavBar id={props.match.params.id}/>
       {!searchList && apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins}/>}
          <Form onSubmit={onSubmit}>
       <Form.Group>

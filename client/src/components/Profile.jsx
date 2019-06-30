@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 
 export default function Profile (props) {
   const usersInfo = useStoreState(state => state.pins);
+  const [username, setUserName] = useState('')
 
   const fetchUserInfo = useStoreActions(actions => actions.fetchPins);
   const [cart, setCart] = useState([])
@@ -42,17 +43,31 @@ export default function Profile (props) {
     return (
       <>
       <NavBar/>
-      <div>cart: {cart.length} </div>
-      <h3> {user.name} donated:</h3>
+      {user.type === "Charity" && <div>cart: {cart.length} </div>}
+      <h3>{username && username}</h3>
       
       <ul>
-      {user.type === "Grocer/Restaurant" && usersInfo && usersInfo.map(item => {
-         if(item.user_id === Number(props.match.params.id))
-         {
+      {user.type === "Charity" && usersInfo && usersInfo.map(item => {
+         if(item.user_id === Number(props.match.params.id)){
+          if(username !== item.username){
+            setUserName(item.username)
+          }
           return (
           <div>
           <li>{item.name}  {item.quantity} {item.unit} 
           <Button value={item.id} onClick={handleAddToCart} name="add to cart"></Button></li>
+          </div>
+          )
+        }
+      })}
+      {user.type === "Grocer/Restaurant" && usersInfo && usersInfo.map(item => {
+         if(item.user_id === Number(props.match.params.id)){
+          if(username !== item.username){
+            setUserName(item.username)
+          }
+          return (
+          <div>
+          <li>{item.name}  {item.quantity} {item.unit} </li>
           </div>
           )
         }
