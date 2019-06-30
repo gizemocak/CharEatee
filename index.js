@@ -34,7 +34,7 @@ app.use(
 );
 
 var options = {
-  provider: 'google',
+  provider: 'openstreetmap',
   // Optional depending on the providers
   httpAdapter: 'https', // Default
   apiKey: process.env.GOOGLEMAPS_APIKEY, // for Mapquest, OpenCage, Google Premier
@@ -93,7 +93,7 @@ app.post("/api/register", (req, res) => {
     }
     let latitude = ''
     let longitude = ''
-    geocoder.geocode({address, city, zipcode: postalcode},function(err, res) {
+    geocoder.geocode({address, city, zipcode: postalcode, country:'Canada'},function(err, geocoderResponse) {
       knex('users')
       .returning('id')
       .insert([{
@@ -105,19 +105,24 @@ app.post("/api/register", (req, res) => {
         city: city,
         province: province,
         postalcode: postalcode,
-        latitude: res[0].latitude,
-        longitude: res[0].longitude
+        latitude: geocoderResponse.length > 0 && geocoderResponse[0].latitude,
+        longitude: geocoderResponse.length > 0 && geocoderResponse[0].longitude
       }])
       .then((ids) => {
         console.log("ids", ids)
         let user_id = ids[0];
-        console.log("user_id", user_id)
         req.session.user_id = user_id;
+        res.json({ 
+          userId: user_id,       
+          type:type,
+          username: username, 
+          email: email,
+          address: address,
+          city: city,
+          province: province,
+          postalcode: postalcode,})
     })      
     });
-
-    console.log("latitute", typeof latitude)
-    console.log("longtitute", typeof longitude)
   })
 });
 ///////////LOGIN ROUTES///////////////////
@@ -128,14 +133,17 @@ app.post("/api/login", (req, res) => {
 
     knex.select('*').from('users').where('email', email).first().then((user) => {
       console.log('userusersueruseruser',user);
-      if ( bcrypt.compareSync(password, user.password)) {
+
+      if (user && bcrypt.compareSync(password, user.password)) {
+
         req.session.user_id = user.id;
         res.send({
           name: user.username,
           email: user.email,
           address: user.address,
           user_id: user.id,
-          type: user.type
+          type: user.type,
+
         })
       } else {
         res.sendStatus(401)
@@ -160,11 +168,12 @@ app.post("/api/login", (req, res) => {
 /////////Get stores//////////
 app.get("/api/stores", (req, res) => {
   //check if query string exists, search that query in the database and show the ones that have the key
+  console.log('req', req.cookies)
     knex.select("*")
     .from("users")
     .join("products", {"users.id": "products.user_id"})
     .then(users =>{
-      console.log("users:",users)
+      //console.log("users:",users)
       res.send(users)
     })
 });
