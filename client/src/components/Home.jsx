@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import Navbar from "./NavBar";
 import { Link } from "react-router-dom";
+import "../Style/Home.scss"
 
 export default class Home extends Component {
   render() {
     return (
       <div className="App">
         <Navbar />
-        <h1>Project Home</h1>
-        <h1>Login as</h1>
+        <div className="body">
         <Link to={"/login"}>Grocery Store</Link>
         <hr/>
         <Link to={"/login"}>Charity</Link>
@@ -24,6 +24,7 @@ export default class Home extends Component {
       </Link> */}
       <hr/>
         <Link to={"/charity/home/:id"}>Charity Home Page</Link>
+        </div>
       </div>
     );
   }
