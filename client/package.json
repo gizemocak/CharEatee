@@ -18,10 +18,15 @@
     "gsap": "^2.1.3",
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
+    "react-animations": "^1.0.0",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",
+    "react-pose": "^4.0.8",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-router-page-transition": "^3.1.0",
+    "react-scripts": "3.0.1",
+    "react-transition-group": "^4.2.0",
+    "styled-components": "^5.0.0-beta.6"
   },
   "scripts": {
     "start": "react-scripts start",
