@@ -2,6 +2,8 @@ import React, { useEffect , useState} from 'react';
 import NavBar from './NavBar';
 import {useStoreState, useStoreActions } from "easy-peasy";
 import Button from "react-bootstrap/Button";
+import Cart from "../components/Cart.jsx"
+import {Link} from "react-router-dom"
 
 export default function Profile (props) {
   const usersInfo = useStoreState(state => state.pins);
@@ -43,9 +45,10 @@ export default function Profile (props) {
     return (
       <>
       <NavBar/>
-      {user.type === "Charity" && <div>cart: {cart.length} </div>}
+      {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
+
       <h3>{username && username}</h3>
-      
+
       <ul>
       {user.type === "Charity" && usersInfo && usersInfo.map(item => {
          if(item.user_id === Number(props.match.params.id)){
