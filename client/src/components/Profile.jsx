@@ -30,14 +30,14 @@ export default function Profile (props) {
     // const newCart = [...cart, item]
     // console.log('newcart', newCart)
     // setCart(newCart)
-    addToCart(cart, item)
+    addToCart(item)
   } else {
     // console.log('cart1', cart)
     let index = cart.indexOf(item)
-    // let newCart = [...cart]
-    // newCart.splice(index, 1)
+    let newCart = [...cart]
+    newCart.splice(index, 1)
     // setCart(newCart)
-    removeFromCart(cart, index)
+    removeFromCart(newCart)
   }
 
   if(clicked){

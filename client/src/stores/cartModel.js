@@ -5,9 +5,7 @@ const cart = {
   addToCart: action((state, lineItem) => {
      state.cart = [...state.cart, lineItem]
   }),
-  removeFromCart: action((state, index) => {
-    let newCart = [...cart]
-    newCart.splice(index, 1)
+  removeFromCart: action((state, newCart) => {
     state.cart = newCart
   })
 };
