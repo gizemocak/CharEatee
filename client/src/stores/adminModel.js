@@ -2,6 +2,7 @@ import { action, thunk } from "easy-peasy";
 
 const admin = {
   formData: {},
+  googleMapsAPIKey: null,
   // Thunks
   fetchFormData: thunk(async (actions, formData) => {
     const res = await fetch('http://localhost:8080/api/login', {
@@ -16,6 +17,17 @@ const admin = {
     localStorage.setItem('user', JSON.stringify(jsonResponse))
 
     return jsonResponse;
+  }),
+  fetchGoogleMapsAPIKey: thunk(async (actions, formData) => {
+    fetch("/api/getApiKey")
+      .then(res => res.json())
+      .then(data => actions.updateGoogleMapsAPIKey(data.apiKey))
+      .catch(error => {
+        console.log(error);
+      });
+  }),
+  updateGoogleMapsAPIKey: action((state, apiKey) => {
+    state.googleMapsAPIKey = apiKey
   }),
   updateFormData: action((state, formData = {}) => {
     state.formData = formData;

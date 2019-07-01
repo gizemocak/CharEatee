@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Merienda+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Arizonia&display=swap');
+
+%flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.App {
+    margin: 0 auto;
+    width: 95%;
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+}
+.body {
+    margin-top: 8rem;
+    width: 100%;
+    
+}
+
+.slogans {
+    margin-top: 8rem;
+    width: 100%;
+    height: 100%;
+    @extend %flex;
+
+    .box1, .box2, .box3, .box4, .box5 {
+        width: 120px;
+        height: 120px;
+        position: absolute;
+    }
+
+}
+
+.playAround {
+    @extend %flex;
+    flex-direction: column;
+    padding-top: 4rem;
+
+    p {
+        font-family: 'Merienda One', cursive;
+    }
+}
+
+footer {
+    margin-top: 6rem;
+    @extend %flex;
+    border-bottom: 0.8px solid black;
+    border-top: 0.8px solid black;
+    span {
+        font-family: 'Arizonia', cursive;
+        font-size: 1.5rem;
+    }
+}

@@ -38,19 +38,28 @@
   list-style: none
 }
 
+.search-input {
+  z-index: 9999999;
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+}
+
 .search-button {
   z-index: 9999999;
   position: absolute;
-  bottom:0;
+  bottom: 0;
+  right: 0px;
+  display: none;
 }
 
-.user_nav{
-  background:#F7B5DD;
-  height:100px;
-  display:flex;
-  align-items:center
+.user_nav {
+  background: #F7B5DD;
+  height: 100px;
+  display: flex;
+  align-items: center
 }
 
-.user_nav h1{
-  font-size:20px;
+.user_nav h1 {
+  font-size: 20px;
 }

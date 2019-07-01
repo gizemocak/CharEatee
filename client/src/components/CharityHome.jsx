@@ -2,35 +2,36 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import MapContainer from "./MapContainer";
 import NavBar from "./NavBar";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
 export default function CharityHome(props) {
-  console.log('props', props)
-  const [apiKey, setApiKey] = useState(null);
+  console.log("props", props);
   const [geoLoc, setGeoLoc] = useState({});
-  const [searchValue, setSearchValue] = useState("")
-  const [searchList, setSearchList] = useState(false)
+  const [searchValue, setSearchValue] = useState("");
+  const [searchList, setSearchList] = useState(false);
 
-  const pins = useStoreState(state => state.pins);
-  const fetchPins = useStoreActions(actions => actions.fetchPins);
+  const filteredStores = useStoreState(state => state.filteredStores);
+  const googleMapsAPIKey = useStoreState(state => state.googleMapsAPIKey);
+  const fetchStores = useStoreActions(actions => actions.fetchStores);
+  const [displayedStores, setDisplayedStores] = useState([]);
 
-  console.log("ppp", pins)
+  console.log("her id", props.match.params.id);
+
+  console.log("ppp", filteredStores);
   useEffect(() => {
     getGeoLocation();
-    fetch("/api/getApiKey")
-      .then(res => res.json())
-      .then(data => setApiKey(data.apiKey))
-      .catch(error => {
-        console.log(error);
-      });
-    fetchPins()
+    fetchStores();
   }, []);
+
+  useEffect(() => {
+    setDisplayedStores(filteredStores);
+  }, [filteredStores]);
 
   const getGeoLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
+      navigator.geolocation.getCurrentPosition(function(position) {
         const pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -40,56 +41,68 @@ export default function CharityHome(props) {
     }
   };
 
+  const onChange = e => {
+    /* let productNameArr = filteredStores.map(item => item.name);
+    console.log("productNameArr", productNameArr);
+    let searchValue = productNameArr.filter(item => {
+      return item.toLowerCase().search(e.target.value.toLowerCase());
+    });
+    setSearchValue(searchValue); */
+    console.log("e.target.value", e.target.value);
+    setSearchValue(e.target.value);
+    let newDisplayedStores = filteredStores.filter(store =>
+      store.products.find(
+        product => product.name === e.target.value.toLowerCase()
+      )
+    );
+    console.log("newDisplayedStores", newDisplayedStores);
 
-  const onChange = (e) => {
-    let  productNameArr = pins.map(item => item.name);
-    console.log("productNameArr", productNameArr)
-    let searchValue = productNameArr.filter((item => {
-      return item.toLowerCase().search(
-        e.target.value.toLowerCase())
-    }));
-    setSearchValue(searchValue)
-    // setSearchValue(e.target.value)
-  }
+    setDisplayedStores(newDisplayedStores);
+  };
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    setSearchList(true)
+  const onSubmit = e => {
+    e.preventDefault();
+    setSearchList(true);
+  };
 
-  }
+  return (
+    <>
+      <NavBar id={props.match.params.id} />
 
-      return (
-        <>
-          <NavBar />
-          {!searchList && apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins} />}
-          <Form onSubmit={onSubmit}>
-            <Form.Group>
-              <Form.Control
-                type="text"
-                placeholder="search an item"
-                value={searchValue}
-                onChange={onChange}
-                className="search-button"
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit" className="search-button">
-              Search
-      </Button>
-          </Form>
-          {searchList && pins.length > 0 &&
-            pins.map(item => {
-              return (
-                <>
+      {googleMapsAPIKey && filteredStores.length > 0 && geoLoc && (
+        <MapContainer
+          apiKey={googleMapsAPIKey}
+          geoLocation={geoLoc}
+          pins={displayedStores}
+        />
+      )}
 
-                  <li>{item.name}  from  <Link to={`/profile/${item.id}`}>{item.username}</Link></li>
-                </>
-              )
-            })
-          }
-
-
-
-
-        </>
-      );
-    }
+      <Form onSubmit={onSubmit}>
+        <Form.Group>
+          <Form.Control
+            type="text"
+            placeholder="search an item"
+            value={searchValue}
+            onChange={onChange}
+            className="search-input"
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" className="search-button">
+          Search
+        </Button>
+      </Form>
+      {searchList &&
+        displayedStores.length > 0 &&
+        displayedStores.map(item => {
+          return (
+            <>
+              <li>from {item.username}</li>
+              <li>
+                from <Link to="/grocer/profile">{item.username}</Link>
+              </li>
+            </>
+          );
+        })}
+    </>
+  );
+}

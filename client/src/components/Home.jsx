@@ -1,31 +1,105 @@
 import React, { Component } from "react";
 import Navbar from "./NavBar";
 import { Link } from "react-router-dom";
+import "../style/Home.scss";
+import CarouselView from "./Carousel";
+import posed from "react-pose";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowCircleUp } from "@fortawesome/free-solid-svg-icons";
+
+import styled, { keyframes } from "styled-components";
+import { flipInX } from "react-animations";
+const FlipInXAnimation = keyframes`${flipInX}`;
+const FlipInXDiv = styled.div`
+  animation: 3s ${FlipInXAnimation};
+`;
+
+const Box = posed.div({
+  hoverable: true,
+  pressable: true,
+  draggable: true,
+  init: {
+    scale: 1,
+    boxShadow: "0px 0px 0px rgba(0,0,0,0)"
+  },
+  hover: {
+    scale: 1.2,
+    boxShadow: "0px 5px 10px rgba(0,0,0,0.2)"
+  },
+  press: {
+    scale: 1.1,
+    boxShadow: "0px 2px 5px rgba(0,0,0,0.1)"
+  }
+});
+const Slogan1 = () => (
+  <Box className="box1">
+    <img
+      src={require("../docs/1.png")}
+      style={{ width: "120px", height: "120px" }}
+    />
+  </Box>
+);
+const Slogan2 = () => (
+  <Box className="box2">
+    <img
+      src={require("../docs/2.png")}
+      style={{ width: "120px", height: "120px" }}
+    />
+  </Box>
+);
+const Slogan3 = () => (
+  <Box className="box3">
+    <img
+      src={require("../docs/3.png")}
+      style={{ width: "120px", height: "120px" }}
+    />
+  </Box>
+);
+const Slogan4 = () => (
+  <Box className="box4">
+    <img
+      src={require("../docs/4.png")}
+      style={{ width: "120px", height: "120px" }}
+    />
+  </Box>
+);
+const Slogan5 = () => (
+  <Box className="box5">
+    <img
+      src={require("../docs/5.png")}
+      style={{ width: "120px", height: "120px" }}
+    />
+  </Box>
+);
 
 export default class Home extends Component {
   render() {
     return (
       <div className="App">
         <Navbar />
-        <h1>Project Home</h1>
-        <h1>Login as</h1>
-        <Link to={"/login"}>Grocery Store</Link>
-        <hr/>
-        <Link to={"/login"}>Charity</Link>
-        <hr/>
-        <Link to={"/signup"}>Don't have an account?Sign Up</Link>
-        <hr/>
-        <Link to={'/grocery/home/:id'}>Grocery Home</Link>
-        {/* Link to List.js */}
-        {/* <Link to={'./list'}>
-        <button variant="raised">
-            My List
-        </button>
-      </Link> */}
-      <hr/>
-        <Link to={"/charity/home/:id"}>Charity Home Page</Link>
-        <hr/>
-        <Link to={"/login"}>Login</Link>
+        <FlipInXDiv>
+          <div className="body">
+            <CarouselView />
+          </div>
+          <div className="slogans">
+            <Slogan5 />
+            <Slogan4 />
+            <Slogan3 />
+            <Slogan2 />
+            <Slogan1 />
+          </div>
+          <div className="playAround">
+            <span>
+              <FontAwesomeIcon icon={faArrowCircleUp} />
+            </span>
+            <p>Play Around with Me</p>
+          </div>
+
+          <footer>
+            <span>People live when people give.</span>
+          </footer>
+        </FlipInXDiv>
       </div>
     );
   }
