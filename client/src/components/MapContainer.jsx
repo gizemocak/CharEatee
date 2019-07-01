@@ -83,9 +83,10 @@ class GoogleMap extends React.Component {
           {selectedPlace.name}
         </a>
         <ul>
-          {selectedPlace.products.map(item => {
-            return <li>{item.name}</li>;
-          })}
+          {selectedPlace.products &&
+            selectedPlace.products.map(item => {
+              return <li>{item.name}</li>;
+            })}
         </ul>
       </div>
     );
@@ -135,18 +136,6 @@ class GoogleMap extends React.Component {
               strokeColor: "#467DFE",
               scale: 6.5
             }}
-            onClick={this.onMarkerClick}
-          />
-
-          <Marker
-            title={"grocery store"}
-            name={"Fresh & Wild Food Market"}
-            position={{ lat: 43.6457, lng: -79.39477 }}
-            onClick={this.onMarkerClick}
-          />
-          <Marker
-            name={"Loblaws"}
-            position={{ lat: 43.64756, lng: -79.40159 }}
             onClick={this.onMarkerClick}
           />
 
