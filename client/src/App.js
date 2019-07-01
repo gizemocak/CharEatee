@@ -11,6 +11,7 @@ import Profile from './components/Profile'
 import {createStore, StoreProvider} from 'easy-peasy'
 import usersProductsModel from "./stores/usersProductsModel"
 import adminModel from "./stores/adminModel"
+import HomeSub from "./components/HomeSub"
 
 const store = createStore({
   ...usersProductsModel,
@@ -29,6 +30,7 @@ function App() {
           <Route path='/grocery/home/:id' component={GroceryHome}/>
           <Route path='/charity/home/:id' component={CharityHome}/>
           <Route path='/profile/:id' component={Profile}/>
+          <Route path='/account' component={HomeSub}/>
         </Switch>
       </div>
       </StoreProvider>
