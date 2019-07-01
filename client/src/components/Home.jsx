@@ -79,7 +79,7 @@ export default class Home extends Component {
       <div className="App">
         <Navbar />
         <FlipInXDiv>
-          <div className="body">
+          <div className="mainBox">
             <CarouselView />
           </div>
           <div className="slogans">

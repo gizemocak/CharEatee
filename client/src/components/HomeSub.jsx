@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./NavBar";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-// import "../style/transition.scss";
 import "../style/HomeSub.scss"
 
 import styled, { keyframes } from "styled-components";
@@ -15,19 +13,24 @@ const FadeInLeftYDiv = styled.div`
 export default class HomeSub extends Component {
   render() {
     return(
-      <div className="body">
+      <div className="container">
         <Navbar />
         <FadeInLeftYDiv>
         <div className="login">
-        <Link to={"/login"}>Sign In</Link>
-        <hr/>
-        if you have alreday signed up
+        <p className="pl"><Link to={"/login"}>Sign In</Link></p>
+        <br/>
+        <p>if you have alreday signed up</p>
         </div>
 
         <div className="register">
-        <Link to={"/signup"}>Sign Up</Link>
-        if you are ready to sign in
+        <p className="pr"><Link to={"/signup"}>Sign Up</Link></p>
+        <br/>
+        <p>if you haven't ready to sign in</p>
         </div>
+
+        <footer className="footHs">
+        <span>Great futures start here.</span>
+        </footer>
         </FadeInLeftYDiv>
       </div>
     )
