@@ -13,16 +13,16 @@ export default function CharityHome(props) {
   const [searchValue, setSearchValue] = useState("");
   const [searchList, setSearchList] = useState(false);
 
-  const pins = useStoreState(state => state.pins);
+  const stores = useStoreState(state => state.stores);
   const googleMapsAPIKey = useStoreState(state => state.googleMapsAPIKey);
-  const fetchPins = useStoreActions(actions => actions.fetchPins);
+  const fetchStores = useStoreActions(actions => actions.fetchStores);
 
   console.log("her id", props.match.params.id);
 
-  console.log("ppp", pins);
+  console.log("ppp", stores);
   useEffect(() => {
     getGeoLocation();
-    fetchPins();
+    fetchStores();
   }, []);
 
 
@@ -52,7 +52,7 @@ export default function CharityHome(props) {
     <>
       <NavBar id={props.match.params.id} />
       
-      {!searchList && googleMapsAPIKey && pins.length > 0 && geoLoc && <MapContainer apiKey={googleMapsAPIKey} geoLocation={geoLoc} pins={pins}/>}
+      {!searchList && googleMapsAPIKey && stores.length > 0 && geoLoc && <MapContainer apiKey={googleMapsAPIKey} geoLocation={geoLoc} pins={stores}/>}
     
       <Form onSubmit={onSubmit}>
         <Form.Group>
@@ -69,15 +69,15 @@ export default function CharityHome(props) {
         </Button>
       </Form>
       {searchList &&
-        pins.length > 0 &&
-        pins.map(item => {
+        stores.length > 0 &&
+        stores.map(item => {
           return (
             <>
               <li>
-                {item.name} from {item.username}
+                from {item.username}
               </li>
               <li>
-                {item.name} from{" "}
+                from{" "}
                 <Link to="/grocer/profile">{item.username}</Link>
               </li>
             </>

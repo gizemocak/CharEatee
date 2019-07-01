@@ -30,7 +30,7 @@ export default function Cart(props) {
       <div>Cart</div>
       {cart.length > 0 &&
         cart.map(item => {
-          return <li>{item.name}</li>;
+          return <li>{item.name} {item.quantity}{item.unit}</li>;
         })}
 
       <Button onClick={placeOrder}>Place Order</Button>
