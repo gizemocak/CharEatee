@@ -3,6 +3,14 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import NavBar from './NavBar';
 import { useStoreActions, useStoreState } from "easy-peasy";
+import "../style/Login.scss";
+
+import styled, { keyframes } from "styled-components";
+import {rotateInUpLeft} from 'react-animations';
+const RotateInUpLeftAnimation = keyframes`${rotateInUpLeft}`;
+const RotateInUpLeftYDiv = styled.div`
+  animation: 2s ${RotateInUpLeftAnimation};
+`;
 
 export default function Login (props) {
   const formData = useStoreState(state => state.formData);
@@ -48,9 +56,10 @@ export default function Login (props) {
   } */
 
     return (
-      <>
-      <h1>Login</h1>
+      <div className="loginBox">
       <NavBar/>
+      <RotateInUpLeftYDiv>
+      <h1>Login</h1>
       <Form onSubmit={formSubmit}>
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
@@ -79,10 +88,15 @@ export default function Login (props) {
         />
       </Form.Group>
       
-      <Button variant="primary" type="submit" >
+      <Button variant="secondary" type="submit" >
         Submit
       </Button>
     </Form>
-    </>
+
+    <footer className="footLg">
+        <span>Incredible donation, incredible you.</span>
+        </footer>
+  </RotateInUpLeftYDiv>
+    </div>
     );
 }
