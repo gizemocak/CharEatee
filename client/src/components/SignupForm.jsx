@@ -4,6 +4,14 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import NavBar from './NavBar';
 import { Link } from "react-router-dom";
+import "../style/SignupForm.scss";
+
+import styled, { keyframes } from "styled-components";
+import {rotateInUpRight} from 'react-animations';
+const RotateInUpRightAnimation = keyframes`${rotateInUpRight}`;
+const RotateInUpRightYDiv = styled.div`
+  animation: 2s ${RotateInUpRightAnimation};
+`;
 
 
 export default function SignUpForm () {
@@ -41,9 +49,10 @@ export default function SignUpForm () {
   }
 
     return (
-      <>
-      <h1>Register your account</h1>
+      <div className="signupBox">
       <NavBar/>
+      <RotateInUpRightYDiv>
+      <h1>Register your account</h1>
       <Form onSubmit={formSubmit}>
       <Form.Group controlId="exampleForm.ControlSelect1">
         <Form.Control 
@@ -145,12 +154,17 @@ export default function SignUpForm () {
          placeholder="Password" />
       </Form.Group>
       
-      <Button variant="primary" type="submit">
+      <Button variant="info" type="submit">
         Submit
       </Button>
     </Form>
     <br/>
     <Link to={"/login"}>Already had an account? Sign In</Link>
-    </>
+
+    <footer className="footRg">
+        <span>Opening minds, changing lives.</span>
+      </footer>
+     </RotateInUpRightYDiv>
+    </div>
     );
 }

@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=K2D:500&display=swap');
+
+%flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .signupBox {
+    @extend %flex;
+    margin: 6rem 2rem;
+    font-family: 'K2D', sans-serif;
+
+    h1 {
+        font-size: 25px;
+        margin-bottom: 2rem;
+    }
+
+    button {
+        width: 100%;
+    }
+    .footRg {
+        margin-top: 5rem;
+    }
+  }
+  
