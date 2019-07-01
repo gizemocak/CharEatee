@@ -42,45 +42,54 @@ export default function CharityHome(props) {
 
 
   const onChange = (e) => {
-    console.log(e.target.value)
-    setSearchValue(e.target.value)
+    let  productNameArr = pins.map(item => item.name);
+    console.log("productNameArr", productNameArr)
+    let searchValue = productNameArr.filter((item => {
+      return item.toLowerCase().search(
+        e.target.value.toLowerCase())
+    }));
+    setSearchValue(searchValue)
+    // setSearchValue(e.target.value)
   }
 
   const onSubmit = (e) => {
     e.preventDefault()
     setSearchList(true)
-    console.log("searchlist",searchList)
+
   }
 
-
-  return (
-    <>
-      <NavBar />
-      {!searchList && apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins} />}
-      <Form onSubmit={onSubmit}>
-        <Form.Group>
-          <Form.Control
-            type="text"
-            placeholder="search an item"
-            value={searchValue}
-            onChange={onChange}
-            className="search-button"
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit" className="search-button">
-          Search
+      return (
+        <>
+          <NavBar />
+          {!searchList && apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins} />}
+          <Form onSubmit={onSubmit}>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                placeholder="search an item"
+                value={searchValue}
+                onChange={onChange}
+                className="search-button"
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="search-button">
+              Search
       </Button>
-      </Form>
-      {searchList && pins.length > 0 &&
-        pins.map(item => {
-          return (
-            <>
+          </Form>
+          {searchList && pins.length > 0 &&
+            pins.map(item => {
+              return (
+                <>
 
-              <li>{item.name}  from  <Link to={`/profile/${item.id}`}>{item.username}</Link></li>
-            </>
-          )
-        })
-      }
-    </>
-  );
-}
+                  <li>{item.name}  from  <Link to={`/profile/${item.id}`}>{item.username}</Link></li>
+                </>
+              )
+            })
+          }
+
+
+
+
+        </>
+      );
+    }
