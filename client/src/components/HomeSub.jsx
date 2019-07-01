@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./NavBar";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-// import "../style/transition.scss";
 import "../style/HomeSub.scss"
 
 import styled, { keyframes } from "styled-components";
@@ -29,6 +27,10 @@ export default class HomeSub extends Component {
         <br/>
         <p>if you haven't ready to sign in</p>
         </div>
+
+        <footer className="footHs">
+        <span>Great futures start here.</span>
+        </footer>
         </FadeInLeftYDiv>
       </div>
     )
