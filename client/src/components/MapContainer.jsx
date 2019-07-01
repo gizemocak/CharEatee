@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { withRouter } from "react-router";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
-import { Link } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -140,20 +139,22 @@ class GoogleMap extends React.Component {
           />
 
           {this.props.pins.length > 0 &&
-            this.props.pins.map(item => {
-              // console.log(item)
-              return (
-                <Marker
-                  key={item.email + "" + item.id}
-                  title={"Grocer/Restaurant"}
-                  name={item.username}
-                  position={{ lat: item.latitude, lng: item.longitude }}
-                  onClick={this.onMarkerClick}
-                  id={item.id}
-                  products={item.products}
-                />
-              );
-            })}
+            this.props.pins
+              .filter(pin => pin.type === "Grocer/Restaurant")
+              .map(item => {
+                console.log(item);
+                return (
+                  <Marker
+                    key={item.email + "" + item.id}
+                    title={"Grocer/Restaurant"}
+                    name={item.username}
+                    position={{ lat: item.latitude, lng: item.longitude }}
+                    onClick={this.onMarkerClick}
+                    id={item.id}
+                    products={item.products}
+                  />
+                );
+              })}
 
           <InfoWindow
             marker={this.state.activeMarker}
