@@ -50,14 +50,16 @@ export default function CharityHome(props) {
     setSearchValue(searchValue); */
     console.log("e.target.value", e.target.value);
     setSearchValue(e.target.value);
-    let newDisplayedStores = filteredStores.filter(store =>
-      store.products.find(
-        product => product.name === e.target.value.toLowerCase()
-      )
-    );
-    console.log("newDisplayedStores", newDisplayedStores);
-
-    setDisplayedStores(newDisplayedStores);
+    if (e.target.value.length === 0) {
+      setDisplayedStores(filteredStores);
+    } else {
+      let newDisplayedStores = filteredStores.filter(store =>
+        store.products.find(
+          product => product.name === e.target.value.toLowerCase()
+        )
+      );
+      setDisplayedStores(newDisplayedStores);
+    }
   };
 
   const onSubmit = e => {
