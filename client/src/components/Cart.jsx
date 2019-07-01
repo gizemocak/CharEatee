@@ -1,31 +1,29 @@
-import React, {useEffect, useState} from 'react';
-import {useStoreState, useStoreActions } from "easy-peasy";
-import NavBar from './NavBar';
+import React, { useEffect, useState } from "react";
+import { useStoreState, useStoreActions } from "easy-peasy";
+import NavBar from "./NavBar";
 
-export default function Cart (props) {
-  const cart = useStoreState(state => state.cart)
+export default function Cart(props) {
+  const cart = useStoreState(state => state.cart);
   // const orders = useStoreState(state => state.pins);
   // const fetchOrders = useStoreActions(actions => actions.fetchPins);
-  const [orders, setOrders] = useState([])
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch('/api/orders')
-    .then(res => res.json())
-    .then(res => setOrders(res))
-  })
+    fetch("/api/orders")
+      .then(res => res.json())
+      .then(res => setOrders(res));
+  });
 
-
-    return (
-      <>
-      <NavBar/>
+  return (
+    <>
+      <NavBar />
       <div>Cart</div>
-      {cart.length > 0 && cart.map(item => {
-        return(
-          <li>{item}</li>
-        )
-      })}
-      
+      {cart.length > 0 &&
+        cart.map(item => {
+          return <li>{item.name}</li>;
+        })}
+
       <button>Checkout</button>
     </>
-    );
+  );
 }
