@@ -79,7 +79,7 @@ class GoogleMap extends React.Component {
             this.props.history.push(`/profile/${selectedPlace.id}`);
           }}
         >
-          {selectedPlace.name}
+          <h6>{selectedPlace.name}</h6>
         </a>
         <ul>
           {selectedPlace.products &&
