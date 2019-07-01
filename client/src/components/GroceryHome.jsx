@@ -7,6 +7,22 @@ import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import Modal from 'react-bootstrap/Modal'
 import Form from "react-bootstrap/Form";
+import "../style/GroceryHome.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+
+import styled, { keyframes } from "styled-components";
+import {bounceInUp} from 'react-animations';
+import {wobble} from 'react-animations';
+const WobbleAnimation = keyframes`${wobble}`;
+const WobbleDiv = styled.div`
+  animation: 2s ${WobbleAnimation};
+`;
+
+const BounceInUpAnimation = keyframes`${bounceInUp}`;
+const BounceInUpDiv = styled.div`
+  animation: 1s ${BounceInUpAnimation};
+`;
 
 export default function GroceryHome(props) {
   // Setup state for this page
@@ -18,7 +34,7 @@ export default function GroceryHome(props) {
     unit: "lbs",
     expiry_date: "",
     imgurl: "",
-    user_id: JSON.parse(localStorage.getItem('user')).user_id
+    // user_id: JSON.parse(localStorage.getItem('user')).user_id
   });
  
   
@@ -86,7 +102,7 @@ export default function GroceryHome(props) {
       unit: "lbs",
       expiry_date: "",
       imgurl: "",
-      user_id: JSON.parse(localStorage.getItem('user')).user_id
+      // user_id: JSON.parse(localStorage.getItem('user')).user_id
     })
   };
 
@@ -115,10 +131,14 @@ export default function GroceryHome(props) {
   }
 
   return (
-    <>
-      <NavBar camera={camera} />
-      <div>Make a donation</div>
-      <Link to={`/profile/${props.match.params.id}`}>Profile</Link>
+    <div className="groHome">
+      <NavBar />
+      <WobbleDiv>
+      <div className="doTitle">
+        Make a donation
+      <Link className="linkProf" to={`/profile/${props.match.params.id}`}>Your Profile</Link>
+      </div>
+        <div className="formBox">
       <DonationForm
         items={items}
         formData={formData}
@@ -126,10 +146,12 @@ export default function GroceryHome(props) {
         handleChange={handleChange}
         handleImage={handleImage}
       />
-
+      </div>
         {items.length > 0 && 
         <div>
-          Your donations
+          <BounceInUpDiv>
+          <div className="tableEntry">
+          <span className="yourTitle">Your Donations <FontAwesomeIcon icon={faHeart} /></span>
           <Table striped bordered hover size="sm">
   <thead>
     <tr>
@@ -155,9 +177,12 @@ export default function GroceryHome(props) {
           <td><Button variant="info"  value={item.name} onClick={evt=> handleShow(evt)}>Edit</Button></td>
           </tr>
   );
-})}
+})
+}
   </tbody>
 </Table>
+</div>
+</BounceInUpDiv>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
             <Modal.Title>Edit {formItem.name}</Modal.Title>
@@ -187,8 +212,9 @@ export default function GroceryHome(props) {
 
       {/* this button is to make a post request/ to add the donated items in the database. Call handleDonation at onClick and make a fetch request to backend*/}
       <Link to={"/"}>
-        <Button variant="outline-success" onClick={handleDonationSubmit}>Donate!</Button>
+        <Button className="finalDon" variant="outline-success" onClick={handleDonationSubmit}>Donate!</Button>
       </Link>
-    </>
+    </WobbleDiv>
+    </div>
   );
 }
