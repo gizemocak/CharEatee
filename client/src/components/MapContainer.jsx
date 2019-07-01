@@ -19,6 +19,7 @@ class GoogleMap extends React.Component {
       showingInfoWindow: false,
       activeMarker: null,
       selectedPlace: null,
+      mapElementFound: null,
     }
   }
 /*   const [icon, setIcon] = useState("");
@@ -84,13 +85,28 @@ class GoogleMap extends React.Component {
 
   render() {
   return (
+    <>
+    {!this.state.mapElementFound && <div>Loading Locations...</div>}
     <Map
       google={this.props.google}
       zoom={14}
       initialCenter={this.props.geoLocation}
-      onReady={this.changeIconColor}
+      onReady={(mapProps, map) => { 
+        /* check if a dom node in the map exists 
+          if it doesn't exist reload the page
+        */
+        setTimeout(() => {
+          const mapElementFound = document.querySelector('.gmnoprint')
+          console.log('mapElementFound',mapElementFound)
+          this.setState({mapElementFound: mapElementFound})
+          if(!mapElementFound) {
+            window.location.reload()
+          } 
+        }, 1000)
+
+        this.changeIconColor(mapProps, map)}}
       onClick={this.onMapClicked}
-      style={style}
+      style={{...{visibility: !this.state.mapElementFound ? 'hidden' : 'visible'},...style}}
     >
       <Marker
         name={"Current location"}
@@ -139,7 +155,7 @@ class GoogleMap extends React.Component {
         <div id="iwc" />
       </InfoWindow>
     </Map>
-
+</>
   );
 }
 };

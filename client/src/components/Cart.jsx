@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import NavBar from "./NavBar";
+import Button from "react-bootstrap/Button";
 
 export default function Cart(props) {
   const cart = useStoreState(state => state.cart);
-  // const orders = useStoreState(state => state.pins);
-  // const fetchOrders = useStoreActions(actions => actions.fetchPins);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("/api/orders")
-      .then(res => res.json())
-      .then(res => setOrders(res));
-  });
+    if (cart.length === 0) {
+      props.history.push("/login");
+    }
+  }, []);
+
+  console.log(props);
+  const placeOrder = () => {
+    fetch("http://localhost:8080/api/order", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cart)
+    }).then(res => {
+      console.log("response", res);
+    });
+  };
 
   return (
     <>
@@ -23,7 +33,7 @@ export default function Cart(props) {
           return <li>{item.name}</li>;
         })}
 
-      <button>Checkout</button>
+      <Button onClick={placeOrder}>Place Order</Button>
     </>
   );
 }

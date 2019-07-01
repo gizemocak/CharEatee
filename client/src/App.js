@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect  } from 'react';
 import { Route, Switch, withRouter} from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
@@ -20,7 +20,12 @@ const store = createStore({
   ...cartModel
 })
 
+console.log(store)
+
 function App() {
+    useEffect(() => {
+      store.dispatch.fetchGoogleMapsAPIKey()
+    },[])
     return (
       <StoreProvider store={store}>
       <div className="App">
