@@ -57,7 +57,7 @@ setSearchList(true)
   return (
     <>
       <NavBar id={props.match.params.id}/>
-      {!searchList && apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins}/>}
+      {!searchList && apiKey && pins.length > 0 && geoLoc && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins}/>}
          <Form onSubmit={onSubmit}>
       <Form.Group>
         <Form.Control 
