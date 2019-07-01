@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=K2D:500&display=swap');
+
+%flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+.loginBox {
+    @extend %flex;
+    margin-top: 8rem;
+    font-family: 'K2D', sans-serif;
+
+    button {
+        width: 100%;
+    }
+    Form {
+        width :100%;
+    }
+    h1 {
+        margin-bottom: 2rem;
+    }
+
+    .footLg {
+        margin-top: 10rem;
+    }
+}
