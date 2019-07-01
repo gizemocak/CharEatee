@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect  } from 'react';
 import { Route, Switch, withRouter} from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
@@ -11,14 +11,22 @@ import Profile from './components/Profile'
 import {createStore, StoreProvider} from 'easy-peasy'
 import usersProductsModel from "./stores/usersProductsModel"
 import adminModel from "./stores/adminModel"
+import Cart from "./components/Cart"
+import cartModel from "./stores/cartModel"
 import HomeSub from "./components/HomeSub"
 
 const store = createStore({
   ...usersProductsModel,
-  ...adminModel
+  ...adminModel,
+  ...cartModel
 })
 
+console.log(store)
+
 function App() {
+    useEffect(() => {
+      store.dispatch.fetchGoogleMapsAPIKey()
+    },[])
     return (
       <StoreProvider store={store}>
       <div className="App">
@@ -30,6 +38,7 @@ function App() {
           <Route path='/grocery/home/:id' component={GroceryHome}/>
           <Route path='/charity/home/:id' component={CharityHome}/>
           <Route path='/profile/:id' component={Profile}/>
+          <Route path='/cart' component={Cart}/>
           <Route path='/account' component={HomeSub}/>
         </Switch>
       </div>

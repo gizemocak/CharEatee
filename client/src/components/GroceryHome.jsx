@@ -8,7 +8,7 @@ import Table from "react-bootstrap/Table";
 import Modal from 'react-bootstrap/Modal'
 import Form from "react-bootstrap/Form";
 
-export default function GroceryHome() {
+export default function GroceryHome(props) {
   // Setup state for this page
   const [camera, updateCamera] = useState(true);
   const [items, updateItems] = useState([]);
@@ -118,6 +118,7 @@ export default function GroceryHome() {
     <>
       <NavBar camera={camera} />
       <div>Make a donation</div>
+      <Link to={`/profile/${props.match.params.id}`}>Profile</Link>
       <DonationForm
         items={items}
         formData={formData}

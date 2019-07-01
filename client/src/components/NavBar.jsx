@@ -6,8 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { faChessQueen } from '@fortawesome/free-solid-svg-icons';
 
-
-
 export default class NavBar extends Component {
   shouldComponentUpdate() {
     return false;
