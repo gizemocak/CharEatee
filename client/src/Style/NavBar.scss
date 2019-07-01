@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Frijole&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Arizonia&display=swap');
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 5rem;
+    background-color: white;
+    margin-top: 0;
+    .logo {
+        font-family: 'Arizonia', cursive;
+        font-size: 1.8rem;
+        color: black !important;
+    }
+    a:hover {
+        text-decoration: none !important;   
+    }
+    a {
+        color: black !important;
+    }
+}
