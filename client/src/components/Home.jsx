@@ -5,6 +5,9 @@ import "../style/Home.scss";
 import CarouselView from "./Carousel";
 import posed from 'react-pose';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
+
 import styled, { keyframes } from "styled-components";
 import {flipInX} from 'react-animations';
 const FlipInXAnimation = keyframes`${flipInX}`;
@@ -13,12 +16,27 @@ animation: 3s ${FlipInXAnimation};
 `;
 
 const Box = posed.div({
-  draggable: true
+  hoverable: true,
+  pressable: true,
+  draggable: true,
+  init: {
+    scale: 1,
+    boxShadow: '0px 0px 0px rgba(0,0,0,0)'
+  },
+  hover: {
+    scale: 1.2,
+    boxShadow: '0px 5px 10px rgba(0,0,0,0.2)'
+  },
+  press: {
+    scale: 1.1,
+    boxShadow: '0px 2px 5px rgba(0,0,0,0.1)'
+  }
 });
-const Slogan1 = () => <Box className="box1" />;
-const Slogan2 = () => <Box className="box2" />;
-const Slogan3 = () => <Box className="box3" />;
-const Slogan4 = () => <Box className="box4" />;
+const Slogan1 = () => <Box className="box1"><img src={require("../docs/1.png")} style={{width: '120px', height: '120px'}}/></Box>;
+const Slogan2 = () => <Box className="box2"><img src={require("../docs/2.png")} style={{width: '120px', height: '120px'}}/></Box>;
+const Slogan3 = () => <Box className="box3"><img src={require("../docs/3.png")} style={{width: '120px', height: '120px'}}/></Box>;
+const Slogan4 = () => <Box className="box4"><img src={require("../docs/4.png")} style={{width: '120px', height: '120px'}}/></Box>;
+const Slogan5 = () => <Box className="box5"><img src={require("../docs/5.png")} style={{width: '120px', height: '120px'}}/></Box>;
 
 export default class Home extends Component {
   render() {
@@ -29,10 +47,21 @@ export default class Home extends Component {
         <div className="body">
         <CarouselView />
         </div>
-      <Slogan1 />
-      <Slogan2 />
-      <Slogan3 />
+      <div className="slogans">
+      <Slogan5 />
       <Slogan4 />
+      <Slogan3 />
+      <Slogan2 />
+      <Slogan1 />
+      </div>
+      <div className="playAround">
+      <span><FontAwesomeIcon icon={faArrowCircleUp}/></span>
+      <p>Play Around with Me</p>
+      </div>
+
+      <footer>
+        <span>People live when people give.</span>
+      </footer>
       </ FlipInXDiv>
 
       </div>
