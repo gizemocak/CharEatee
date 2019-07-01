@@ -5,7 +5,7 @@ import "../style/NavBar.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { faChessQueen } from '@fortawesome/free-solid-svg-icons';
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+
 
 
 export default class NavBar extends Component {

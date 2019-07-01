@@ -1,3 +1,20 @@
+%flex {
+    display: flex;
+    justify-content: center;
+  }
+
+.App {
+    margin: 0 auto;
+    width: 95%;
+}
 .body {
-    margin-top: 6rem;
+    margin-top: 10rem;
+    width: 100%;
+    
+}
+
+.box {
+    width: 150px;
+  height: 150px;
+  background: gray;
 }
