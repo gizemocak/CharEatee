@@ -63,7 +63,6 @@ export default class Home extends Component {
         <span>People live when people give.</span>
       </footer>
       </ FlipInXDiv>
-
       </div>
     );
   }

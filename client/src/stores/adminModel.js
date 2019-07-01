@@ -1,7 +1,7 @@
 import { action, thunk } from "easy-peasy";
 
 const admin = {
-  formData: JSON.parse(localStorage.getItem('admin.formData') || '{}'),
+  formData: {},
   // Thunks
   fetchFormData: thunk(async (actions, formData) => {
     const res = await fetch('http://localhost:8080/api/login', {
