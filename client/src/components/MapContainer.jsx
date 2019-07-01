@@ -139,22 +139,20 @@ class GoogleMap extends React.Component {
           />
 
           {this.props.pins.length > 0 &&
-            this.props.pins
-              .filter(pin => pin.type === "Grocer/Restaurant")
-              .map(item => {
-                console.log(item);
-                return (
-                  <Marker
-                    key={item.email + "" + item.id}
-                    title={"Grocer/Restaurant"}
-                    name={item.username}
-                    position={{ lat: item.latitude, lng: item.longitude }}
-                    onClick={this.onMarkerClick}
-                    id={item.id}
-                    products={item.products}
-                  />
-                );
-              })}
+            this.props.pins.map(item => {
+              console.log(item);
+              return (
+                <Marker
+                  key={item.email + "" + item.id}
+                  title={"Grocer/Restaurant"}
+                  name={item.username}
+                  position={{ lat: item.latitude, lng: item.longitude }}
+                  onClick={this.onMarkerClick}
+                  id={item.id}
+                  products={item.products}
+                />
+              );
+            })}
 
           <InfoWindow
             marker={this.state.activeMarker}

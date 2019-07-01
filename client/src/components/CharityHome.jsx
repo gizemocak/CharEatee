@@ -6,25 +6,23 @@ import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
-
 export default function CharityHome(props) {
   console.log("props", props);
   const [geoLoc, setGeoLoc] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [searchList, setSearchList] = useState(false);
 
-  const stores = useStoreState(state => state.stores);
+  const filteredStores = useStoreState(state => state.filteredStores);
   const googleMapsAPIKey = useStoreState(state => state.googleMapsAPIKey);
   const fetchStores = useStoreActions(actions => actions.fetchStores);
 
   console.log("her id", props.match.params.id);
 
-  console.log("ppp", stores);
+  console.log("ppp", filteredStores);
   useEffect(() => {
     getGeoLocation();
     fetchStores();
   }, []);
-
 
   const getGeoLocation = () => {
     if (navigator.geolocation) {
@@ -51,9 +49,18 @@ export default function CharityHome(props) {
   return (
     <>
       <NavBar id={props.match.params.id} />
-      
-      {!searchList && googleMapsAPIKey && stores.length > 0 && geoLoc && <MapContainer apiKey={googleMapsAPIKey} geoLocation={geoLoc} pins={stores}/>}
-    
+
+      {!searchList &&
+        googleMapsAPIKey &&
+        filteredStores.length > 0 &&
+        geoLoc && (
+          <MapContainer
+            apiKey={googleMapsAPIKey}
+            geoLocation={geoLoc}
+            pins={filteredStores}
+          />
+        )}
+
       <Form onSubmit={onSubmit}>
         <Form.Group>
           <Form.Control
@@ -69,16 +76,13 @@ export default function CharityHome(props) {
         </Button>
       </Form>
       {searchList &&
-        stores.length > 0 &&
-        stores.map(item => {
+        filteredStores.length > 0 &&
+        filteredStores.map(item => {
           return (
             <>
+              <li>from {item.username}</li>
               <li>
-                from {item.username}
-              </li>
-              <li>
-                from{" "}
-                <Link to="/grocer/profile">{item.username}</Link>
+                from <Link to="/grocer/profile">{item.username}</Link>
               </li>
             </>
           );
