@@ -16,7 +16,7 @@ export default function CharityHome(props) {
   const pins = useStoreState(state => state.pins);
   const fetchPins = useStoreActions(actions => actions.fetchPins);
 
-  console.log("ppp",pins)
+  console.log("ppp", pins)
   useEffect(() => {
     getGeoLocation();
     fetch("/api/getApiKey")
@@ -25,12 +25,12 @@ export default function CharityHome(props) {
       .catch(error => {
         console.log(error);
       });
-      fetchPins()
+    fetchPins()
   }, []);
 
   const getGeoLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
+      navigator.geolocation.getCurrentPosition(function (position) {
         const pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -41,45 +41,46 @@ export default function CharityHome(props) {
   };
 
 
-const onChange = (e) => {
-   console.log(e.target.value)
-   setSearchValue(e.target.value)
-}
+  const onChange = (e) => {
+    console.log(e.target.value)
+    setSearchValue(e.target.value)
+  }
 
-const onSubmit = (e) => {
-e.preventDefault()
-setSearchList(true)
-}
-  
+  const onSubmit = (e) => {
+    e.preventDefault()
+    setSearchList(true)
+    console.log("searchlist",searchList)
+  }
+
 
   return (
     <>
       <NavBar />
-      {!searchList && apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins}/>}
-         <Form onSubmit={onSubmit}>
-      <Form.Group>
-        <Form.Control 
-        type="text"
-        placeholder="search an item" 
-        value={searchValue}
-        onChange={onChange}
-        className="search-button"
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit" className="search-button">
-       Search
+      {!searchList && apiKey && <MapContainer apiKey={apiKey} geoLocation={geoLoc} pins={pins} />}
+      <Form onSubmit={onSubmit}>
+        <Form.Group>
+          <Form.Control
+            type="text"
+            placeholder="search an item"
+            value={searchValue}
+            onChange={onChange}
+            className="search-button"
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" className="search-button">
+          Search
       </Button>
-    </Form>
-    {searchList && pins.length > 0 && 
+      </Form>
+      {searchList && pins.length > 0 &&
         pins.map(item => {
           return (
-          <>
-          <li>{item.name}  from  {item.username}</li>
-          <li>{item.name}  from  <Link to="/grocer/profile">{item.username}</Link></li>
-          </>
+            <>
+
+              <li>{item.name}  from  <Link to={`/profile/${item.id}`}>{item.username}</Link></li>
+            </>
           )
         })
-    }
+      }
     </>
   );
 }

@@ -10,17 +10,20 @@ export default function Profile (props) {
   const [cart, setCart] = useState([])
   const [clicked, updateClickedButton] = useState(false)
 
+
   useEffect(() => {
     fetchUserInfo()
   },[])
 
   const handleAddToCart = (e) => {
   let item = e.target.value
+
   
   console.log('item', item)
   if(!cart.includes(item)){
+    console.log("cart", cart)
     const newCart = [...cart, item]
-    console.log('newcart', newCart)
+    // console.log('newcart', newCart)
     setCart(newCart)
   } else {
     console.log('cart1', cart)
@@ -43,16 +46,20 @@ export default function Profile (props) {
       <>
       <NavBar/>
       <div>cart: {cart.length} </div>
-      <h3> {user.name} donated:</h3>
+      
+
+
       
       <ul>
-      {user.type === "Grocer/Restaurant" && usersInfo && usersInfo.map(item => {
+      {user.type === "Charity" && usersInfo && usersInfo.map(item => {
          if(item.user_id === Number(props.match.params.id))
          {
           return (
           <div>
+      <h3> {item.username} donated:</h3>
+
           <li>{item.name}  {item.quantity} {item.unit} 
-          <Button value={item.id} onClick={handleAddToCart} name="add to cart"></Button></li>
+          <Button value={item.id} onClick={handleAddToCart} name="add to cart" className></Button></li>
           </div>
           )
         }
