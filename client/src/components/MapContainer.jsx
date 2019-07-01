@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { withRouter } from "react-router";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
-import {Link} from 'react-router-dom'
 
 const style = {
   position: "absolute",
@@ -13,25 +12,26 @@ const style = {
 };
 class GoogleMap extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      icon: '',
+      icon: "",
       showingInfoWindow: false,
       activeMarker: null,
       selectedPlace: null,
-    }
+      mapElementFound: null
+    };
   }
-/*   const [icon, setIcon] = useState("");
+  /*   const [icon, setIcon] = useState("");
   const [showingInfoWindow, updateShowingInfoWindow] = useState(false);
   const [activeMarker, setActiveMarker] = useState({});
   const [selectedPlace, updateSelectedPlace] = useState({}); */
   // const [pins, setPins] = useState([]);
 
   changeIconColor = (mapProps, map) => {
-    console.log('ready', mapProps, map)
+    console.log("ready", mapProps, map);
     const { google } = mapProps;
     // setIcon(google.maps.SymbolPath.CIRCLE);
-    this.setState({icon: google.maps.SymbolPath.CIRCLE})
+    this.setState({ icon: google.maps.SymbolPath.CIRCLE });
   };
 
   onMarkerClick = (props, marker, e) => {
@@ -41,9 +41,9 @@ class GoogleMap extends React.Component {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
-      showingInfoWindow:true
-    })
-    console.log(marker)
+      showingInfoWindow: true
+    });
+    console.log(marker);
     //window.location = '/profile/'+ marker.id
   };
 
@@ -53,99 +53,126 @@ class GoogleMap extends React.Component {
       //setActiveMarker(null);
       this.setState({
         activeMarker: null,
-        showingInfoWindow:false
-      })
+        showingInfoWindow: false
+      });
     }
   };
 
   onMapClicked = props => {
     if (this.state.showingInfoWindow) {
-/*       updateShowingInfoWindow(false);
+      /*       updateShowingInfoWindow(false);
       setActiveMarker(null); */
       this.setState({
         activeMarker: null,
-        showingInfoWindow:false
-      })
+        showingInfoWindow: false
+      });
     }
   };
 
-
-
-
   onInfoWindowOpen = (selectedPlace, e) => {
-    console.log(selectedPlace, this.props)
+    console.log(selectedPlace, this.props);
+    console.log("SelectedPlace", selectedPlace);
     const button = (
-    <div>
-      <a onClick={e => {this.props.history.push(`/profile/${selectedPlace.id}`);}}>{selectedPlace.name}</a>
+      <div>
+        <a
+          onClick={e => {
+            this.props.history.push(`/profile/${selectedPlace.id}`);
+          }}
+        >
+          <h6>{selectedPlace.name}</h6>
+        </a>
+        <ul>
+          {selectedPlace.products &&
+            selectedPlace.products.map(item => {
+              return <li>{item.name}</li>;
+            })}
+        </ul>
       </div>
-      );
-    ReactDOM.render(React.Children.only(button), document.getElementById("iwc"));
-  }
+    );
+    ReactDOM.render(
+      React.Children.only(button),
+      document.getElementById("iwc")
+    );
+  };
 
   render() {
-  return (
-    <Map
-      google={this.props.google}
-      zoom={14}
-      initialCenter={this.props.geoLocation}
-      onReady={this.changeIconColor}
-      onClick={this.onMapClicked}
-      style={style}
-    >
-      <Marker
-        name={"Current location"}
-        icon={{
-          path: this.state.icon,
-          strokeColor: "#467DFE",
-          scale: 6.5
-        }}
-        onClick={this.onMarkerClick}
-      />
+    return (
+      <>
+        {/* {!this.state.mapElementFound && <div>Loading Locations...</div>}  */}
+        <Map
+          google={this.props.google}
+          zoom={14}
+          initialCenter={this.props.geoLocation}
+          //onReady={this.changeIconColor}
+          onReady={(mapProps, map) => {
+            /* check if a dom node in the map exists 
+           if it doesn't exist reload the page
+        */
+            /*    setTimeout(() => {
+          const mapElementFound = document.querySelector('.gmnoprint')
+          console.log('mapElementFound',mapElementFound)
+          this.setState({mapElementFound: mapElementFound})
+          if(!mapElementFound) {
+            // window.location.reload()
+          } 
+        }, 3000) */
+            this.setState({ mapElementFound: true });
+            this.changeIconColor(mapProps, map);
+          }}
+          onClick={this.onMapClicked}
+          // style={style}
+          style={{
+            ...{
+              visibility: !this.state.mapElementFound ? "hidden" : "visible"
+            },
+            ...style
+          }}
+        >
+          <Marker
+            name={"Current location"}
+            icon={{
+              path: this.state.icon,
+              strokeColor: "#467DFE",
+              scale: 6.5
+            }}
+            onClick={this.onMarkerClick}
+          />
 
-      <Marker
-        title={"grocery store"}
-        name={"Fresh & Wild Food Market"}
-        position={{ lat: 43.6457, lng: -79.39477 }}
-        onClick={this.onMarkerClick}
-      />
-      <Marker
-        name={"Loblaws"}
-        position={{ lat: 43.64756, lng: -79.40159 }}
-        onClick={this.onMarkerClick}
-      />
+          {this.props.pins.length > 0 &&
+            this.props.pins.map(item => {
+              console.log(item);
+              return (
+                <Marker
+                  key={item.email + "" + item.id}
+                  title={"Grocer/Restaurant"}
+                  name={item.username}
+                  position={{ lat: item.latitude, lng: item.longitude }}
+                  onClick={this.onMarkerClick}
+                  id={item.id}
+                  products={item.products}
+                />
+              );
+            })}
 
-      {this.props.pins.length > 0  && this.props.pins.map(item => {
-        // console.log(item)
-        return (
-              <Marker
-              key={item.email + "" + item.id}
-              title={"Grocer/Restaurant"}
-              name={item.username}
-              position={{ lat: item.latitude, lng: item.longitude }}
-              onClick={this.onMarkerClick}
-              id={item.id}
-            />
-             )
-      })}
-
-      <InfoWindow
-        marker={this.state.activeMarker}
-        visible={this.state.showingInfoWindow}
-        onClose={this.onClose}
-        onOpen={(e) => {
-          this.onInfoWindowOpen(this.state.selectedPlace,e)
-        }}
-      >
-        <div id="iwc" />
-      </InfoWindow>
-    </Map>
-
-  );
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}
+            onClose={this.onClose}
+            onOpen={e => {
+              this.onInfoWindowOpen(this.state.selectedPlace, e);
+            }}
+          >
+            <div id="iwc" />
+          </InfoWindow>
+        </Map>
+      </>
+    );
+  }
 }
-};
 
-export default GoogleApiWrapper(props =>{ 
-  return ({
-  apiKey: props.apiKey,
-  LoadingContainer: () => <div>loading...</div>
-})})(withRouter(GoogleMap));
+export default GoogleApiWrapper(props => {
+  return {
+    apiKey: props.apiKey,
+    LoadingContainer: () => <div>loading...</div>
+  };
+})(withRouter(GoogleMap));
