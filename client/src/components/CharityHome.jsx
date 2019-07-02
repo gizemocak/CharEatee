@@ -91,18 +91,7 @@ export default function CharityHome(props) {
           Search
         </Button>
       </Form>
-      {searchList &&
-        displayedStores.length > 0 &&
-        displayedStores.map(item => {
-          return (
-            <>
-              <li>from {item.username}</li>
-              <li>
-                from <Link to="/grocer/profile">{item.username}</Link>
-              </li>
-            </>
-          );
-        })}
+      
     </>
   );
 }
