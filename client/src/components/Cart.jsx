@@ -23,9 +23,13 @@ export default function Cart(props) {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(cartObj)
-    }).then(res => {
-      console.log("response", res);
-    });
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(body => {
+        console.log(body);
+      });
   };
 
   return (
