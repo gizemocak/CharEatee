@@ -6,15 +6,16 @@ const NodeGeocoder = require('node-geocoder');
 const saltRounds = 10;
 const path = require('path');
 const enforce = require('express-sslify');
-require('dotenv').config()
-var bodyParser = require('body-parser')
-
+const bodyParser = require('body-parser')
 const app = express();
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
 
 require('dotenv').config()
+require('dotenv').config()
+
+
 // Serve the static files from the React app
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -23,7 +24,6 @@ app.use(function (req, res, next) {
 });
 
 app.use(bodyParser.json())
-
 app.use(express.static(path.join(__dirname, 'client/public')));
 app.use(knexLogger(knex));
 app.use(
@@ -40,14 +40,14 @@ var options = {
   apiKey: process.env.GOOGLEMAPS_APIKEY, // for Mapquest, OpenCage, Google Premier
   formatter: null // 'gpx', 'string', ...
 };
-console.log("api", process.env.GOOGLEMAPS_APIKEY)
+// console.log("api", process.env.GOOGLEMAPS_APIKEY)
 var geocoder = NodeGeocoder(options);
 
 // An api endpoint that returns a short list of items
-app.get('/api/getList', (req, res) => {
-  const list = ["item1", "item2", "item3"];
-  res.json(list);
-});
+// app.get('/api/getList', (req, res) => {
+//   const list = ["item1", "item2", "item3"];
+//   res.json(list);
+// });
 
 ///////////GEt google api key////////////
 app.get('/api/getApiKey', (req, res) => {
@@ -168,6 +168,8 @@ app.post("/api/login", (req, res) => {
   })
 });
 
+
+
 //////////// Make a donation////////////////////
 app.post("/api/products", (req, res) => {
   let rows = req.body
@@ -194,6 +196,7 @@ app.get("/api/stores", (req, res) => {
       res.send(users)
     })
 });
+////////////Get /api/v2/stores/////////////////////
 
 app.get("/api/v2/stores", (req, res) => {
   //check if query string exists, search that query in the database and show the ones that have the key
@@ -287,6 +290,13 @@ app.post("/api/order", (req, res) => {
         });
     })
 });
+/////////Logout //////////
+
+app.post("/api/logout", (req, res) => {
+  req.session = null;
+  res.redirect("/api/");
+});
+
 
 
 // Handles any requests that don't match the ones above

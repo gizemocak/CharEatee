@@ -1,18 +1,30 @@
 import React, { Component } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import "../style/NavBar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import { faChessQueen } from "@fortawesome/free-solid-svg-icons";
 
+
+
 export default class NavBar extends Component {
   shouldComponentUpdate() {
     return false;
   }
+
+  handlelogout = () => {
+    fetch("http://localhost:8080/api/logout", {
+      method: "post",
+    }).then(
+      localStorage.clear()
+    );
+  };
+
   render() {
     let user = JSON.parse(localStorage.getItem("user"));
-    console.log("user in navbar", user)
+    // console.log("user in navbar", user)
 
     if (!user) {
       return (
@@ -47,14 +59,16 @@ export default class NavBar extends Component {
           </Link>
 
           <div className="menu">
-            <Link to={"/logout"}>
-              <FontAwesomeIcon
-                icon={faEllipsisH}
-                className="transition-item list-page"
-              />
-            </Link>
+            <div>
+              <a href
+                        type="submit"
+                        action={this.handlelogout()}
+                        >
+                    LOGOUT
+                </a>
+            </div>
           </div>
-        </Navbar>
+        </Navbar >
 
       )
 

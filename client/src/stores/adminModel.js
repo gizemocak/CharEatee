@@ -1,4 +1,5 @@
 import { action, thunk } from "easy-peasy";
+import { stat } from "fs";
 
 const admin = {
   formData: {},
@@ -14,12 +15,9 @@ const admin = {
       body: JSON.stringify(formData)
     })
     //  console.log('formData', formData)
-
     actions.updateFormData(formData);
-
     const jsonResponse = await res.json()
     localStorage.setItem('user', JSON.stringify(jsonResponse))
-
     return jsonResponse;
   }),
   fetchGoogleMapsAPIKey: thunk(async (actions, formData) => {
@@ -35,7 +33,8 @@ const admin = {
   }),
   updateFormData: action((state, formData = {}) => {
     state.formData = formData;
-  })
+  }),
+  
 };
 
 export default admin
