@@ -47,7 +47,6 @@ var geocoder = NodeGeocoder(options);
 app.get('/api/getList', (req, res) => {
   const list = ["item1", "item2", "item3"];
   res.json(list);
-  console.log('Sent list of items');
 });
 
 ///////////GEt google api key////////////
@@ -71,7 +70,7 @@ app.get('/', (req, res) => {
 ////////////REGISTER ROUTES///////////////
 
 app.post("/api/register", (req, res) => {
-  console.log("register reqbody", req.body)
+  // console.log("register reqbody", req.body)
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
@@ -86,7 +85,7 @@ app.post("/api/register", (req, res) => {
     res.status(400).send("Email or password is empty");
   }
   knex.select('*').from('users').where('email', email).first().then((user) => {
-    console.log('regisger user', user)
+    // console.log('regisger user', user)
     if (user && (user.username || user.email)) {
       res.status(403).send('User already exists')
       return false
@@ -114,7 +113,7 @@ app.post("/api/register", (req, res) => {
           longitude: geocoderResponse.length > 0 && geocoderResponse[0].longitude
         }])
         .then((ids) => {
-          console.log("ids", ids)
+          // console.log("ids", ids)
           let user_id = ids[0];
           req.session.user_id = user_id;
           res.json({
@@ -133,12 +132,12 @@ app.post("/api/register", (req, res) => {
 });
 ///////////LOGIN ROUTES///////////////////
 app.post("/api/login", (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   const email = req.body.email;
   const password = req.body.password;
 
   knex.select('*').from('users').where('email', email).first().then((user) => {
-    console.log('userusersueruseruser', user);
+    // console.log('user', user);
 
     if (user && bcrypt.compareSync(password, user.password)) {
 
@@ -161,11 +160,11 @@ app.post("/api/login", (req, res) => {
 //////////// Make a donation////////////////////
 app.post("/api/products", (req, res) => {
   let rows = req.body
-  console.log('rowwwwwwwwwwwwwwwwww', rows)
+  // console.log('row', rows)
   let chunkSize = 1000;
   knex.batchInsert('products', rows, chunkSize)
     .then(product => {
-      console.log('product', product)
+      // console.log('product', product)
       res.status(200.).send('OK')
     })
 });
@@ -174,7 +173,7 @@ app.post("/api/products", (req, res) => {
 /////////Get stores//////////
 app.get("/api/stores", (req, res) => {
   //check if query string exists, search that query in the database and show the ones that have the key
-  console.log('req', req.cookies)
+  // console.log('req', req.cookies)
   knex.select("*")
     .from("users")
     .join("products", {
@@ -188,7 +187,7 @@ app.get("/api/stores", (req, res) => {
 
 app.get("/api/v2/stores", (req, res) => {
   //check if query string exists, search that query in the database and show the ones that have the key
-  console.log('req', req.cookies)
+  // console.log('req', req.cookies)
   /*   knex.select("*")
       .from("users")
       .then(users => {
@@ -219,7 +218,7 @@ app.get("/api/products", (req, res) => {
       .from("products")
       .where("name", "like", `%${search}%`)
       .then(products => {
-        console.log("searched products", products)
+        // console.log("searched products", products)
         res.json(products);
       });
   } else {
@@ -227,7 +226,7 @@ app.get("/api/products", (req, res) => {
       .select("*")
       .from("products")
       .then(products => {
-        console.log("products", products);
+        // console.log("products", products);
         res.json(products);
       });
   }
@@ -264,18 +263,20 @@ app.post("/api/order", (req, res) => {
     .returning('id')
     .then(ids => {
       console.log('id', ids)
-      products.map(product => {
-        knex('line_items').insert({
-            order_id: ids[0],
-            product_id: product.id,
-          }).then(line_items => {
-            console.log('order', line_items)
-            res.status(200).send(ok)
-          })
-          .catch(error => {
-            res.status(400).send(error);
-          });
+      const productsToInsert = products.map(product => {
+        return {
+          order_id: ids[0],
+          product_id: product.id,
+        }
       })
+
+      knex('line_items').insert(productsToInsert).returning("*").then(line_items => {
+          console.log('order', line_items)
+          res.status(200).send(line_items)
+        })
+        .catch(error => {
+          res.status(400).send(error);
+        });
     })
 });
 
