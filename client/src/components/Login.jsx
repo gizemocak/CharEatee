@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import NavBar from './NavBar';
 import { useStoreActions, useStoreState } from "easy-peasy";
 import "../style/Login.scss";
+import { Link } from "react-router-dom";
 
 import styled, { keyframes } from "styled-components";
 import {rotateInUpLeft} from 'react-animations';
@@ -60,6 +61,7 @@ export default function Login (props) {
       <NavBar/>
       <RotateInUpLeftYDiv>
       <h1>Login</h1>
+      <p>Click <Link to={"/signup"}>HERE</Link> if you are not a member yet</p>
       <Form onSubmit={formSubmit}>
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>

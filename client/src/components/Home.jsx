@@ -7,6 +7,8 @@ import posed from "react-pose";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowCircleDown } from "@fortawesome/free-solid-svg-icons";
+
 
 import styled, { keyframes } from "styled-components";
 import { flipInX } from "react-animations";
@@ -94,6 +96,10 @@ export default class Home extends Component {
               <FontAwesomeIcon icon={faArrowCircleUp} />
             </span>
             <p>Play Around with Me</p>
+            <span>
+              <FontAwesomeIcon icon={faArrowCircleDown} />
+            </span>
+            <p><Link to={"/login"}>Sign In</Link> | <Link to={"/signup"}>Sign Up</Link></p>
           </div>
 
           <footer>

@@ -4,6 +4,7 @@
 @import url('https://fonts.googleapis.com/css?family=Arizonia&display=swap');
 
 .nav {
+    color: #727275;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -14,12 +15,12 @@
     .logo {
         font-family: 'Arizonia', cursive;
         font-size: 1.8rem;
-        color: black !important;
+        color: #727275;;
     }
     a:hover {
         text-decoration: none !important;   
     }
     a {
-        color: black !important;
+        color: #727275;
     }
 }
