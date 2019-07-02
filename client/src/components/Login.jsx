@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 import styled, { keyframes } from "styled-components";
 import { rotateInUpLeft } from "react-animations";
+
 const RotateInUpLeftAnimation = keyframes`${rotateInUpLeft}`;
 const RotateInUpLeftYDiv = styled.div`
   animation: 2s ${RotateInUpLeftAnimation};
@@ -43,7 +44,7 @@ export default function Login(props) {
     updateFormData(newFormData);
   };
 
-  console.log(isLoggedIn);
+  // console.log(isLoggedIn);
   /*  if(isLoggedIn.type){
     let userType = (JSON.parse(localStorage.getItem('user'))).type
     if(userType === 'Grocer/Restaurant'){
@@ -57,41 +58,40 @@ export default function Login(props) {
     <div className="loginBox">
       <NavBar />
       <RotateInUpLeftYDiv>
-
-      <h1>Login</h1>
-      <p>Click <Link to={"/signup"}>HERE</Link> if you are not a member yet</p>
-      <Form onSubmit={formSubmit}>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control 
-        type="email"
-        placeholder="Enter email" 
-        value={formData.email}
-        onChange={e => {
-          handleChange(e, 'email')
-        }}
-        />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
+        <h1>Login</h1>
+        <p>Click <Link to={"/signup"}>HERE</Link> if you are not a member yet</p>
+        <Form onSubmit={formSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              value={formData.email}
+              onChange={e => {
+                handleChange(e, 'email')
+              }}
+            />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
         </Form.Text>
-      </Form.Group>
-    
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control 
-        type="password" 
-        placeholder="Password" 
-        value={formData.password}
-        onChange={e => {
-          handleChange(e, 'password')
-        }}
-        />
-      </Form.Group>
-      
-      <Button variant="secondary" type="submit" >
-        Submit
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={e => {
+                handleChange(e, 'password')
+              }}
+            />
+          </Form.Group>
+
+          <Button variant="secondary" type="submit" >
+            Submit
       </Button>
-    </Form>
+        </Form>
 
         <footer className="footLg">
           <span>Incredible donation, incredible you.</span>

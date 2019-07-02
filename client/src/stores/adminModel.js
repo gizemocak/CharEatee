@@ -7,13 +7,13 @@ const admin = {
   fetchFormData: thunk(async (actions, payload) => {
     const formData = payload.formData;
     const endpoint = payload.endpoint;
-    console.log('endpoint', endpoint);
+    // console.log('endpoint', endpoint);
     const res = await fetch(`http://localhost:8080/api/${endpoint}`, {
       method: 'post',
-      headers: {'Content-Type':'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
-     })
-     console.log('formData', formData)
+    })
+    //  console.log('formData', formData)
 
     actions.updateFormData(formData);
 

@@ -49,7 +49,7 @@ export default function CharityHome(props) {
     } else {
       let newDisplayedStores = filteredStores.filter(store =>
         store.products.find(
-          product => product.name === e.target.value.toLowerCase()
+          product => product.name.toLowerCase() === e.target.value.toLowerCase()
         )
       );
       setDisplayedStores(newDisplayedStores);

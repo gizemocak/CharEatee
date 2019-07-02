@@ -2,50 +2,63 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
 import "../style/SignupForm.scss";
-
 import styled, { keyframes } from "styled-components";
-import {rotateInUpRight} from 'react-animations';
+import { rotateInUpRight } from 'react-animations';
+
 const RotateInUpRightAnimation = keyframes`${rotateInUpRight}`;
 const RotateInUpRightYDiv = styled.div`
   animation: 2s ${RotateInUpRightAnimation};
 `;
 
 export default function SignUpForm(props) {
-  const [formData, updateFormData] = useState({
-    type: "",
-    username: "",
-    address: "",
-    email: "",
-    city: "",
-    province: "",
-    postalcode: "",
-    password: ""
-  });
+  const formData = useStoreState(state => state.formData);
+  const fetchFormData = useStoreActions(actions => actions.fetchFormData);
+  const updateFormData = useStoreActions(actions => actions.updateFormData);
 
+  const [registered, setRegistered] = useState({});
+  // const [formData, updateFormData] = useState({
+  //   type: "",
+  //   username: "",
+  //   address: "",
+  //   email: "",
+  //   city: "",
+  //   province: "",
+  //   postalcode: "",
+  //   password: ""
+  // });
   const formSubmit = e => {
     e.preventDefault();
-    handleLogin();
+    handleRegister();
   };
 
-  const handleLogin = () => {
-    console.log("form data", formData);
-    fetch("http://localhost:8080/api/register", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    }).then(res => {
-      console.log("response", res);
+  const handleRegister = () => {
+    fetchFormData({ formData, endpoint: 'register' }).then(res => {
+      setRegistered(res);
+      console.log("res", res);
       if (res.type === "Grocer/Restaurant") {
         props.history.push(`/grocery/home/${res.user_id}`);
       } else {
         props.history.push(`/charity/home/${res.user_id}`);
       }
-
-
     });
+
+    // console.log("form data", formData);
+    // fetch("http://localhost:8080/api/register", {
+    //   method: "post",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(formData)
+    // }).then(res => {
+    //   console.log("response", res);
+    //   if (res.type === "Grocer/Restaurant") {
+    //     props.history.push(`/grocery/home/${res.user_id}`);
+    //   } else {
+    //     props.history.push(`/charity/home/${res.user_id}`);
+    //   }
+    // });
   };
 
   const handleChange = (e, propertyName) => {
@@ -54,137 +67,137 @@ export default function SignUpForm(props) {
     updateFormData(newFormData);
   };
 
-    return (
-      <div className="signupBox">
-      <NavBar/>
+  return (
+    <div className="signupBox">
+      <NavBar />
       <RotateInUpRightYDiv>
-      <h1>Register your account</h1>
-      <Form onSubmit={formSubmit}>
-        <Form.Group controlId="exampleForm.ControlSelect1">
-          <Form.Control
-            as="select"
-            value={formData.type}
-            onChange={e => {
-              handleChange(e, "type");
-            }}
-          >
-            <option>What type of user are you?</option>
-            <option>Grocer/Restaurant</option>
-            <option>Charity</option>
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Control
-          type="text"
-          placeholder="Your Business Name"
-          value={formData.username}
-          onChange={e => {
-            handleChange(e, "username");
-          }}
-        />
-
-        <br />
-
-        <Form.Group controlId="formGridAddress1">
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            value={formData.address}
-            onChange={e => {
-              handleChange(e, "address");
-            }}
-            placeholder="Ex: 1234 Main St"
-          />
-        </Form.Group>
-
-        <Form.Row>
-          <Form.Group as={Col} controlId="formGridCity">
-            <Form.Label>City</Form.Label>
-            <Form.Control
-              value={formData.city}
-              onChange={e => {
-                handleChange(e, "city");
-              }}
-              placeholder="Toronto"
-            />
-          </Form.Group>
-
-          <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>Province</Form.Label>
+        <h1>Register your account</h1>
+        <Form onSubmit={formSubmit}>
+          <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Control
               as="select"
-              value={formData.province}
+              value={formData.type}
               onChange={e => {
-                handleChange(e, "province");
+                handleChange(e, "type");
               }}
             >
-              <option>Choose...</option>
-              <option>Alberta</option>
-              <option>British Columbia</option>
-              <option>Manitoba</option>
-              <option>Newfoundland and Labrador</option>
-              <option>New Brunswick</option>
-              <option>Nova Scotia</option>
-              <option>Ontario</option>
-              <option>Prince Edward Island</option>
-              <option>Quebec</option>
-              <option>Saskatchewan</option>
+              <option>What type of user are you?</option>
+              <option>Grocer/Restaurant</option>
+              <option>Charity</option>
             </Form.Control>
           </Form.Group>
 
-          <Form.Group as={Col} controlId="formGridZip">
-            <Form.Label>Postal Code</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Your Business Name"
+            value={formData.username}
+            onChange={e => {
+              handleChange(e, "username");
+            }}
+          />
+
+          <br />
+
+          <Form.Group controlId="formGridAddress1">
+            <Form.Label>Address</Form.Label>
             <Form.Control
-              value={formData.postalcode}
+              value={formData.address}
               onChange={e => {
-                handleChange(e, "postalcode");
+                handleChange(e, "address");
               }}
-              placeholder="A1A B1B"
+              placeholder="Ex: 1234 Main St"
             />
           </Form.Group>
-        </Form.Row>
 
-        <br />
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridCity">
+              <Form.Label>City</Form.Label>
+              <Form.Control
+                value={formData.city}
+                onChange={e => {
+                  handleChange(e, "city");
+                }}
+                placeholder="Toronto"
+              />
+            </Form.Group>
 
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            value={formData.email}
-            onChange={e => {
-              handleChange(e, "email");
-            }}
-            placeholder="Enter email"
-          />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
+            <Form.Group as={Col} controlId="formGridState">
+              <Form.Label>Province</Form.Label>
+              <Form.Control
+                as="select"
+                value={formData.province}
+                onChange={e => {
+                  handleChange(e, "province");
+                }}
+              >
+                <option>Choose...</option>
+                <option>Alberta</option>
+                <option>British Columbia</option>
+                <option>Manitoba</option>
+                <option>Newfoundland and Labrador</option>
+                <option>New Brunswick</option>
+                <option>Nova Scotia</option>
+                <option>Ontario</option>
+                <option>Prince Edward Island</option>
+                <option>Quebec</option>
+                <option>Saskatchewan</option>
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridZip">
+              <Form.Label>Postal Code</Form.Label>
+              <Form.Control
+                value={formData.postalcode}
+                onChange={e => {
+                  handleChange(e, "postalcode");
+                }}
+                placeholder="A1A B1B"
+              />
+            </Form.Group>
+          </Form.Row>
+
+          <br />
+
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              value={formData.email}
+              onChange={e => {
+                handleChange(e, "email");
+              }}
+              placeholder="Enter email"
+            />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
           </Form.Text>
-        </Form.Group>
+          </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={formData.password}
-            onChange={e => {
-              handleChange(e, "password");
-            }}
-            placeholder="Password"
-          />
-        </Form.Group>
-      
-      <Button variant="info" type="submit">
-        Submit
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              value={formData.password}
+              onChange={e => {
+                handleChange(e, "password");
+              }}
+              placeholder="Password"
+            />
+          </Form.Group>
+
+          <Button variant="info" type="submit">
+            Submit
       </Button>
-    </Form>
-    <br/>
-    Already had an account? 
-    <br/>
-    <Link to={"/login"}>Sign In</Link>
+        </Form>
+        <br />
+        Already had an account?
+    <br />
+        <Link to={"/login"}>Sign In</Link>
 
-    <footer className="footRg">
-        <span>Opening minds, changing lives.</span>
-      </footer>
-     </RotateInUpRightYDiv>
+        <footer className="footRg">
+          <span>Opening minds, changing lives.</span>
+        </footer>
+      </RotateInUpRightYDiv>
     </div>
-    );
+  );
 }

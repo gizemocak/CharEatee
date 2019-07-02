@@ -73,7 +73,6 @@ app.post("/api/register", (req, res) => {
   // console.log("register reqbody", req.body)
 
   const {
-
     username,
     email,
     password,
@@ -83,7 +82,6 @@ app.post("/api/register", (req, res) => {
     postalcode,
     type
   } = req.body
- 
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
 
   if (email.length === 0 || password.length === 0) {
@@ -118,12 +116,17 @@ app.post("/api/register", (req, res) => {
           longitude: geocoderResponse.length > 0 && geocoderResponse[0].longitude
         }])
         .then((ids) => {
-          console.log("ids", ids)
-          console.log("type", type)
+          // console.log("ids", ids)
+          // console.log("type", type)
           let user_id = ids[0];
           req.session.user_id = user_id;
-          res.json({ 
-            redirect: type === 'Charity' ? `/charity/home/${user_id}` : `/profile/${user_id}` 
+          res.send({
+            name: username,
+            email: email,
+            address: address,
+            user_id: user_id,
+            type: type,
+
           })
           // res.json({
           //   userId: user_id,
@@ -135,16 +138,6 @@ app.post("/api/register", (req, res) => {
           //   province: province,
           //   postalcode: postalcode,
           // })
-          // if(type === "Charity") {
-          //   console.log("type", type)
-          //   console.log('user_id', user_id)
-          //   res.redirect(`/charity/home/${user_id}`)
-          // } else (type === "Grocer/Restaurant"){
-          //   console.log("type", type)
-          //   console.log('user_id', user_id)
-          //   res.redirect(`/profile/${user_id}`)
-
-          // }
         })
 
     });
@@ -173,7 +166,6 @@ app.post("/api/login", (req, res) => {
       res.sendStatus(401)
     }
   })
-
 });
 
 //////////// Make a donation////////////////////
@@ -187,7 +179,6 @@ app.post("/api/products", (req, res) => {
       res.status(200.).send('OK')
     })
 });
-
 
 /////////Get stores//////////
 app.get("/api/stores", (req, res) => {
@@ -210,7 +201,6 @@ app.get("/api/v2/stores", (req, res) => {
   /*   knex.select("*")
       .from("users")
       .then(users => {
-
         const storesWithProducts = users.map(user => {
           knex.select("*")
           .from("users")
@@ -265,7 +255,7 @@ app.get("/api/orders", (req, res) => {
 
 ////////////place order/////////////////////
 app.post("/api/order", (req, res) => {
-  console.log("api order", req.body)
+  // console.log("api order", req.body)
   const {
     charityId,
     products,
