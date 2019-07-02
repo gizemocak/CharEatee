@@ -14,6 +14,7 @@ import adminModel from "./stores/adminModel"
 import Cart from "./components/Cart"
 import cartModel from "./stores/cartModel"
 import HomeSub from "./components/HomeSub"
+import NavBar from './components/NavBar';
 
 const store = createStore({
   ...usersProductsModel,
@@ -40,6 +41,7 @@ function App() {
           <Route path='/profile/:id' component={Profile}/>
           <Route path='/cart' component={Cart}/>
           <Route path='/account' component={HomeSub}/>
+
         </Switch>
       </div>
       </StoreProvider>

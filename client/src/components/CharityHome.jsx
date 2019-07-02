@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import MapContainer from "./MapContainer";
 import NavBar from "./NavBar";
+
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
@@ -64,6 +65,7 @@ export default function CharityHome(props) {
   return (
     <>
       <NavBar id={props.match.params.id} />
+      <logoutfooter id={props.match.params.id} />
 
       {googleMapsAPIKey && filteredStores.length > 0 && geoLoc && (
         <MapContainer

@@ -14,12 +14,10 @@ export default class NavBar extends Component {
     return false;
   }
 
-  handlelogout = () => {
-    fetch("http://localhost:8080/api/logout", {
-      method: "post",
-    }).then(
+  handlelogout = (props) => {
+    console.log("props", props)
       localStorage.clear()
-    );
+      props.history.push("/")
   };
 
   render() {
@@ -59,14 +57,11 @@ export default class NavBar extends Component {
           </Link>
 
           <div className="menu">
-            <div>
-              <a href
-                        type="submit"
-                        action={this.handlelogout()}
-                        >
-                    LOGOUT
-                </a>
-            </div>
+            <button type="submit" onClick={
+              this.handlelogout
+            }>
+              LOGOUT
+            </button>
           </div>
         </Navbar >
 

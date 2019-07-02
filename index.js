@@ -292,7 +292,7 @@ app.post("/api/order", (req, res) => {
 });
 /////////Logout //////////
 
-app.post("/api/logout", (req, res) => {
+app.get("/api/logout", (req, res) => {
   req.session = null;
   res.redirect("/api/");
 });
