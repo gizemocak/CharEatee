@@ -34,7 +34,7 @@ export default function GroceryHome(props) {
     unit: "lbs",
     expiry_date: "",
     imgurl: "",
-    // user_id: JSON.parse(localStorage.getItem('user')).user_id
+    user_id: JSON.parse(localStorage.getItem('user')).user_id
   });
  
   
@@ -102,7 +102,7 @@ export default function GroceryHome(props) {
       unit: "lbs",
       expiry_date: "",
       imgurl: "",
-      // user_id: JSON.parse(localStorage.getItem('user')).user_id
+      user_id: JSON.parse(localStorage.getItem('user')).user_id
     })
   };
 
