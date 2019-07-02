@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
-import { useStoreState, useStoreActions } from "easy-peasy";
+import { useStoreState, useStoreActions, StoreProvider } from "easy-peasy";
 import Button from "react-bootstrap/Button";
-import Cart from "../components/Cart.jsx";
 import { Link } from "react-router-dom";
 import "../style/Profile.scss";
 import Card from 'react-bootstrap/Card';
@@ -35,11 +34,10 @@ const Hover = posed.div({
 
 export default function Profile(props) {
   console.log("props", props);
-  const usersInfo = useStoreState(state => state.pins);
+  const stores = useStoreState(state => state.stores);
   const [username, setUserName] = useState("");
-  const fetchUserInfo = useStoreActions(actions => actions.fetchPins);
+  const fetchStores = useStoreActions(actions => actions.fetchStores);
 
-  // const [cart, setCart] = useState([])
   const cart = useStoreState(state => state.cart);
   const addToCart = useStoreActions(action => action.addToCart);
   const removeFromCart = useStoreActions(action => action.removeFromCart);
@@ -48,7 +46,7 @@ export default function Profile(props) {
 
   console.log(cart);
   useEffect(() => {
-    fetchUserInfo();
+    fetchStores();
   }, []);
 
   const handleAddToCart = item => {
@@ -72,6 +70,12 @@ export default function Profile(props) {
   };
 
   let user = JSON.parse(localStorage.getItem("user"));
+
+  let filteredStore = stores.find(store => {
+    return store.id === Number(props.match.params.id);
+  });
+  console.log("filtered", filteredStore);
+
   return (
     <div className="showItems">
       <NavBar />
@@ -87,13 +91,10 @@ export default function Profile(props) {
       </div>}
 
       <ul>
-        {user.type === "Charity" && usersInfo && (
+        {user.type === "Charity" && stores && (
           <div>
-            {usersInfo.map(item => {
-              if (item.user_id === Number(props.match.params.id)) {
-                if (username !== item.username) {
-                  setUserName(item.username);
-                }
+            {filteredStore.products &&
+              filteredStore.products.map(item => {
                 return (
                   <div>
                     <li>
@@ -107,8 +108,7 @@ export default function Profile(props) {
                     </li>
                   </div>
                 );
-              }
-            })}
+              })}
             {cart.length > 0 && (
               <Button
                 onClick={() => {
@@ -122,8 +122,8 @@ export default function Profile(props) {
         )}
 
         {user.type === "Grocer/Restaurant" &&
-          usersInfo &&
-          usersInfo.map(item => {
+          stores &&
+          stores.map(item => {
             if (item.user_id === Number(props.match.params.id)) {
               if (username !== item.username) {
                 setUserName(item.username);
