@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import NavBar from "./NavBar";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import "../style/Login.scss";
+import { Link } from "react-router-dom";
 
 import styled, { keyframes } from "styled-components";
 import { rotateInUpLeft } from "react-animations";
@@ -56,39 +57,41 @@ export default function Login(props) {
     <div className="loginBox">
       <NavBar />
       <RotateInUpLeftYDiv>
-        <h1>Login</h1>
-        <Form onSubmit={formSubmit}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={e => {
-                handleChange(e, "email");
-              }}
-            />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={e => {
-                handleChange(e, "password");
-              }}
-            />
-          </Form.Group>
-
-          <Button variant="secondary" type="submit">
-            Submit
-          </Button>
-        </Form>
+      <h1>Login</h1>
+      <p>Click <Link to={"/signup"}>HERE</Link> if you are not a member yet</p>
+      <Form onSubmit={formSubmit}>
+      <Form.Group controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control 
+        type="email"
+        placeholder="Enter email" 
+        value={formData.email}
+        onChange={e => {
+          handleChange(e, 'email')
+        }}
+        />
+        <Form.Text className="text-muted">
+          We'll never share your email with anyone else.
+        </Form.Text>
+      </Form.Group>
+    
+      <Form.Group controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control 
+        type="password" 
+        placeholder="Password" 
+        value={formData.password}
+        onChange={e => {
+          handleChange(e, 'password')
+        }}
+        />
+      </Form.Group>
+      
+      <Button variant="secondary" type="submit" >
+        Submit
+      </Button>
+    </Form>
 
         <footer className="footLg">
           <span>Incredible donation, incredible you.</span>

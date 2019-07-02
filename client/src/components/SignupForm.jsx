@@ -170,7 +170,9 @@ export default function SignUpForm() {
       </Button>
     </Form>
     <br/>
-    <Link to={"/login"}>Already had an account? Sign In</Link>
+    Already had an account? 
+    <br/>
+    <Link to={"/login"}>Sign In</Link>
 
     <footer className="footRg">
         <span>Opening minds, changing lives.</span>

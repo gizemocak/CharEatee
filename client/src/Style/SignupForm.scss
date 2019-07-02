@@ -8,6 +8,7 @@
   }
 
   .signupBox {
+    color: #727275;
     @extend %flex;
     margin: 6rem 2rem;
     font-family: 'K2D', sans-serif;
@@ -22,6 +23,11 @@
     }
     .footRg {
         margin-top: 5rem;
+    }
+
+    a {
+        color: #727275;
+        text-decoration: underline;
     }
   }
   
