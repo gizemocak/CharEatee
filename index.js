@@ -250,19 +250,29 @@ app.get("/api/orders", (req, res) => {
 app.post("/api/order", (req, res) => {
   console.log("api order", req.body)
   const {
-    quantity,
-    unit
+    charityId,
+    products,
+    grocerId,
   } = req.body
-  if (req.session.user_id) {
-    knex('orders').insert({
-      quantity: quantity,
-      unit: unit,
-      user_id: req.session.user_id
-    }).then(order => {
-      // console.log('order', order)
-      res.status(200).send("Ok")
-    })
-  }
+
+  knex('orders').insert({
+    user_id: grocerId,
+    charity_id: charityId,
+    status: 'complete'
+  }).then(order => {
+    console.log('order', order)
+    res.status(200).send(order)
+  })
+
+  // products.map(product => {
+  //   knex('line_items').insert({
+  //     order_id: order.id,
+  //     product_id: product.id,
+  //   }).then(order => {
+  //     console.log('order', order)
+  //     res.status(200).send(order)
+  //   })
+  // })
 });
 
 

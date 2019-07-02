@@ -16,6 +16,7 @@ export default function Cart(props) {
   const placeOrder = () => {
     let cartObj = {
       charityId: JSON.parse(localStorage.getItem("user")).user_id,
+      grocerId: cart[0].userId,
       products: cart
     };
     fetch("http://localhost:8080/api/order", {
