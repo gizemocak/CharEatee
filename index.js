@@ -24,7 +24,7 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json())
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/public')));
 app.use(knexLogger(knex));
 app.use(
   cookieSession({
@@ -71,15 +71,18 @@ app.get('/', (req, res) => {
 
 app.post("/api/register", (req, res) => {
   // console.log("register reqbody", req.body)
-  const username = req.body.username;
-  const email = req.body.email;
-  const password = req.body.password;
-  const address = req.body.address;
-  const city = req.body.city;
-  const province = req.body.province;
-  const postalcode = req.body.postalcode;
+
+  const {
+    username,
+    email,
+    password,
+    address,
+    city,
+    province,
+    postalcode,
+    type
+  } = req.body
   const hashedPassword = bcrypt.hashSync(password, saltRounds);
-  const type = req.body.type;
 
   if (email.length === 0 || password.length === 0) {
     res.status(400).send("Email or password is empty");
@@ -114,27 +117,36 @@ app.post("/api/register", (req, res) => {
         }])
         .then((ids) => {
           // console.log("ids", ids)
+          // console.log("type", type)
           let user_id = ids[0];
           req.session.user_id = user_id;
-          res.json({
-            userId: user_id,
-            type: type,
-            username: username,
+          res.send({
+            name: username,
             email: email,
             address: address,
-            city: city,
-            province: province,
-            postalcode: postalcode,
+            user_id: user_id,
+            type: type,
+
           })
+          // res.json({
+          //   userId: user_id,
+          //   type: type,
+          //   username: username,
+          //   email: email,
+          //   address: address,
+          //   city: city,
+          //   province: province,
+          //   postalcode: postalcode,
+          // })
         })
+
     });
   })
 });
 ///////////LOGIN ROUTES///////////////////
 app.post("/api/login", (req, res) => {
-  // console.log(req.body)
-  const email = req.body.email;
-  const password = req.body.password;
+
+  const { email, password } = req.body
 
   knex.select('*').from('users').where('email', email).first().then((user) => {
     // console.log('user', user);
@@ -154,7 +166,6 @@ app.post("/api/login", (req, res) => {
       res.sendStatus(401)
     }
   })
-
 });
 
 //////////// Make a donation////////////////////
@@ -168,7 +179,6 @@ app.post("/api/products", (req, res) => {
       res.status(200.).send('OK')
     })
 });
-
 
 /////////Get stores//////////
 app.get("/api/stores", (req, res) => {
@@ -191,7 +201,6 @@ app.get("/api/v2/stores", (req, res) => {
   /*   knex.select("*")
       .from("users")
       .then(users => {
-
         const storesWithProducts = users.map(user => {
           knex.select("*")
           .from("users")
@@ -209,9 +218,8 @@ app.get("/api/v2/stores", (req, res) => {
 ////////////Get A Donation/////////////////////
 app.get("/api/products", (req, res) => {
   //check if query string exists, search that query in the database and show the ones that have the key
-  const {
-    search
-  } = req.query;
+  const { search } = req.query;
+
   if (search) {
     knex
       .select("*")
@@ -247,7 +255,7 @@ app.get("/api/orders", (req, res) => {
 
 ////////////place order/////////////////////
 app.post("/api/order", (req, res) => {
-  console.log("api order", req.body)
+  // console.log("api order", req.body)
   const {
     charityId,
     products,
@@ -271,9 +279,9 @@ app.post("/api/order", (req, res) => {
       })
 
       knex('line_items').insert(productsToInsert).returning("*").then(line_items => {
-          console.log('order', line_items)
-          res.status(200).send(line_items)
-        })
+        console.log('order', line_items)
+        res.status(200).send(line_items)
+      })
         .catch(error => {
           res.status(400).send(error);
         });
@@ -283,10 +291,12 @@ app.post("/api/order", (req, res) => {
 
 // Handles any requests that don't match the ones above
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  res.sendFile(path.join(__dirname + '/client/public/index.html'));
 });
 
 const port = process.env.PORT || 8080;
 app.listen(port);
 
 console.log('App is listening on port ' + port);
+
+
