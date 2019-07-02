@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=K2D:500&display=swap');
+
+%flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.groHome {
+    font-family: 'K2D', sans-serif;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    @extend %flex;
+
+
+    .doTitle {
+        display: flex;
+        font-size: 20px;
+        justify-content: space-between;
+
+        a {
+            color: gray;
+        }
+        a:hover {
+            color: black;
+            text-decoration: none;
+        }
+    }
+    .yourTitle {
+        font-size: 20px;
+        color: palevioletred;
+    }
+    .tableEntry {
+        margin-top: 1rem;
+        max-width: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .finalDon {
+        width: 100%;
+    }
+}

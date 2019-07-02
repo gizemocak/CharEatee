@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { NONAME } from "dns";
 import uuid from "uuid";
-import { storage } from "../firebase";
+
+import {storage} from '../firebase';
+import "../style/DonationForm.scss";
 
 export default class DonationForm extends Component {
   state = {
@@ -143,31 +145,15 @@ export default class DonationForm extends Component {
               type="file"
               id="file"
               onChange={this.fileSelectHandler}
-              ref={fileInput => (this.fileInput = fileInput)}
-              multiple
-            />
-            <Button
-              style={{ backgroundColor: "#F8F9FA", border: "none" }}
-              onClick={() => this.fileInput.click()}
-            >
-              <img src="/images/camera.png" width="50" height="50" />
-            </Button>
-            <Button type="button" onClick={this.fileUploadHandler}>
-              Upload image
-            </Button>
-          </div>
-          <div style={{ float: "right" }}>
-            <Button
-              variant="success"
-              type="submit"
-              className="donate-button"
-              onClick={() => {
-                this.fileUploadHandler();
-                this.clearImage();
-              }}
-            >
-              <strong>+</strong>
-            </Button>
+
+              ref={fileInput => this.fileInput = fileInput}
+              multiple/>
+             <Button className="camera" style={{backgroundColor: 'white', border: 'none'}} onClick={() => this.fileInput.click()}>
+               <img src="/images/camera.png" width="50" height="50" />
+              </Button>
+            <Button variant="warning" type="submit" className="donate-button" onClick={() => {this.fileUploadHandler(); this.clearImage()}}>
+              Add to Basket
+          </Button>
           </div>
         </Form>
         <div className="imgPreview">{$imagePreview}</div>

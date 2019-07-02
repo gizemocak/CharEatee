@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import "../style/UpdateDonationForm.scss"
 
 export default class UpdateDonationForm extends Component {
   render() {
@@ -36,7 +37,7 @@ export default class UpdateDonationForm extends Component {
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Date</Form.Label>
+          <Form.Label>Expiry Date</Form.Label>
           <Form.Control
               type="date"
               placeholder="Date"

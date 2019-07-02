@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=K2D:500&display=swap');
+%flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.previewText {
+    margin-bottom: 2rem;
+}
+
+.donation-form {
+    font-family: 'K2D', sans-serif;
+    margin: 1rem 1rem;
+    @extend %flex;
+
+    .imgPreview {
+        margin: 1.5rem 1rem;
+    }
+
+    .imageUpload {
+        .donate-button {
+            font-size: 15px;
+            float: right;
+            margin-top: 1rem;
+        }
+    }
+}
