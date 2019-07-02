@@ -13,7 +13,7 @@ const RotateInUpRightYDiv = styled.div`
   animation: 2s ${RotateInUpRightAnimation};
 `;
 
-export default function SignUpForm() {
+export default function SignUpForm(props) {
   const [formData, updateFormData] = useState({
     type: "",
     username: "",
@@ -38,6 +38,13 @@ export default function SignUpForm() {
       body: JSON.stringify(formData)
     }).then(res => {
       console.log("response", res);
+      if (res.type === "Grocer/Restaurant") {
+        props.history.push(`/grocery/home/${res.user_id}`);
+      } else {
+        props.history.push(`/charity/home/${res.user_id}`);
+      }
+
+
     });
   };
 

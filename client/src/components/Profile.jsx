@@ -43,6 +43,8 @@ export default function Profile(props) {
   const removeFromCart = useStoreActions(action => action.removeFromCart);
 
   const [clicked, updateClickedButton] = useState(false);
+  // const usersInfo = useStoreState(state => state.pins);
+
 
   console.log(cart);
   useEffect(() => {
@@ -83,7 +85,7 @@ export default function Profile(props) {
       {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
 
       <h3> Welcome back, {username && username}</h3>
-      {user.type === "Grocer/Restaurant" && usersInfo &&
+      {user.type === "Grocer/Restaurant" && stores &&
       <div className="greeting">
         <p>We really appreciate your kindness!</p>
         <p>Click <Link to={`/grocery/home/${JSON.parse(localStorage.getItem('user')).user_id}`}>HERE</Link> if you want to make more donations</p>
