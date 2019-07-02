@@ -15,6 +15,7 @@ export default function CharityHome(props) {
   const filteredStores = useStoreState(state => state.filteredStores);
   const googleMapsAPIKey = useStoreState(state => state.googleMapsAPIKey);
   const fetchStores = useStoreActions(actions => actions.fetchStores);
+  const [displayedStores, setDisplayedStores] = useState([]);
 
   console.log("her id", props.match.params.id);
 
@@ -23,6 +24,10 @@ export default function CharityHome(props) {
     getGeoLocation();
     fetchStores();
   }, []);
+
+  useEffect(() => {
+    setDisplayedStores(filteredStores);
+  }, [filteredStores]);
 
   const getGeoLocation = () => {
     if (navigator.geolocation) {
@@ -37,8 +42,22 @@ export default function CharityHome(props) {
   };
 
   const onChange = e => {
-    console.log(e.target.value);
+    /* let productNameArr = filteredStores.map(item => item.name);
+    console.log("productNameArr", productNameArr);
+    let searchValue = productNameArr.filter(item => {
+      return item.toLowerCase().search(e.target.value.toLowerCase());
+    });
+    setSearchValue(searchValue); */
+    console.log("e.target.value", e.target.value);
     setSearchValue(e.target.value);
+    let newDisplayedStores = filteredStores.filter(store =>
+      store.products.find(
+        product => product.name === e.target.value.toLowerCase()
+      )
+    );
+    console.log("newDisplayedStores", newDisplayedStores);
+
+    setDisplayedStores(newDisplayedStores);
   };
 
   const onSubmit = e => {
@@ -50,16 +69,13 @@ export default function CharityHome(props) {
     <>
       <NavBar id={props.match.params.id} />
 
-      {!searchList &&
-        googleMapsAPIKey &&
-        filteredStores.length > 0 &&
-        geoLoc && (
-          <MapContainer
-            apiKey={googleMapsAPIKey}
-            geoLocation={geoLoc}
-            pins={filteredStores}
-          />
-        )}
+      {googleMapsAPIKey && filteredStores.length > 0 && geoLoc && (
+        <MapContainer
+          apiKey={googleMapsAPIKey}
+          geoLocation={geoLoc}
+          pins={displayedStores}
+        />
+      )}
 
       <Form onSubmit={onSubmit}>
         <Form.Group>
@@ -68,7 +84,7 @@ export default function CharityHome(props) {
             placeholder="search an item"
             value={searchValue}
             onChange={onChange}
-            className="search-button"
+            className="search-input"
           />
         </Form.Group>
         <Button variant="primary" type="submit" className="search-button">
@@ -76,8 +92,8 @@ export default function CharityHome(props) {
         </Button>
       </Form>
       {searchList &&
-        filteredStores.length > 0 &&
-        filteredStores.map(item => {
+        displayedStores.length > 0 &&
+        displayedStores.map(item => {
           return (
             <>
               <li>from {item.username}</li>

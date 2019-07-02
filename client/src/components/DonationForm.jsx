@@ -2,19 +2,19 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { NONAME } from "dns";
 import uuid from "uuid";
+
 import {storage} from '../firebase';
 import "../style/DonationForm.scss";
 
 export default class DonationForm extends Component {
-
   state = {
     selectedFile: null,
     imagePreviewUrl: null,
     url: null
-  }
+  };
 
   fileSelectHandler = event => {
     console.log(event.target.files[0]);
@@ -23,59 +23,65 @@ export default class DonationForm extends Component {
     let file = event.target.files[0];
 
     reader.onloadend = () => {
-    this.setState({
-      selectedFile: file,
-      imagePreviewUrl: reader.result
-    })
-  }
-  reader.readAsDataURL(file)
-  }
+      this.setState({
+        selectedFile: file,
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
+  };
 
   fileUploadHandler = () => {
-
     const formData = new FormData();
-    const {selectedFile} = this.state;
-    
+    const { selectedFile } = this.state;
+
     if (!selectedFile) {
       return;
     }
     const name = `${selectedFile.name}-${uuid.v4()}.jpg`;
     const uploadTask = storage.ref(name).put(selectedFile);
-    uploadTask.on('state_changed', 
-    (snapshot) => {
-      //progress function
-      console.log(snapshot);
-    }, 
-    (error) => {
-      // error function
-      console.log(error);
-    }, 
-    () => {
-      // complete function
-      storage.ref(name).getDownloadURL().then(url => {
-        console.log(url);
-        this.props.handleImage(url)
-      })
-    })
-  }
+    uploadTask.on(
+      "state_changed",
+      snapshot => {
+        //progress function
+        console.log(snapshot);
+      },
+      error => {
+        // error function
+        console.log(error);
+      },
+      () => {
+        // complete function
+        storage
+          .ref(name)
+          .getDownloadURL()
+          .then(url => {
+            console.log(url);
+            this.props.handleImage(url);
+          });
+      }
+    );
+  };
 
-    clearImage = () => {
-      this.setState({
-        selectedFile: null,
-        imagePreviewUrl: null,
-        url: null
-      })
-    }
+  clearImage = () => {
+    this.setState({
+      selectedFile: null,
+      imagePreviewUrl: null,
+      url: null
+    });
+  };
 
   render() {
     const { formData } = this.props;
-    let {imagePreviewUrl} = this.state;
+    let { imagePreviewUrl } = this.state;
     let $imagePreview = null;
 
     if (imagePreviewUrl) {
-      $imagePreview = (<img src={imagePreviewUrl} style={{height: '7em'}}/>);
+      $imagePreview = <img src={imagePreviewUrl} style={{ height: "7em" }} />;
     } else {
-      $imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
+      $imagePreview = (
+        <div className="previewText">Please select an Image for Preview</div>
+      );
     }
 
     return (
@@ -87,7 +93,7 @@ export default class DonationForm extends Component {
               as="textarea"
               rows="2"
               onChange={e => {
-                this.props.handleChange(e.target.value, "name");
+                this.props.handleChange(e.target.value.toLowerCase(), "name");
               }}
               value={formData.name}
             />
@@ -133,12 +139,13 @@ export default class DonationForm extends Component {
               value={formData.expiry_date}
             />
           </Form.Group>
-            <div className="imageUpload">
-              <input 
-              style={{display: 'none'}}
-              type="file" 
+          <div className="imageUpload">
+            <input
+              style={{ display: "none" }}
+              type="file"
               id="file"
               onChange={this.fileSelectHandler}
+
               ref={fileInput => this.fileInput = fileInput}
               multiple/>
              <Button className="camera" style={{backgroundColor: 'white', border: 'none'}} onClick={() => this.fileInput.click()}>
@@ -149,9 +156,7 @@ export default class DonationForm extends Component {
           </Button>
           </div>
         </Form>
-        <div className="imgPreview">
-          {$imagePreview}
-        </div>
+        <div className="imgPreview">{$imagePreview}</div>
       </div>
     );
   }
