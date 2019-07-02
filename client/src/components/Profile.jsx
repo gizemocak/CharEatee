@@ -8,6 +8,9 @@ import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import posed from 'react-pose';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+
 import styled, { keyframes } from "styled-components";
 import { fadeInUp } from 'react-animations';
 const FadeInUpAnimation = keyframes`${fadeInUp}`;
@@ -77,20 +80,26 @@ export default function Profile(props) {
     return store.id === Number(props.match.params.id);
   });
   console.log("filtered", filteredStore);
+  console.log('stooooores', stores)
 
   return (
     <div className="showItems">
       <NavBar />
       <FadeInUpDiv>
 
-        {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
+        {user.type === "Charity" && <p className="cart"><Link to="/cart"><FontAwesomeIcon icon={faShoppingCart}/> cart: {cart.length} </Link></p>}
 
-        <h3> Welcome back, {username && username}</h3>
+        <h3> Welcome back, {user && user.name}</h3>
         {user.type === "Grocer/Restaurant" && stores &&
           <div className="greeting">
             <p>We really appreciate your kindness!</p>
             <p>Click <Link to={`/grocery/home/${JSON.parse(localStorage.getItem('user')).user_id}`}>HERE</Link> if you want to make more donations</p>
             <p>Or you can check your past donations below:</p>
+          </div>}
+
+        {user.type === "Charity" && stores && <
+          div className="greeting">
+            <p>Please select the items you need from this store:</p>
           </div>}
 
         <ul>
