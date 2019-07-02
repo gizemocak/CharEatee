@@ -255,14 +255,17 @@ app.post("/api/order", (req, res) => {
     grocerId,
   } = req.body
 
-  knex('orders').insert({
-    user_id: grocerId,
-    charity_id: charityId,
-    status: 'complete'
-  }).then(order => {
-    console.log('order', order)
-    res.status(200).send(order)
-  })
+  knex('orders')
+    .insert({
+      user_id: grocerId,
+      charity_id: charityId,
+      status: 'complete'
+    })
+    .returning('id')
+    .then(id => {
+      console.log('id', id)
+      res.status(200).send('ok')
+    })
 
   // products.map(product => {
   //   knex('line_items').insert({
