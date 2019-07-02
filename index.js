@@ -201,7 +201,7 @@ app.get("/api/v2/stores", (req, res) => {
         res.send(users)
       }) */
 
-  knex.raw("SELECT id, json_build_object('id', id, 'username', username, 'email', email, 'address', address,'type', type, 'imgurl',imgurl, 'latitude', latitude, 'longitude', longitude, 'city', city, 'province',province,'postalcode', postalcode,'products', (SELECT json_agg(json_build_object('id',products.id, 'name', products.name, 'imgurl', products.imgurl,  'quantity', products.quantity ,'unit', products.unit,  'expiry', products.expiry_date,  'userId', products.user_id)) FROM products where products.user_id=users.id)) from users").then(response => {
+  knex.raw("SELECT id, json_build_object('id', id, 'username', username, 'email', email, 'address', address,'type', type, 'imgurl',imgurl, 'latitude', latitude, 'longitude', longitude, 'city', city, 'province',province,'postalcode', postalcode,'products', (SELECT json_agg(json_build_object('id',products.id, 'name', products.name, 'imgurl', products.imgurl,  'quantity', products.quantity ,'unit', products.unit,  'expiry', products.expiry_date,  'userId', products.user_id)) FROM products where products.user_id=users.id and users.id = 4)) from users").then(response => {
     res.send(response.rows.map(row => row.json_build_object))
   })
 });
@@ -233,13 +233,11 @@ app.get("/api/products", (req, res) => {
 });
 ////////////get orders/////////////////////
 app.get("/api/orders/", (req, res) => {
-  console.log("query",req.query)
   const {userId , type} = req.query
-  var query = knex("orders")
+  /* var query = knex("orders")
     .select("*")
 
-  
-    if(type == "Charity")
+    if(type === "Charity")
     query.where('charity_id', userId) // <-- only if param exists
   else
     query.where('user_id', userId) // <-- for instance
@@ -247,18 +245,41 @@ app.get("/api/orders/", (req, res) => {
   query.then(function(results) {
     console.log("query" ,results)
     //query success
-    res.send(results);
+
+    results.map(item => {
+      return (
+        item
+      )
+    })
+    res.send();
   })
   .then(null, function(err) {
     //query fail
     res.status(500).send(err);
-  });
+  }); */
+
+  knex.raw(`SELECT orders.user_id, orders.charity_id, json_build_object('orderId', id, 'lineItems', 
+    (SELECT json_agg(json_build_object('id',line_items.id, 'product', products.name))
+    FROM line_items INNER JOIN products ON (line_items.product_id = products.id)
+    where line_items.order_id=orders.id)) from orders 
+    where ${type === "Charity" ? `orders.charity_id=${userId}` : `orders.user_id=${userId}`}`)
+  .then(response => {
+   res.send({
+    current_user_id: userId,
+     orders:response.rows.map(row => {
+     return {
+      user_id: row.user_id,
+      charity_id: row.charity_id,
+      line_items: row.json_build_object
+     }
+   })})
+  })
 });
 
 
 ////////////place order/////////////////////
 app.post("/api/order", (req, res) => {
-  console.log("api order", req.body)
+  // console.log("api order", req.body)
   const {
     charityId,
     products,
@@ -273,7 +294,7 @@ app.post("/api/order", (req, res) => {
     })
     .returning('id')
     .then(ids => {
-      console.log('id', ids)
+      // console.log('id', ids)
       const productsToInsert = products.map(product => {
         return {
           order_id: ids[0],
@@ -282,7 +303,7 @@ app.post("/api/order", (req, res) => {
       })
 
       knex('line_items').insert(productsToInsert).returning("*").then(line_items => {
-          console.log('order', line_items)
+          // console.log('order', line_items)
           res.status(200).send(line_items)
         })
         .catch(error => {
