@@ -13,8 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import styled, { keyframes } from "styled-components";
-import {bounceInUp} from 'react-animations';
-import {wobble} from 'react-animations';
+import { bounceInUp } from 'react-animations';
+import { wobble } from 'react-animations';
 const WobbleAnimation = keyframes`${wobble}`;
 const WobbleDiv = styled.div`
   animation: 2s ${WobbleAnimation};
@@ -37,8 +37,8 @@ export default function GroceryHome(props) {
     imgurl: "",
     user_id: JSON.parse(localStorage.getItem('user')).user_id
   });
- 
-  
+
+
   // Handle Bootstrap Modal for editing entries
   const [formItem, handleFormItem] = useState({});
   const [formItemIndex, handleFormItemIndex] = useState(0);
@@ -48,7 +48,7 @@ export default function GroceryHome(props) {
   const handleClose = () => {
     updateShow(false);
   }
-  
+
   const setFormItem = e => {
     handleFormItem(e)
   }
@@ -63,13 +63,13 @@ export default function GroceryHome(props) {
   }
 
   const handleShow = (evt) => {
-    setFormItem(items.find( e => e.name === evt.target.value))
+    setFormItem(items.find(e => e.name === evt.target.value))
     handleFormItemIndex(items.findIndex(e => e.name === evt.target.value))
     updateShow(true);
   }
 
   const handleUpdateFormChange = (value, propertyName) => {
-    const newFormItem = {...formItem};
+    const newFormItem = { ...formItem };
     newFormItem[propertyName] = value;
     handleFormItem(newFormItem);
   }
@@ -96,7 +96,7 @@ export default function GroceryHome(props) {
       }
     })
     if (!found)
-    updateItems([...items, newFormData]);
+      updateItems([...items, newFormData]);
     updateFormData({
       name: "",
       quantity: 0,
@@ -122,12 +122,12 @@ export default function GroceryHome(props) {
 
   const handleDonationSubmit = () => {
     console.log("itemsssssssssss", items)
-     fetch('http://localhost:8080/api/products', {
-       method: 'post',
-       headers: {'Content-Type':'application/json'},
-       body: JSON.stringify(items)
-      }).then(res => {
-        console.log("response",res);
+    fetch('http://localhost:8080/api/products', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(items)
+    }).then(res => {
+      console.log("response", res);
     })
   }
 
@@ -138,76 +138,76 @@ export default function GroceryHome(props) {
     <div className="groHome">
       <NavBar />
       {user.type === "Grocer/Restaurant" && usersInfo && (
-      <WobbleDiv>
-      <div className="doTitle">
-        Make a donation
+        <WobbleDiv>
+          <div className="doTitle">
+            Make a donation
       <Link className="linkProf" to={`/profile/${props.match.params.id}`}>Your Profile</Link>
-      </div>
-        <div className="formBox">
-      <DonationForm
-        items={items}
-        formData={formData}
-        onSubmit={onSubmit}
-        handleChange={handleChange}
-        handleImage={handleImage}
-      />
-      </div>
-        {items.length > 0 && 
-        <div>
-          <BounceInUpDiv>
-          <div className="tableEntry">
-          <span className="yourTitle">Your Donations <FontAwesomeIcon icon={faHeart} /></span>
-          <Table striped bordered hover size="sm">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Product Name</th>
-      <th>Quantity</th>
-      <th>Unit</th>
-      <th>Expiry Date</th>
-      <th>Image</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {items.map((item, index) => {
-      return (
-        <tr key={item.name + index}>
-          <td>{index + 1}</td>
-          <td>{item.name}</td>
-          <td>{item.quantity}</td>
-          <td>{item.unit}</td>
-          <td>{item.expiry_date}</td>
-          <td><img src={item.imgurl} style={{height: '5em'}}/></td>
-          <td><Button variant="info"  value={item.name} onClick={evt=> handleShow(evt)}>Edit</Button></td>
-          </tr>
-  );
-})
-}
-  </tbody>
-</Table>
-</div>
-</BounceInUpDiv>
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-            <Modal.Title>Edit {formItem.name}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <UpdateDonationForm 
-                items={items}
-                formData={formData}
-                onSubmit={onSubmit}
-                handleImage={handleImage}
-                formItem={formItem}
-                handleShow={handleShow}
-                handleUpdateFormChange={handleUpdateFormChange}/>
-            </Modal.Body>
-            <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
+          </div>
+          <div className="formBox">
+            <DonationForm
+              items={items}
+              formData={formData}
+              onSubmit={onSubmit}
+              handleChange={handleChange}
+              handleImage={handleImage}
+            />
+          </div>
+          {items.length > 0 &&
+            <div>
+              <BounceInUpDiv>
+                <div className="tableEntry">
+                  <span className="yourTitle">Your Donations <FontAwesomeIcon icon={faHeart} /></span>
+                  <Table striped bordered hover size="sm">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Expiry Date</th>
+                        <th>Image</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {items.map((item, index) => {
+                        return (
+                          <tr key={item.name + index}>
+                            <td>{index + 1}</td>
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.unit}</td>
+                            <td>{item.expiry_date}</td>
+                            <td><img src={item.imgurl} style={{ height: '5em' }} /></td>
+                            <td><Button variant="info" value={item.name} onClick={evt => handleShow(evt)}>Edit</Button></td>
+                          </tr>
+                        );
+                      })
+                      }
+                    </tbody>
+                  </Table>
+                </div>
+              </BounceInUpDiv>
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit {formItem.name}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <UpdateDonationForm
+                    items={items}
+                    formData={formData}
+                    onSubmit={onSubmit}
+                    handleImage={handleImage}
+                    formItem={formItem}
+                    handleShow={handleShow}
+                    handleUpdateFormChange={handleUpdateFormChange} />
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
             </Button>
-            <Button variant="primary" type="submit" onClick={() => {handleClose(); updateFormItemInItems();}}>
-              Save Changes
+                  <Button variant="primary" type="submit" onClick={() => { handleClose(); updateFormItemInItems(); }}>
+                    Save Changes
             </Button>
               </Modal.Footer>
             </Modal>

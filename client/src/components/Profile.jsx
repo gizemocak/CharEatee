@@ -9,7 +9,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import posed from 'react-pose';
 
 import styled, { keyframes } from "styled-components";
-import {fadeInUp} from 'react-animations';
+import { fadeInUp } from 'react-animations';
 const FadeInUpAnimation = keyframes`${fadeInUp}`;
 const FadeInUpDiv = styled.div`
   animation: 2s ${FadeInUpAnimation};
@@ -43,6 +43,8 @@ export default function Profile(props) {
   const removeFromCart = useStoreActions(action => action.removeFromCart);
 
   const [clicked, updateClickedButton] = useState(false);
+  // const usersInfo = useStoreState(state => state.pins);
+
 
   console.log(cart);
   useEffect(() => {
@@ -80,60 +82,56 @@ export default function Profile(props) {
     <div className="showItems">
       <NavBar />
       <FadeInUpDiv>
-      {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
 
-      <h3> Welcome back, {user && user.name}</h3>
-      {user.type === "Grocer/Restaurant" &&
-      <div className="greeting">
-        <p>We really appreciate your kindness!</p>
-        <p>Click <Link to={`/grocery/home/${JSON.parse(localStorage.getItem('user')).user_id}`}>HERE</Link> if you want to make more donations</p>
-        <p>Or you can check your past donations below:</p>
-      </div>}
+        {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
 
-      <ul>
-        {user.type === "Charity" && stores && (
-          <div>
-            {filteredStore.products &&
-              filteredStore.products.map(item => {
-                return (
-                  <div>
-                    <li>
-                      {item.name} {item.quantity} {item.unit}
-                      <Button
-                        onClick={() => {
-                          handleAddToCart(item);
-                        }}
-                        name="add to cart"
-                      />
-                    </li>
-                  </div>
-                );
-              })}
-            {cart.length > 0 && (
-              <Button
-                onClick={() => {
-                  props.history.push("/cart");
-                }}
-              >
-                Checkout {cart.length === 1 ? "1 Item" : `${cart.length} Items`}
-              </Button>
-            )}
-          </div>
-        )}
+        <h3> Welcome back, {username && username}</h3>
+        {user.type === "Grocer/Restaurant" && stores &&
+          <div className="greeting">
+            <p>We really appreciate your kindness!</p>
+            <p>Click <Link to={`/grocery/home/${JSON.parse(localStorage.getItem('user')).user_id}`}>HERE</Link> if you want to make more donations</p>
+            <p>Or you can check your past donations below:</p>
+          </div>}
+
+        <ul>
+          {user.type === "Charity" && stores && (
+            <div>
+              {filteredStore.products &&
+                filteredStore.products.map(item => {
+                  return (
+                    <div>
+                      <li>
+                        {item.name} {item.quantity} {item.unit}
+                        <Button
+                          onClick={() => {
+                            handleAddToCart(item);
+                          }}
+                          name="add to cart"
+                        />
+                      </li>
+                    </div>
+                  );
+                })}
+              {cart.length > 0 && (
+                <Button
+                  onClick={() => {
+                    props.history.push("/cart");
+                  }}
+                >
+                  Checkout {cart.length === 1 ? "1 Item" : `${cart.length} Items`}
+                </Button>
+              )}
+            </div>
+          )}
 
         {user.type === "Grocer/Restaurant" &&
           stores &&
           stores.map(store => {
-            console.log('fucking store', store)
-            console.log('store.id', store.id)
-            console.log('Number(props.match.params.id)', Number(props.match.params.id))
             if (store.id === Number(props.match.params.id)) {
-              console.log('username', store.username)
               if (username !== store.username) {
                 setUserName(store.username);
               }
               return store.products.map(product => {
-                console.log('pppppppproduct', product.name)
                 return (
                   <div className="grocerItems">
                     <Accordion>
@@ -174,7 +172,7 @@ export default function Profile(props) {
       </ul>
       <footer className="footPf">
           <span>Give a little. Help a lot.</span>
-      </footer>
+        </footer>
       </FadeInUpDiv>
     </div>
   );

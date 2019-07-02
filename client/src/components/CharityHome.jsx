@@ -49,7 +49,7 @@ export default function CharityHome(props) {
     } else {
       let newDisplayedStores = filteredStores.filter(store =>
         store.products.find(
-          product => product.name === e.target.value.toLowerCase()
+          product => product.name.toLowerCase() === e.target.value.toLowerCase()
         )
       );
       setDisplayedStores(newDisplayedStores);
@@ -87,18 +87,7 @@ export default function CharityHome(props) {
           Search
         </Button>
       </Form>
-      {searchList &&
-        displayedStores.length > 0 &&
-        displayedStores.map(item => {
-          return (
-            <>
-              <li>from {item.username}</li>
-              <li>
-                from <Link to="/grocer/profile">{item.username}</Link>
-              </li>
-            </>
-          );
-        })}
+      
     </>
   );
 }
