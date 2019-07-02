@@ -15,6 +15,7 @@
 
   
 .container {
+    color: #727275;
     margin-top: 5rem;
     @extend %flex;
     width: 100%;
@@ -23,12 +24,12 @@
     
 
     a {
-        color: black;
+        color: #727275;
         text-decoration: none;
     }
 
     a:hover {
-        color: gray;
+        color: black;
     }
 
     .login {

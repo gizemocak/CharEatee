@@ -8,6 +8,7 @@
   }
 
 .loginBox {
+    color: #727275;
     @extend %flex;
     margin-top: 8rem;
     font-family: 'K2D', sans-serif;
@@ -19,10 +20,19 @@
         width :100%;
     }
     h1 {
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
     }
 
     .footLg {
         margin-top: 10rem;
+    }
+
+    a {
+        color: #727275;;
+        text-decoration: underline;
+    }
+
+    p {
+        margin-bottom: 2rem;
     }
 }

@@ -8,7 +8,7 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 
 export default function CharityHome(props) {
   console.log("props", props);
-  const [geoLoc, setGeoLoc] = useState({});
+  const [geoLoc, setGeoLoc] = useState({ lat: 43.6478476, lng: -79.3912643 });
   const [searchValue, setSearchValue] = useState("");
   const [searchList, setSearchList] = useState(false);
 
@@ -42,22 +42,18 @@ export default function CharityHome(props) {
   };
 
   const onChange = e => {
-    /* let productNameArr = filteredStores.map(item => item.name);
-    console.log("productNameArr", productNameArr);
-    let searchValue = productNameArr.filter(item => {
-      return item.toLowerCase().search(e.target.value.toLowerCase());
-    });
-    setSearchValue(searchValue); */
     console.log("e.target.value", e.target.value);
     setSearchValue(e.target.value);
-    let newDisplayedStores = filteredStores.filter(store =>
-      store.products.find(
-        product => product.name === e.target.value.toLowerCase()
-      )
-    );
-    console.log("newDisplayedStores", newDisplayedStores);
-
-    setDisplayedStores(newDisplayedStores);
+    if (e.target.value.length === 0) {
+      setDisplayedStores(filteredStores);
+    } else {
+      let newDisplayedStores = filteredStores.filter(store =>
+        store.products.find(
+          product => product.name === e.target.value.toLowerCase()
+        )
+      );
+      setDisplayedStores(newDisplayedStores);
+    }
   };
 
   const onSubmit = e => {

@@ -8,6 +8,7 @@
   }
 
 .App {
+    
     margin: 0 auto;
     width: 96%;
     margin-top: 5rem;
@@ -40,14 +41,20 @@
 
     p {
         font-family: 'Merienda One', cursive;
+        margin-bottom: 0;
+        a {
+            color: black;
+            text-decoration: underline;
+        }
     }
 }
 
 footer {
-    margin-top: 6rem;
+    margin-top: 4rem;
+    color: #727275;
     @extend %flex;
-    border-bottom: 0.8px solid black;
-    border-top: 0.8px solid black;
+    border-bottom: 0.8px solid #727275;;
+    border-top: 0.8px solid #727275;;
     span {
         font-family: 'Arizonia', cursive;
         font-size: 1.5rem;

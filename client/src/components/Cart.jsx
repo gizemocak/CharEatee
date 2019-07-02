@@ -13,12 +13,16 @@ export default function Cart(props) {
     }
   }, []);
 
-  console.log(props);
   const placeOrder = () => {
+    let cartObj = {
+      charityId: JSON.parse(localStorage.getItem("user")).user_id,
+      grocerId: cart[0].userId,
+      products: cart
+    };
     fetch("http://localhost:8080/api/order", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(cart)
+      body: JSON.stringify(cartObj)
     }).then(res => {
       console.log("response", res);
     });
@@ -30,7 +34,12 @@ export default function Cart(props) {
       <div>Cart</div>
       {cart.length > 0 &&
         cart.map(item => {
-          return <li>{item.name} {item.quantity}{item.unit}</li>;
+          return (
+            <li>
+              {item.name} {item.quantity}
+              {item.unit}
+            </li>
+          );
         })}
 
       <Button onClick={placeOrder}>Place Order</Button>
