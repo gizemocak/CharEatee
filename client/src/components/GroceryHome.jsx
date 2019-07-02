@@ -209,18 +209,18 @@ export default function GroceryHome(props) {
                   <Button variant="primary" type="submit" onClick={() => { handleClose(); updateFormItemInItems(); }}>
                     Save Changes
             </Button>
-                </Modal.Footer>
-              </Modal>
+              </Modal.Footer>
+            </Modal>
 
-            </div>}
+        </div>}
+           
 
-
-          {/* this button is to make a post request/ to add the donated items in the database. Call handleDonation at onClick and make a fetch request to backend*/}
-          <Link to={"/"}>
-            <Button className="finalDon" variant="outline-success" onClick={handleDonationSubmit}>Donate!</Button>
-          </Link>
-        </WobbleDiv>
-      )}
+      {/* this button is to make a post request/ to add the donated items in the database. Call handleDonation at onClick and make a fetch request to backend*/}
+      <Link to={`/profile/${user.user_id}`}>
+        <Button className="finalDon" variant="outline-success" onClick={handleDonationSubmit}>Donate!</Button>
+      </Link>
+    </WobbleDiv>
+    )}
     </div>
   );
 }

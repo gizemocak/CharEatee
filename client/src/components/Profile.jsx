@@ -82,6 +82,7 @@ export default function Profile(props) {
     <div className="showItems">
       <NavBar />
       <FadeInUpDiv>
+
         {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
 
         <h3> Welcome back, {username && username}</h3>
@@ -123,52 +124,53 @@ export default function Profile(props) {
             </div>
           )}
 
-          {user.type === "Grocer/Restaurant" &&
-            stores &&
-            stores.map(item => {
-              if (item.user_id === Number(props.match.params.id)) {
-                if (username !== item.username) {
-                  setUserName(item.username);
-                }
+        {user.type === "Grocer/Restaurant" &&
+          stores &&
+          stores.map(store => {
+            if (store.id === Number(props.match.params.id)) {
+              if (username !== store.username) {
+                setUserName(store.username);
+              }
+              return store.products.map(product => {
                 return (
                   <div className="grocerItems">
-
                     <Accordion>
                       <Card>
                         <Card.Header>
                           <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                            <Hover className="hoverTitle">{item.name}</Hover>
+                            <Hover className="hoverTitle">{product.name}</Hover>
                           </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
                           <Card.Body>
-                            Quantity: {item.quantity} {item.unit}
-                            <hr />
-                            Expiry Date: {item.expiry_date.slice(0, 10)}
+                            Quantity: {product.quantity} {product.unit}
+                            <hr/>
+                            Expiry Date: {product.expiry.slice(0,10)}
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
                       <Card>
                         <Card.Header>
                           <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                            <Hover className="hoverTitle">Image of {item.name}</Hover>
+                            <Hover className="hoverTitle">Image of {product.name}</Hover>
                           </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="1">
                           <Card.Body>
-                            {item.imgurl ? <img src={item.imgurl} style={{ height: '5rem' }} /> : <p>No image for this item</p>}
+                            {product.imgurl? <img src={product.imgurl} style={{height: '5rem'}}/> : <p>No image for this item</p>}
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
-                      <br />
+                      <br/>
                     </Accordion>
-
+  
                   </div>
                 );
-              }
-            })}
-        </ul>
-        <footer className="footPf">
+              })
+            }
+          })}
+      </ul>
+      <footer className="footPf">
           <span>Give a little. Help a lot.</span>
         </footer>
       </FadeInUpDiv>
