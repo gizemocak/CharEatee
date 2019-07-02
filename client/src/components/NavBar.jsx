@@ -16,8 +16,9 @@ export default class NavBar extends Component {
 
   handlelogout = (props) => {
     console.log("props", props)
+    
       localStorage.clear()
-      props.history.push("/")
+      // props.history.push("/")
   };
 
   render() {
