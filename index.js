@@ -262,20 +262,21 @@ app.post("/api/order", (req, res) => {
       status: 'complete'
     })
     .returning('id')
-    .then(id => {
-      console.log('id', id)
-      res.status(200).send('ok')
+    .then(ids => {
+      console.log('id', ids)
+      products.map(product => {
+        knex('line_items').insert({
+            order_id: ids[0],
+            product_id: product.id,
+          }).then(line_items => {
+            console.log('order', line_items)
+            res.status(200).send(ok)
+          })
+          .catch(error => {
+            res.status(400).send(error);
+          });
+      })
     })
-
-  // products.map(product => {
-  //   knex('line_items').insert({
-  //     order_id: order.id,
-  //     product_id: product.id,
-  //   }).then(order => {
-  //     console.log('order', order)
-  //     res.status(200).send(order)
-  //   })
-  // })
 });
 
 
