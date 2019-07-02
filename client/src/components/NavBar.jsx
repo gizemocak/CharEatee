@@ -11,24 +11,53 @@ export default class NavBar extends Component {
     return false;
   }
   render() {
-    return (
-      <Navbar fixed="top" className="nav">
-        <div className="menu">
-          <FontAwesomeIcon icon={faChessQueen} />
-        </div>
-        <Link to="/">
-          <div className="logo">CharEatee</div>
-        </Link>
+    let user = JSON.parse(localStorage.getItem("user"));
+    console.log("user in navbar", user)
 
-        <div className="menu">
-          <Link to={"/account"}>
-            <FontAwesomeIcon
-              icon={faEllipsisH}
-              className="transition-item list-page"
-            />
+    if (!user) {
+      return (
+        <Navbar fixed="top" className="nav">
+          <div className="menu">
+            <FontAwesomeIcon icon={faChessQueen} />
+          </div>
+          <Link to="/">
+            <div className="logo">CharEatee</div>
           </Link>
-        </div>
-      </Navbar>
-    );
+
+          <div className="menu">
+            <Link to={"/account"}>
+              <FontAwesomeIcon
+                icon={faEllipsisH}
+                className="transition-item list-page"
+              />
+            </Link>
+          </div>
+        </Navbar>
+      );
+    } else {
+
+      return (
+
+        <Navbar fixed="top" className="nav">
+          <div className="menu">
+            <FontAwesomeIcon icon={faChessQueen} />
+          </div>
+          <Link to="/">
+            <div className="logo">CharEatee</div>
+          </Link>
+
+          <div className="menu">
+            <Link to={"/logout"}>
+              <FontAwesomeIcon
+                icon={faEllipsisH}
+                className="transition-item list-page"
+              />
+            </Link>
+          </div>
+        </Navbar>
+
+      )
+
+    }
   }
 }

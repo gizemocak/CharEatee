@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
 export default function CharityHome(props) {
-  console.log("props", props);
+  // console.log("props", props);
   const [geoLoc, setGeoLoc] = useState({ lat: 43.6478476, lng: -79.3912643 });
   const [searchValue, setSearchValue] = useState("");
   const [searchList, setSearchList] = useState(false);
@@ -17,9 +17,9 @@ export default function CharityHome(props) {
   const fetchStores = useStoreActions(actions => actions.fetchStores);
   const [displayedStores, setDisplayedStores] = useState([]);
 
-  console.log("her id", props.match.params.id);
+  // console.log("her id", props.match.params.id);
 
-  console.log("ppp", filteredStores);
+  // console.log("ppp", filteredStores);
   useEffect(() => {
     getGeoLocation();
     fetchStores();
