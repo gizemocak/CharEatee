@@ -231,17 +231,18 @@ app.get("/api/products", (req, res) => {
       });
   }
 });
-////////////get order/////////////////////\\COME BACK!!!
-app.get("/api/orders", (req, res) => {
-  //check if query string exists, search that query in the database and show the ones that have the key
-  knex
-    .select("*")
-    .from("orders")
-    .where("user_id", "like", `%${req.session.user_id}%`)
-    .then(orders => {
-      // console.log("searched products",orders)
-      res.json(orders);
-    });
+////////////get orders/////////////////////
+app.get("/api/orders/:id", (req, res) => {
+  console.log("order body", req.body)
+  // knex
+  //   .select("*")
+  //   .from("orders")
+  //   .where("user_id", "like", `%${req.session.user_id}%`)
+  //   .then(orders => {
+  //     // console.log("searched products",orders)
+  //     res.json(orders);
+  //   });
+  res.send("ok")
 });
 
 

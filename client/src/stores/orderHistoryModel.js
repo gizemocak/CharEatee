@@ -1,5 +1,6 @@
 import {
-  action
+  action,
+  thunk
 } from "easy-peasy";
 
 const order = {
@@ -7,12 +8,12 @@ const order = {
   addToOrder: action((state, order) => {
     state.order = [...state.order, order]
   }),
-  fetchOrder: thunk(async actions => {
-    const res = await fetch('http://localhost:8080/api/orders', {
+  fetchOrders: thunk(async (actions, orderId) => {
+    const res = await fetch(`http://localhost:8080/api/orders/${orderId}`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json'
-      },
+      }
     })
     const orders = await res.json();
 
