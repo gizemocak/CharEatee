@@ -4,15 +4,16 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 
 export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
-  const fetchOrders = useStoreActions(actions => actions.fetchOrders);
-
-  console.log(order);
-
+  let user = JSON.parse(localStorage.getItem("user"))
   useEffect(() => {
-    const orderId = order[0].order_id;
-    if (orderId) {
-      fetchOrders(orderId);
-    }
+   fetch(`http://localhost:8080/api/orders/?userId=${user.user_id}&type=${user.type}`,{
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => res.json())
+      .then(res => console.log("response!!!", res))
   }, []);
 
   return (

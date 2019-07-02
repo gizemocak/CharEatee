@@ -232,16 +232,29 @@ app.get("/api/products", (req, res) => {
   }
 });
 ////////////get orders/////////////////////
-app.get("/api/orders/:id", (req, res) => {
-  console.log("order body", req.body)
-  // knex
-  //   .select("*")
-  //   .from("orders")
-  //   .where("user_id", "like", `%${req.session.user_id}%`)
-  //   .then(orders => {
-  //     // console.log("searched products",orders)
-  //     res.json(orders);
-  //   });
+app.get("/api/orders/", (req, res) => {
+  console.log("query",req.query)
+  const {userId , type} = req.query
+  var query = knex("orders")
+    .select("*")
+
+  
+    if(type == "Charity")
+    query.where('charity_id', userId) // <-- only if param exists
+  else
+    query.where('user_id', userId) // <-- for instance
+
+  query.then(function(results) {
+    console.log("query" ,results)
+    //query success
+    res.send(results);
+  })
+  .then(null, function(err) {
+    //query fail
+    res.status(500).send(err);
+  });
+
+
   res.send("ok")
 });
 
