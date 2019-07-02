@@ -7,6 +7,7 @@ const style = {
   position: "relative",
   width: "100vw",
   height: "100vh",
+  left:'-10px'
 };
 class GoogleMap extends React.Component {
   constructor(props) {
