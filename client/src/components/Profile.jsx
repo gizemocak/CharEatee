@@ -9,6 +9,13 @@ import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import posed from 'react-pose';
 
+import styled, { keyframes } from "styled-components";
+import {fadeInUp} from 'react-animations';
+const FadeInUpAnimation = keyframes`${fadeInUp}`;
+const FadeInUpDiv = styled.div`
+  animation: 2s ${FadeInUpAnimation};
+`;
+
 const Hover = posed.div({
   hoverable: true,
   pressable: true,
@@ -68,6 +75,7 @@ export default function Profile(props) {
   return (
     <div className="showItems">
       <NavBar />
+      <FadeInUpDiv>
       {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
 
       <h3> Welcome back, {username && username}</h3>
@@ -159,8 +167,9 @@ export default function Profile(props) {
           })}
       </ul>
       <footer className="footPf">
-            <span>Give a little. Help a lot.</span>
-          </footer>
+          <span>Give a little. Help a lot.</span>
+      </footer>
+      </FadeInUpDiv>
     </div>
   );
 }
