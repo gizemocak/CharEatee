@@ -28,7 +28,9 @@ export default function Cart(props) {
         return res.json();
       })
       .then(body => {
-        console.log(body);
+        if (body) {
+          props.history.push("/order-history");
+        }
       });
   };
 
