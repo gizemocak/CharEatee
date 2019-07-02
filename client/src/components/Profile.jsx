@@ -82,8 +82,8 @@ export default function Profile(props) {
       <FadeInUpDiv>
       {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
 
-      <h3> Welcome back, {username && username}</h3>
-      {user.type === "Grocer/Restaurant" && usersInfo &&
+      <h3> Welcome back, {user && user.name}</h3>
+      {user.type === "Grocer/Restaurant" &&
       <div className="greeting">
         <p>We really appreciate your kindness!</p>
         <p>Click <Link to={`/grocery/home/${JSON.parse(localStorage.getItem('user')).user_id}`}>HERE</Link> if you want to make more donations</p>
@@ -123,46 +123,52 @@ export default function Profile(props) {
 
         {user.type === "Grocer/Restaurant" &&
           stores &&
-          stores.map(item => {
-            if (item.user_id === Number(props.match.params.id)) {
-              if (username !== item.username) {
-                setUserName(item.username);
+          stores.map(store => {
+            console.log('fucking store', store)
+            console.log('store.id', store.id)
+            console.log('Number(props.match.params.id)', Number(props.match.params.id))
+            if (store.id === Number(props.match.params.id)) {
+              console.log('username', store.username)
+              if (username !== store.username) {
+                setUserName(store.username);
               }
-              return (
-                <div className="grocerItems">
-
-                  <Accordion>
-                    <Card>
-                      <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                          <Hover className="hoverTitle">{item.name}</Hover>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                          Quantity: {item.quantity} {item.unit}
-                          <hr/>
-                          Expiry Date: {item.expiry_date.slice(0,10)}
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
-                    <Card>
-                      <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                          <Hover className="hoverTitle">Image of {item.name}</Hover>
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="1">
-                        <Card.Body>
-                          {item.imgurl? <img src={item.imgurl} style={{height: '5rem'}}/> : <p>No image for this item</p>}
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
-                    <br/>
-                  </Accordion>
-
-                </div>
-              );
+              return store.products.map(product => {
+                console.log('pppppppproduct', product.name)
+                return (
+                  <div className="grocerItems">
+                    <Accordion>
+                      <Card>
+                        <Card.Header>
+                          <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                            <Hover className="hoverTitle">{product.name}</Hover>
+                          </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                          <Card.Body>
+                            Quantity: {product.quantity} {product.unit}
+                            <hr/>
+                            Expiry Date: {product.expiry.slice(0,10)}
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                      <Card>
+                        <Card.Header>
+                          <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                            <Hover className="hoverTitle">Image of {product.name}</Hover>
+                          </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="1">
+                          <Card.Body>
+                            {product.imgurl? <img src={product.imgurl} style={{height: '5rem'}}/> : <p>No image for this item</p>}
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                      <br/>
+                    </Accordion>
+  
+                  </div>
+                );
+              })
             }
           })}
       </ul>
