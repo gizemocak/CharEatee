@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import Modal from 'react-bootstrap/Modal'
+import { useStoreState, useStoreActions } from "easy-peasy";
 import Form from "react-bootstrap/Form";
 import "../style/GroceryHome.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -130,9 +131,13 @@ export default function GroceryHome(props) {
     })
   }
 
+  let user = JSON.parse(localStorage.getItem("user"));
+  const usersInfo = useStoreState(state => state.pins);
+
   return (
     <div className="groHome">
       <NavBar />
+      {user.type === "Grocer/Restaurant" && usersInfo && (
       <WobbleDiv>
       <div className="doTitle">
         Make a donation
@@ -215,6 +220,7 @@ export default function GroceryHome(props) {
         <Button className="finalDon" variant="outline-success" onClick={handleDonationSubmit}>Donate!</Button>
       </Link>
     </WobbleDiv>
+    )}
     </div>
   );
 }
