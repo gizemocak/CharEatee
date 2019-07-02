@@ -253,9 +253,6 @@ app.get("/api/orders/", (req, res) => {
     //query fail
     res.status(500).send(err);
   });
-
-
-  res.send("ok")
 });
 
 
