@@ -12,17 +12,16 @@ export default function Cart(props) {
       props.history.push("/login");
     }
   }, []);
-  console.log("cart", cart);
-  console.log("user", JSON.parse(localStorage.getItem("user")).user_id);
-  console.log(props);
+
   const placeOrder = () => {
-    let charityId = JSON.parse(localStorage.getItem("user")).user_id;
-    let charityObj = { charityId: charityId };
-    let info = [...cart, charityObj];
+    let cartObj = {
+      charityId: JSON.parse(localStorage.getItem("user")).user_id,
+      products: cart
+    };
     fetch("http://localhost:8080/api/order", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(info)
+      body: JSON.stringify(cartObj)
     }).then(res => {
       console.log("response", res);
     });
