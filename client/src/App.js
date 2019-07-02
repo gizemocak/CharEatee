@@ -15,11 +15,13 @@ import Cart from "./components/Cart"
 import cartModel from "./stores/cartModel"
 import HomeSub from "./components/HomeSub"
 import OrderHistory from "./components/OrderHistory"
+import OrderHistoryModel from "./stores/orderHistoryModel"
 
 const store = createStore({
   ...usersProductsModel,
   ...adminModel,
-  ...cartModel
+  ...cartModel,
+  ...OrderHistoryModel
 })
 
 console.log(store)
