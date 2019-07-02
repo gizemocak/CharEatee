@@ -216,7 +216,7 @@ export default function GroceryHome(props) {
            
 
       {/* this button is to make a post request/ to add the donated items in the database. Call handleDonation at onClick and make a fetch request to backend*/}
-      <Link to={"/"}>
+      <Link to={`/profile/${user.user_id}`}>
         <Button className="finalDon" variant="outline-success" onClick={handleDonationSubmit}>Donate!</Button>
       </Link>
     </WobbleDiv>
