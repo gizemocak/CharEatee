@@ -4,11 +4,9 @@ import { withRouter } from "react-router";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 const style = {
-  position: "absolute",
+  position: "relative",
   width: "100vw",
   height: "100vh",
-  top: "-10px",
-  left: "-40px"
 };
 class GoogleMap extends React.Component {
   constructor(props) {

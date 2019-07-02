@@ -201,7 +201,7 @@ app.get("/api/v2/stores", (req, res) => {
         res.send(users)
       }) */
 
-  knex.raw("SELECT id, json_build_object('id', id, 'username', username, 'email', email, 'address', address,'type', type, 'imgurl',imgurl, 'latitude', latitude, 'longitude', longitude, 'city', city, 'province',province,'postalcode', postalcode,'products', (SELECT json_agg(json_build_object('id',products.id, 'name', products.name, 'imgurl', products.imgurl,  'quantity', products.quantity ,'unit', products.unit,  'expiry', products.expiry_date,  'userId', products.user_id)) FROM products where products.user_id=users.id and users.id = 4)) from users").then(response => {
+  knex.raw("SELECT id, json_build_object('id', id, 'username', username, 'email', email, 'address', address,'type', type, 'imgurl',imgurl, 'latitude', latitude, 'longitude', longitude, 'city', city, 'province',province,'postalcode', postalcode,'products', (SELECT json_agg(json_build_object('id',products.id, 'name', products.name, 'imgurl', products.imgurl,  'quantity', products.quantity ,'unit', products.unit,  'expiry', products.expiry_date,  'userId', products.user_id)) FROM products where products.user_id=users.id)) from users").then(response => {
     res.send(response.rows.map(row => row.json_build_object))
   })
 });
@@ -264,6 +264,7 @@ app.get("/api/orders/", (req, res) => {
     where line_items.order_id=orders.id)) from orders 
     where ${type === "Charity" ? `orders.charity_id=${userId}` : `orders.user_id=${userId}`}`)
   .then(response => {
+    console.log("query responseee", response)
    res.send({
     current_user_id: userId,
      orders:response.rows.map(row => {
