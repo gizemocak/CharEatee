@@ -4,6 +4,9 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import Button from "react-bootstrap/Button";
 import Cart from "../components/Cart.jsx";
 import { Link } from "react-router-dom";
+import "../style/Profile.scss";
+import Card from 'react-bootstrap/Card';
+import Accordion from 'react-bootstrap/Accordion'
 
 export default function Profile(props) {
   console.log("props", props);
@@ -45,11 +48,16 @@ export default function Profile(props) {
 
   let user = JSON.parse(localStorage.getItem("user"));
   return (
-    <>
+    <div className="showItems">
       <NavBar />
       {user.type === "Charity" && <Link to="/cart">cart: {cart.length} </Link>}
 
-      <h3>{username && username}</h3>
+      <h3> Welcome back, {username && username}</h3>
+      {user.type === "Grocer/Restaurant" && usersInfo &&
+      <div className="greeting">
+        <p>We really appreciate your kindness!</p>
+        <p>Check your donations below:</p>
+      </div>}
 
       <ul>
         {user.type === "Charity" && usersInfo && (
@@ -94,15 +102,36 @@ export default function Profile(props) {
                 setUserName(item.username);
               }
               return (
-                <div>
-                  <li>
-                    {item.name} {item.quantity} {item.unit}{" "}
-                  </li>
+                <div className="grocerItems">
+
+                  <Accordion>
+                    <Card>
+                      <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                  {item.name}
+                        </Accordion.Toggle>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey="0">
+                        <Card.Body>Hello! I'm the body</Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                    <Card>
+                      <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                          Click me!
+                        </Accordion.Toggle>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey="1">
+                        <Card.Body>Hello! I'm another body</Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  </Accordion>
+
                 </div>
               );
             }
           })}
       </ul>
-    </>
+    </div>
   );
 }
