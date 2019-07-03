@@ -19,7 +19,7 @@ class GoogleMap extends React.Component {
       selectedPlace: null,
       mapElementFound: null
     };
-    console.log('props', props)
+    // console.log('props', props)
   }
   /*   const [icon, setIcon] = useState("");
   const [showingInfoWindow, updateShowingInfoWindow] = useState(false);
@@ -28,7 +28,7 @@ class GoogleMap extends React.Component {
   // const [pins, setPins] = useState([]);
 
   changeIconColor = (mapProps, map) => {
-    console.log("ready", mapProps, map);
+    // console.log("ready", mapProps, map);
     const { google } = mapProps;
     // setIcon(google.maps.SymbolPath.CIRCLE);
     this.setState({ icon: google.maps.SymbolPath.CIRCLE });
@@ -43,7 +43,6 @@ class GoogleMap extends React.Component {
       activeMarker: marker,
       showingInfoWindow: true
     });
-    console.log(marker);
     //window.location = '/profile/'+ marker.id
   };
 
@@ -70,8 +69,6 @@ class GoogleMap extends React.Component {
   };
 
   onInfoWindowOpen = (selectedPlace, e) => {
-    console.log(selectedPlace, this.props);
-    console.log("SelectedPlace", selectedPlace);
     const button = (
       <div>
         <a
@@ -118,7 +115,6 @@ class GoogleMap extends React.Component {
 
           {this.props.pins.length > 0 &&
             this.props.pins.map(item => {
-              console.log(item);
               return (
                 <Marker
                   key={item.email + "" + item.id}

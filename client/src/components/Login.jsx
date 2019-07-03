@@ -29,7 +29,6 @@ export default function Login(props) {
   const handleLogin = () => {
     fetchFormData({ formData, endpoint: 'login' }).then(res => {
       setIsloggedIn(res);
-      console.log("res", res);
       if (res.type === "Grocer/Restaurant") {
         props.history.push(`/grocery/home/${res.user_id}`);
       } else {
