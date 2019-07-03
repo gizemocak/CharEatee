@@ -11,6 +11,9 @@ const FadeInLeftYDiv = styled.div`
 `;
 
 export default class HomeSub extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
   render() {
     return(
       <div className="container">

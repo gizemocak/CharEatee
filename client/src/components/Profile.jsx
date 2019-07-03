@@ -52,6 +52,7 @@ export default function Profile(props) {
 
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchStores();
   }, []);
 

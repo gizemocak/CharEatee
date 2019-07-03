@@ -19,6 +19,8 @@ export default function Cart(props) {
   const addToOrder = useStoreActions(actions => actions.addToOrder);
 
   useEffect(() => {
+      window.scrollTo(0, 0)
+
     if (cart.length === 0) {
       props.history.push("/login");
     }

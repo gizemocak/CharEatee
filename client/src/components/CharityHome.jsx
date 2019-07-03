@@ -17,6 +17,8 @@ export default function CharityHome(props) {
   const [displayedStores, setDisplayedStores] = useState([]);
 
   useEffect(() => {
+      window.scrollTo(0, 0)
+
     getGeoLocation();
     fetchStores();
   }, []);

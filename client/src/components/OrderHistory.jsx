@@ -24,6 +24,7 @@ export default function OrderHistory(props) {
   const FadeInUpDiv = styled.div`
     animation: 500ms ${FadeInUpAnimation};
   `;
+
   let user = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([{}]);
 
@@ -45,6 +46,8 @@ export default function OrderHistory(props) {
   });
 
   useEffect(() => {
+      window.scrollTo(0, 0);
+
     fetch(
       `http://localhost:8080/api/orders/?userId=${user.user_id}&type=${
         user.type

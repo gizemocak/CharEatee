@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import DonationForm from "./DonationForm";
 import UpdateDonationForm from "./UpdateDonationForm";
@@ -26,6 +26,10 @@ const BounceInUpDiv = styled.div`
 `;
 
 export default function GroceryHome(props) {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+});
+
   // Setup state for this page
   const [camera, updateCamera] = useState(true);
   const [items, updateItems] = useState([]);
