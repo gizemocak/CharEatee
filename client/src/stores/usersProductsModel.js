@@ -37,7 +37,7 @@ const usersProducts = {
     state.stores = stores;
   }),
   filteredStores: computed(state =>
-    state.stores.filter((store) => store.type === 'Grocer/Restaurant' && store.products)
+    state.stores.filter((store) => store.type === 'Grocer/Restaurant' && store.products && store.products.some(item => !item.deleted_at))
   )
 };
 

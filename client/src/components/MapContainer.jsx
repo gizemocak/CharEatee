@@ -83,7 +83,7 @@ class GoogleMap extends React.Component {
         </a>
         <ul>
           {selectedPlace.products &&
-            selectedPlace.products.map(item => {
+            selectedPlace.products.filter(item => !item.deleted_at).map(item => {
               return <li>{item.name}</li>;
             })}
         </ul>

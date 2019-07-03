@@ -202,7 +202,7 @@ app.get("/api/v2/stores", (req, res) => {
         res.send(users)
       }) */
 
-  knex.raw("SELECT id, json_build_object('id', id, 'username', username, 'email', email, 'address', address,'type', type, 'imgurl',imgurl, 'latitude', latitude, 'longitude', longitude, 'city', city, 'province',province,'postalcode', postalcode,'products', (SELECT json_agg(json_build_object('id',products.id, 'name', products.name, 'imgurl', products.imgurl,  'quantity', products.quantity ,'unit', products.unit,  'expiry', products.expiry_date,  'userId', products.user_id)) FROM products where products.user_id=users.id)) from users").then(response => {
+  knex.raw("SELECT id, json_build_object('id', id, 'username', username, 'email', email, 'address', address,'type', type, 'imgurl',imgurl, 'latitude', latitude, 'longitude', longitude, 'city', city, 'province',province,'postalcode', postalcode,'products', (SELECT json_agg(json_build_object('id',products.id, 'name', products.name, 'imgurl', products.imgurl,  'quantity', products.quantity ,'unit', products.unit,  'expiry', products.expiry_date,  'userId', products.user_id, 'deleted_at', products.deleted_at)) FROM products where products.user_id=users.id)) from users").then(response => {
     res.send(response.rows.map(row => row.json_build_object))
   })
 });
@@ -305,7 +305,15 @@ app.post("/api/order", (req, res) => {
       })
 
       knex('line_items').insert(productsToInsert).returning("*").then(line_items => {
-          // console.log('order', line_items)
+        
+          line_items.forEach(item => {
+            console.log('line_itemsrr',item,'timre', knex.fn.now())
+         //knex('products').where('id', item.product_id).update('deleted_at', 'deleted')
+            knex.raw(`UPDATE products set deleted_at = current_date where products.id = ${item.product_id}`).then(response => {
+              console.log('response')
+            })
+          })
+          
           res.status(200).send(line_items)
         })
         .catch(error => {
