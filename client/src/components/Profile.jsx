@@ -126,7 +126,7 @@ export default function Profile(props) {
                         <br/>
                         Expires: {item.expiry} 
                         <br/>
-                        <img src={item.imgurl}/>
+                        <img src={item.imgurl} style={{height: '5rem', marginTop: '1rem'}}/>
                         <Button id={index} onClick={() => {handleAddToCart(item); toggle();}}>{toggleState}</Button>
                       </ListGroup.Item>
                     </ListGroup>
@@ -147,7 +147,6 @@ export default function Profile(props) {
           )}
 
         {user.type === "Grocer/Restaurant" &&
-          stores &&
           stores.map(store => {
             if (store.id === Number(props.match.params.id)) {
               if (username !== store.username) {
