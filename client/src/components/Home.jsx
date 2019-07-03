@@ -76,9 +76,6 @@ const Slogan5 = () => (
   </Box>
 );
 
-const clear = () => {
-  localStorage.clear();
-}
 
 let user = JSON.parse(localStorage.getItem("user"));
 
