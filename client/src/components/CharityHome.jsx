@@ -38,7 +38,6 @@ export default function CharityHome(props) {
   };
 
   const onChange = e => {
-
     setSearchValue(e.target.value);
     if (e.target.value.length === 0) {
       setDisplayedStores(filteredStores);
@@ -77,13 +76,13 @@ export default function CharityHome(props) {
             value={searchValue}
             onChange={onChange}
             className="search-input"
+            style={{ position: "fixed", bottom: "0px" }}
           />
         </Form.Group>
         <Button variant="primary" type="submit" className="search-button">
           Search
         </Button>
       </Form>
-      
     </>
   );
 }
