@@ -8,11 +8,22 @@ const path = require('path');
 const enforce = require('express-sslify');
 require('dotenv').config()
 var bodyParser = require('body-parser')
+const twilio = require('twilio');
+
 
 const app = express();
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
+const client = new twilio(
+  process.env.TWILIO_ACCOUT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+
+// const client = require('twilio')(
+//   process.env.TWILIO_ACCOUT_SID,
+//   process.env.TWILIO_AUTH_TOKEN
+// );
 
 require('dotenv').config()
 // Serve the static files from the React app
@@ -242,7 +253,7 @@ app.get("/api/products", (req, res) => {
 });
 ////////////get orders/////////////////////
 app.get("/api/orders/", (req, res) => {
-  const {userId , type} = req.query
+  const { userId, type } = req.query
   /* var query = knex("orders")
     .select("*")
 
@@ -272,18 +283,19 @@ app.get("/api/orders/", (req, res) => {
     FROM line_items INNER JOIN products ON (line_items.product_id = products.id)
     where line_items.order_id=orders.id)) from orders 
     where ${type === "Charity" ? `orders.charity_id=${userId}` : `orders.user_id=${userId}`}`)
-  .then(response => {
-    console.log("query responseee", response)
-   res.send({
-    current_user_id: userId,
-     orders:response.rows.map(row => {
-     return {
-      user_id: row.user_id,
-      charity_id: row.charity_id,
-      line_items: row.json_build_object
-     }
-   })})
-  })
+    .then(response => {
+      // console.log("query responseee", response)
+      res.send({
+        current_user_id: userId,
+        orders: response.rows.map(row => {
+          return {
+            user_id: row.user_id,
+            charity_id: row.charity_id,
+            line_items: row.json_build_object
+          }
+        })
+      })
+    })
 });
 
 
@@ -312,14 +324,23 @@ app.post("/api/order", (req, res) => {
         }
       })
 
-      knex('line_items').insert(productsToInsert).returning("*").then(line_items => {
-        
+      knex('line_items')
+        .insert(productsToInsert)
+        .returning("*")
+        .then(line_items => {
           line_items.forEach(item => {
-            knex.raw(`UPDATE products set deleted_at = current_date where products.id = ${item.product_id}`).then(response => {
-              console.log('response', response)
+            knex.raw(`UPDATE products set deleted_at = current_date where products.id = ${item.product_id}`)
+            .then(response => {
+              client.messages.create({
+                body: `Order placed by Charity Organization for product ID ${item.product_id}, Please respond to customer with an estimate of time when order will be ready for pickup`,
+                to: '+15149636889',  // Text this number to grocery store
+                from: '+14388062570' // From a valid Twilio number
+              })
+                .then((message) => console.log('messagebody:', message.body))
+                .catch(err => console.log('ERR:', err));
+              
             })
           })
-          
           res.status(200).send(line_items)
         })
         .catch(error => {
