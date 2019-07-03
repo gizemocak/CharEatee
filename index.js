@@ -96,6 +96,7 @@ app.post("/api/register", (req, res) => {
       address,
       city,
       zipcode: postalcode,
+      state: 'ontario',
       country: 'Canada'
     }, function (err, geocoderResponse) {
       knex('users')

@@ -19,6 +19,7 @@ class GoogleMap extends React.Component {
       selectedPlace: null,
       mapElementFound: null
     };
+    console.log('props', props)
   }
   /*   const [icon, setIcon] = useState("");
   const [showingInfoWindow, updateShowingInfoWindow] = useState(false);
