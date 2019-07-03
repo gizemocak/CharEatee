@@ -13,6 +13,7 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 import styled, { keyframes } from "styled-components";
 import { fadeInUp } from 'react-animations';
+import { ListGroup } from "react-bootstrap";
 const FadeInUpAnimation = keyframes`${fadeInUp}`;
 const FadeInUpDiv = styled.div`
   animation: 2s ${FadeInUpAnimation};
@@ -45,11 +46,13 @@ export default function Profile(props) {
   const addToCart = useStoreActions(action => action.addToCart);
   const removeFromCart = useStoreActions(action => action.removeFromCart);
 
+
   const [clicked, updateClickedButton] = useState(false);
   // const usersInfo = useStoreState(state => state.pins);
 
 
-  console.log(cart);
+
+  console.log("cart", cart);
   useEffect(() => {
     fetchStores();
   }, []);
@@ -66,12 +69,12 @@ export default function Profile(props) {
       newCart.splice(currentProductIndex, 1);
       removeFromCart(newCart);
     }
-
-    if (clicked) {
-      updateClickedButton(true);
-    } else {
-      updateClickedButton(false);
-    }
+    // if (clicked) {
+    //   console.log("clicked", clicked)
+    //   updateClickedButton(true);
+    // } else {
+    //   updateClickedButton(false);
+    // }
   };
 
   let user = JSON.parse(localStorage.getItem("user"));
@@ -101,23 +104,24 @@ export default function Profile(props) {
           div className="greeting">
             <p>Please select the items you need from this store:</p>
           </div>}
-
         <ul>
           {user.type === "Charity" && stores && (
-            <div>
+            <div className="itemsList">
               {filteredStore.products &&
                 filteredStore.products.map(item => {
                   return (
-                    <div>
-                      <li>
+                    <div className="singleItem">
+                      <ListGroup>
+                      <ListGroup.Item action variant="warning">
                         {item.name} {item.quantity} {item.unit}
-                        <Button
-                          onClick={() => {
-                            handleAddToCart(item);
-                          }}
-                          name="add to cart"
-                        />
-                      </li>
+                        <br/>
+                        Expires: {item.expiry} 
+                        <br/>
+                        <img src={item.imgurl}/>
+                        <Button onClick={() => {handleAddToCart(item);}}>-</Button>
+                        <Button onClick={() => {handleAddToCart(item);}}>+</Button>
+                        </ListGroup.Item>
+                      </ListGroup>
                     </div>
                   );
                 })}
@@ -132,7 +136,6 @@ export default function Profile(props) {
               )}
             </div>
           )}
-
         {user.type === "Grocer/Restaurant" &&
           stores &&
           stores.map(store => {

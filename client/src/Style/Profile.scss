@@ -10,9 +10,28 @@
     .footPf {
         margin-top: 2rem;
     }
-
+    .cart {
+      background-color: #ea8787d4;
+      padding: 0.5rem 1rem;
+      font-size: 18px;
+  }
     font-family: 'K2D', sans-serif;
     margin: 2rem 2rem;
+    .itemsList {
+      .checkoutButton {
+          background-color: #ea8787d4;
+          border: none;
+      }
+      .singleItem {
+          Button {
+              float: right;
+              .btn-primary {
+                  background-color: #ea8787d4;
+                  border: none;
+              }
+          }
+      }
+  }
 
     h3, .greeting {
         color: #727275;
