@@ -7,6 +7,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faDonate } from '@fortawesome/free-solid-svg-icons';
 import "../style/Cart.scss";
 
+
 import styled, { keyframes } from "styled-components";
 import { lightSpeedIn } from 'react-animations';
 const LightSpeedInAnimation = keyframes`${lightSpeedIn}`;
@@ -75,7 +76,10 @@ export default function Cart(props) {
           );
         })}
 
-      <Button className="placebutt" onClick={placeOrder}>Place Order <FontAwesomeIcon icon={faDonate}/></Button>
+      <Button className="placebutt" onClick={placeOrder}>Place Order <FontAwesomeIcon icon={faDonate}/>
+      </Button>
+
+
     </LightSpeedInDiv>
     </div>
   );
