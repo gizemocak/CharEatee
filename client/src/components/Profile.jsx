@@ -7,6 +7,7 @@ import "../style/Profile.scss";
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
 import posed from 'react-pose';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -46,10 +47,10 @@ export default function Profile(props) {
   const removeFromCart = useStoreActions(action => action.removeFromCart);
 
   const [clicked, updateClickedButton] = useState(false);
+  const [toggleState, setToggleState] = useState("+");
   // const usersInfo = useStoreState(state => state.pins);
 
 
-  console.log(cart);
   useEffect(() => {
     fetchStores();
   }, []);
@@ -73,6 +74,11 @@ export default function Profile(props) {
       updateClickedButton(false);
     }
   };
+  
+
+  const toggle = () => {
+    setToggleState(toggleState === "+" ? "-" : "+");
+  }
 
   let user = JSON.parse(localStorage.getItem("user"));
 
@@ -82,12 +88,17 @@ export default function Profile(props) {
   console.log("filtered", filteredStore);
   console.log('stooooores', stores)
 
+
+
+
   return (
     <div className="showItems">
       <NavBar />
       <FadeInUpDiv>
-
+        <div className="subNav">
+        <p><Link to={`/charity/home/${user.user_id}`}>Go back to Map</Link></p>
         {user.type === "Charity" && <p className="cart"><Link to="/cart"><FontAwesomeIcon icon={faShoppingCart}/> cart: {cart.length} </Link></p>}
+        </div>
 
         <h3> Welcome back, {user && user.name}</h3>
         {user.type === "Grocer/Restaurant" && stores &&
@@ -104,25 +115,28 @@ export default function Profile(props) {
 
         <ul>
           {user.type === "Charity" && stores && (
-            <div>
+            <div className="itemsList">
               {filteredStore.products &&
-                filteredStore.products.map(item => {
+                filteredStore.products.map((item, index) => {
+                  console.log('iiiii', item)
                   return (
-                    <div>
-                      <li>
-                        {item.name} {item.quantity} {item.unit}
-                        <Button
-                          onClick={() => {
-                            handleAddToCart(item);
-                          }}
-                          name="add to cart"
-                        />
-                      </li>
+                    <div className="singleItem">
+                      <ListGroup>
+                      <ListGroup.Item action variant="warning">
+                        {item.name}: {item.quantity} {item.unit} 
+                        <br/>
+                        Expires: {item.expiry} 
+                        <br/>
+                        <img src={item.imgurl}/>
+                        <Button id={index} onClick={() => {handleAddToCart(item); toggle();}}>{toggleState}</Button>
+                      </ListGroup.Item>
+                    </ListGroup>
+                    <br/>
                     </div>
                   );
                 })}
               {cart.length > 0 && (
-                <Button
+                <Button className="checkoutButton"
                   onClick={() => {
                     props.history.push("/cart");
                   }}
