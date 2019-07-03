@@ -89,7 +89,9 @@ export default function CharityHome(props) {
             className="search-input"
             style={
               {
-                backgroundColor: '#f9ecbb'
+                backgroundColor: '#f9ecbb',
+                position: 'fixed',
+                bottom: '0px'
               }
             }
           />
