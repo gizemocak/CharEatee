@@ -1,12 +1,17 @@
-import { action} from "easy-peasy";
+import {
+  action
+} from "easy-peasy";
 
 const cart = {
   cart: [],
   addToCart: action((state, lineItem) => {
-     state.cart = [...state.cart, lineItem]
+    state.cart = [...state.cart, lineItem]
   }),
   removeFromCart: action((state, newCart) => {
     state.cart = newCart
+  }),
+  clearCart: action((state) => {
+    state.cart = []
   })
 };
 

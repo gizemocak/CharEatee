@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./NavBar";
-
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from "react-router-dom";
-
 import "../style/Profile.scss";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import posed from "react-pose";
 import ListGroup from "react-bootstrap/ListGroup";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-
 import styled, { keyframes } from "styled-components";
 import { fadeInUp } from "react-animations";
-
-
+import { Button } from "../../node_modules/react-bootstrap";
 
 export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
@@ -26,6 +21,7 @@ export default function OrderHistory(props) {
   `;
   let user = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([{}]);
+  const clearCart = useStoreActions(actions => actions.clearCart);
 
   const Hover = posed.div({
     hoverable: true,
@@ -61,6 +57,12 @@ export default function OrderHistory(props) {
       .then(res => console.log("state", products));
   }, []);
 
+  const goToMap = e => {
+    e.preventDefault();
+    clearCart();
+    props.history.push(`/charity/home/${user.user_id}`);
+  };
+
   return (
     <>
       <Navbar />
@@ -68,15 +70,13 @@ export default function OrderHistory(props) {
         <h3>{JSON.parse(localStorage.getItem("user")).name}</h3>
         {JSON.parse(localStorage.getItem("user")).type === "Charity" ? (
           <div>
-
-            <Link to={`/charity/home/${user.user_id}`}>See the map</Link>
+            <Button onClick={goToMap}>See the map</Button>
             <div>Your Order History</div>
             <ul>
               {order.map(item => {
                 return <li>{item.name}</li>;
               })}
             </ul>
-
           </div>
         ) : (
           <div>Your Donations History</div>
@@ -112,4 +112,3 @@ export default function OrderHistory(props) {
     </>
   );
 }
-
