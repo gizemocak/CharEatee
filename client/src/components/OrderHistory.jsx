@@ -4,6 +4,7 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 
 export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
+  console.log('oooooooooo', order)
   let user = JSON.parse(localStorage.getItem("user"))
   useEffect(() => {
    fetch(`http://localhost:8080/api/orders/?userId=${user.user_id}&type=${user.type}`,{
