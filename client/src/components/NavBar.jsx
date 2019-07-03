@@ -9,7 +9,8 @@ import { faChessQueen } from "@fortawesome/free-solid-svg-icons";
 
 
 export default class NavBar extends Component {
-   clear = () => {
+   clear = (e) => {
+     e.preventDefault();
     localStorage.clear();
   }
   

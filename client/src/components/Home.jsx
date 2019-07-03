@@ -77,10 +77,10 @@ const Slogan5 = () => (
 );
 
 
-let user = JSON.parse(localStorage.getItem("user"));
 
 export default class Home extends Component {
   render() {
+    let user = JSON.parse(localStorage.getItem("user"));
     return (
       <div className="App">
         <Navbar />

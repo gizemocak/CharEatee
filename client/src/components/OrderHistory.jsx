@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Navbar from "./NavBar";
 import { useStoreState, useStoreActions } from "easy-peasy";
+import { Link } from "react-router-dom";
 
 export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
@@ -23,6 +24,7 @@ export default function OrderHistory(props) {
       {order.length > 0 &&
         JSON.parse(localStorage.getItem("user")).type === "Charity" && (
           <div>
+            <Link to={`/charity/home/${user.user_id}`}>See the map</Link>
             <div>Order History</div>
             <ul>
               {order.map(item => {
