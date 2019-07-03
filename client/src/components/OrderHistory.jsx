@@ -4,11 +4,6 @@ import Navbar from "./NavBar";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from "react-router-dom";
 
-export default function OrderHistory(props) {
-  const order = useStoreState(state => state.order);
-  console.log('oooooooooo', order)
-  let user = JSON.parse(localStorage.getItem("user"))
-
 import "../style/Profile.scss";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
@@ -20,12 +15,15 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 import styled, { keyframes } from "styled-components";
 import { fadeInUp } from "react-animations";
-const FadeInUpAnimation = keyframes`${fadeInUp}`;
-const FadeInUpDiv = styled.div`
-  animation: 500ms ${FadeInUpAnimation};
-`;
+
+
 
 export default function OrderHistory(props) {
+  const order = useStoreState(state => state.order);
+  const FadeInUpAnimation = keyframes`${fadeInUp}`;
+  const FadeInUpDiv = styled.div`
+    animation: 500ms ${FadeInUpAnimation};
+  `;
   let user = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([{}]);
 
@@ -114,3 +112,4 @@ export default function OrderHistory(props) {
     </>
   );
 }
+
