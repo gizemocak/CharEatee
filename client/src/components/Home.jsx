@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "../style/Home.scss";
 import CarouselView from "./Carousel";
 import posed from "react-pose";
+import Button from "react-bootstrap/Button";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleUp } from "@fortawesome/free-solid-svg-icons";
@@ -75,8 +76,11 @@ const Slogan5 = () => (
   </Box>
 );
 
+
+
 export default class Home extends Component {
   render() {
+    let user = JSON.parse(localStorage.getItem("user"));
     return (
       <div className="App">
         <Navbar />
@@ -96,10 +100,14 @@ export default class Home extends Component {
               <FontAwesomeIcon icon={faArrowCircleUp} />
             </span>
             <p>Play Around with Me</p>
+            
+            {!user && 
+            <div className="sign">
             <span>
               <FontAwesomeIcon icon={faArrowCircleDown} />
             </span>
-            <p><Link to={"/login"}>Sign In</Link> | <Link to={"/signup"}>Sign Up</Link></p>
+            <p><Link to={"/account"}>Sign In | Sign Up</Link></p>
+            </div>}
           </div>
 
           <footer>

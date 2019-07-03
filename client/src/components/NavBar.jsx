@@ -4,30 +4,38 @@ import { Link } from "react-router-dom";
 import "../style/NavBar.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { faChessQueen } from "@fortawesome/free-solid-svg-icons";
 
+
 export default class NavBar extends Component {
-  shouldComponentUpdate() {
-    return false;
+   clear = (e) => {
+     e.preventDefault();
+    localStorage.clear();
   }
+  
   render() {
+    let user = JSON.parse(localStorage.getItem("user"));
     return (
       <Navbar fixed="top" className="nav">
         <div className="menu">
-          <FontAwesomeIcon icon={faChessQueen} />
+            <FontAwesomeIcon icon={faChessQueen}/>
         </div>
         <Link to="/">
           <div className="logo">CharEatee</div>
         </Link>
 
-        <div className="menu">
-          <Link to={"/account"}>
-            <FontAwesomeIcon
-              icon={faEllipsisH}
-              className="transition-item list-page"
-            />
+        {user && 
+        <div className="menu" onClick={this.clear}>
+          <Link to="/">
+          Sign out <FontAwesomeIcon icon={faSignOutAlt} />
           </Link>
-        </div>
+        </div>}
+
+        {!user && <div className="menu">
+          <FontAwesomeIcon icon={faChessQueen} />
+        </div>}
+
       </Navbar>
     );
   }

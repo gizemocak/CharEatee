@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./NavBar";
+
+import { useStoreState, useStoreActions } from "easy-peasy";
+import { Link } from "react-router-dom";
+
+export default function OrderHistory(props) {
+  const order = useStoreState(state => state.order);
+  console.log('oooooooooo', order)
+  let user = JSON.parse(localStorage.getItem("user"))
+
 import "../style/Profile.scss";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
@@ -61,7 +70,15 @@ export default function OrderHistory(props) {
         <h3>{JSON.parse(localStorage.getItem("user")).name}</h3>
         {JSON.parse(localStorage.getItem("user")).type === "Charity" ? (
           <div>
+
+            <Link to={`/charity/home/${user.user_id}`}>See the map</Link>
             <div>Your Order History</div>
+            <ul>
+              {order.map(item => {
+                return <li>{item.name}</li>;
+              })}
+            </ul>
+
           </div>
         ) : (
           <div>Your Donations History</div>

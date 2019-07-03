@@ -39,12 +39,16 @@
     flex-direction: column;
     padding-top: 4rem;
 
+    .sign {
+        @extend %flex;
+        flex-direction: column;
+    }
+
     p {
         font-family: 'Merienda One', cursive;
         margin-bottom: 0;
         a {
             color: black;
-            text-decoration: underline;
         }
     }
 }
