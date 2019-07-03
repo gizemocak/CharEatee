@@ -54,9 +54,6 @@ export default function GroceryHome(props) {
   }
 
   const updateFormItemInItems = () => {
-    console.log('formItem', formItem);
-    console.log('items', items);
-
     const currentItems = [...items];
     currentItems[formItemIndex] = formItem;
     updateItems(currentItems);
@@ -111,7 +108,6 @@ export default function GroceryHome(props) {
   const handleChange = (value, propertyName) => {
     const newFormData = { ...formData };
     newFormData[propertyName] = value;
-    console.log('updating', newFormData);
     updateFormData(newFormData);
   };
 
@@ -121,13 +117,12 @@ export default function GroceryHome(props) {
   };
 
   const handleDonationSubmit = () => {
-    console.log("itemsssssssssss", items)
     fetch('http://localhost:8080/api/products', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(items)
     }).then(res => {
-      console.log("response", res);
+      // console.log("response", res);
     })
   }
 

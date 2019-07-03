@@ -24,7 +24,6 @@ const store = createStore({
   ...OrderHistoryModel
 })
 
-console.log(store)
 
 function App() {
     useEffect(() => {

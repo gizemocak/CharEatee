@@ -38,7 +38,6 @@ export default function SignUpForm(props) {
   const handleRegister = () => {
     fetchFormData({ formData, endpoint: 'register' }).then(res => {
       setRegistered(res);
-      console.log("res", res);
       if (res.type === "Grocer/Restaurant") {
         props.history.push(`/grocery/home/${res.user_id}`);
       } else {
