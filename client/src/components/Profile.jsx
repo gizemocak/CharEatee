@@ -85,8 +85,6 @@ export default function Profile(props) {
   let filteredStore = stores.find(store => {
     return store.id === Number(props.match.params.id);
   });
-  console.log("filtered", filteredStore);
-  console.log('stooooores', stores)
 
 
 

@@ -17,7 +17,7 @@ export default class DonationForm extends Component {
   };
 
   fileSelectHandler = event => {
-    console.log(event.target.files[0]);
+    // console.log(event.target.files[0]);
     event.preventDefault();
     let reader = new FileReader();
     let file = event.target.files[0];
@@ -56,7 +56,7 @@ export default class DonationForm extends Component {
           .ref(name)
           .getDownloadURL()
           .then(url => {
-            console.log(url);
+            // console.log(url);
             this.props.handleImage(url);
           });
       }
