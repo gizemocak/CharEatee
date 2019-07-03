@@ -109,7 +109,7 @@ export default class Home extends Component {
             <span>
               <FontAwesomeIcon icon={faArrowCircleDown} />
             </span>
-            <p><Link to={"/login"}>Sign In</Link> | <Link to={"/signup"}>Sign Up</Link></p>
+            <p><Link to={"/account"}>Sign In | Sign Up</Link></p>
             </div>}
           </div>
 

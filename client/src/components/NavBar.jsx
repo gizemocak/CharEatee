@@ -9,6 +9,10 @@ import { faChessQueen } from "@fortawesome/free-solid-svg-icons";
 
 let user = JSON.parse(localStorage.getItem("user"));
 
+const clear = () => {
+  localStorage.clear();
+}
+
 export default class NavBar extends Component {
   shouldComponentUpdate() {
     return false;
@@ -17,19 +21,17 @@ export default class NavBar extends Component {
     return (
       <Navbar fixed="top" className="nav">
         <div className="menu">
-          <Link to={"/account"}>
-            <FontAwesomeIcon
-              icon={faEllipsisH}
-              className="transition-item list-page"
-            />
-          </Link>
+            <FontAwesomeIcon icon={faChessQueen}/>
         </div>
         <Link to="/">
           <div className="logo">CharEatee</div>
         </Link>
 
-        {user &&<div className="menu">
+        {user && 
+        <div className="menu" onClick={clear}>
+          <Link to="/">
           Sign out <FontAwesomeIcon icon={faSignOutAlt} />
+          </Link>
         </div>}
 
         {!user && <div className="menu">
