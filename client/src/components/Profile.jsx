@@ -16,7 +16,7 @@ import styled, { keyframes } from "styled-components";
 import { fadeInUp } from 'react-animations';
 const FadeInUpAnimation = keyframes`${fadeInUp}`;
 const FadeInUpDiv = styled.div`
-  animation: 2s ${FadeInUpAnimation};
+  animation: 500ms ${FadeInUpAnimation};
 `;
 
 const Hover = posed.div({
@@ -24,15 +24,15 @@ const Hover = posed.div({
   pressable: true,
   init: {
     scale: 1,
-    boxShadow: '0px 0px 0px rgba(0,0,0,0)'
+    boxShadow: "0px 0px 0px rgba(0,0,0,0)"
   },
   hover: {
     scale: 1.2,
-    boxShadow: '0px 5px 10px rgba(0,0,0,0.2)'
+    boxShadow: "0px 5px 10px rgba(0,0,0,0.2)"
   },
   press: {
     scale: 1.1,
-    boxShadow: '0px 2px 5px rgba(0,0,0,0.1)'
+    boxShadow: "0px 2px 5px rgba(0,0,0,0.1)"
   }
 });
 
@@ -116,9 +116,8 @@ export default function Profile(props) {
         <ul>
           {user.type === "Charity" && stores && (
             <div className="itemsList">
-              {filteredStore.products &&
-                filteredStore.products.map((item, index) => {
-                  console.log('iiiii', item)
+              {filteredStore && filteredStore.products &&
+                filteredStore.products.filter(item =>  !item.deleted_at).map((item, index) => {
                   return (
                     <div className="singleItem">
                       <ListGroup>

@@ -4,11 +4,10 @@ import { withRouter } from "react-router";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 const style = {
-  position: "absolute",
+  position: "relative",
   width: "100vw",
   height: "100vh",
-  top: "-10px",
-  left: "-40px"
+  left:'-10px'
 };
 class GoogleMap extends React.Component {
   constructor(props) {
@@ -20,6 +19,7 @@ class GoogleMap extends React.Component {
       selectedPlace: null,
       mapElementFound: null
     };
+    console.log('props', props)
   }
   /*   const [icon, setIcon] = useState("");
   const [showingInfoWindow, updateShowingInfoWindow] = useState(false);
@@ -83,7 +83,7 @@ class GoogleMap extends React.Component {
         </a>
         <ul>
           {selectedPlace.products &&
-            selectedPlace.products.map(item => {
+            selectedPlace.products.filter(item => !item.deleted_at).map(item => {
               return <li>{item.name}</li>;
             })}
         </ul>
@@ -97,7 +97,7 @@ class GoogleMap extends React.Component {
 
   render() {
     return (
-      <>
+      <div id="map_canvas">
         <Map
           google={this.props.google}
           zoom={14}
@@ -143,7 +143,7 @@ class GoogleMap extends React.Component {
             <div id="iwc" />
           </InfoWindow>
         </Map>
-      </>
+      </div>
     );
   }
 }

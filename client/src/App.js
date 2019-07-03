@@ -1,4 +1,4 @@
-import React, { Component, useEffect  } from 'react';
+import React, { useEffect  } from 'react';
 import { Route, Switch, withRouter} from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
@@ -14,11 +14,14 @@ import adminModel from "./stores/adminModel"
 import Cart from "./components/Cart"
 import cartModel from "./stores/cartModel"
 import HomeSub from "./components/HomeSub"
+import OrderHistory from "./components/OrderHistory"
+import OrderHistoryModel from "./stores/orderHistoryModel"
 
 const store = createStore({
   ...usersProductsModel,
   ...adminModel,
-  ...cartModel
+  ...cartModel,
+  ...OrderHistoryModel
 })
 
 console.log(store)
@@ -40,6 +43,7 @@ function App() {
           <Route path='/profile/:id' component={Profile}/>
           <Route path='/cart' component={Cart}/>
           <Route path='/account' component={HomeSub}/>
+          <Route path='/order-history' component={OrderHistory}/>
         </Switch>
       </div>
       </StoreProvider>

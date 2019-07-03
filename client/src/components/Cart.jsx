@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 
 export default function Cart(props) {
   const cart = useStoreState(state => state.cart);
-  const [orders, setOrders] = useState([]);
+  const addToOrder = useStoreActions(actions => actions.addToOrder);
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -23,9 +23,16 @@ export default function Cart(props) {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(cartObj)
-    }).then(res => {
-      console.log("response", res);
-    });
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(body => {
+        if (body) {
+          addToOrder(body);
+          props.history.push("/order-history");
+        }
+      });
   };
 
   return (

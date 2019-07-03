@@ -99,6 +99,7 @@ app.post("/api/register", (req, res) => {
       address,
       city,
       zipcode: postalcode,
+      state: 'ontario',
       country: 'Canada'
     }, function (err, geocoderResponse) {
       knex('users')
@@ -210,7 +211,7 @@ app.get("/api/v2/stores", (req, res) => {
         res.send(users)
       }) */
 
-  knex.raw("SELECT id, json_build_object('id', id, 'username', username, 'email', email, 'address', address,'type', type, 'imgurl',imgurl, 'latitude', latitude, 'longitude', longitude, 'city', city, 'province',province,'postalcode', postalcode,'products', (SELECT json_agg(json_build_object('id',products.id, 'name', products.name, 'imgurl', products.imgurl,  'quantity', products.quantity ,'unit', products.unit,  'expiry', products.expiry_date,  'userId', products.user_id)) FROM products where products.user_id=users.id)) from users").then(response => {
+  knex.raw("SELECT id, json_build_object('id', id, 'username', username, 'email', email, 'address', address,'type', type, 'imgurl',imgurl, 'latitude', latitude, 'longitude', longitude, 'city', city, 'province',province,'postalcode', postalcode,'products', (SELECT json_agg(json_build_object('id',products.id, 'name', products.name, 'imgurl', products.imgurl,  'quantity', products.quantity ,'unit', products.unit,  'expiry', products.expiry_date,  'userId', products.user_id, 'deleted_at', products.deleted_at)) FROM products where products.user_id=users.id)) from users").then(response => {
     res.send(response.rows.map(row => row.json_build_object))
   })
 });
@@ -239,17 +240,50 @@ app.get("/api/products", (req, res) => {
       });
   }
 });
-////////////get order/////////////////////\\COME BACK!!!
-app.get("/api/orders", (req, res) => {
-  //check if query string exists, search that query in the database and show the ones that have the key
-  knex
+////////////get orders/////////////////////
+app.get("/api/orders/", (req, res) => {
+  const {userId , type} = req.query
+  /* var query = knex("orders")
     .select("*")
-    .from("orders")
-    .where("user_id", "like", `%${req.session.user_id}%`)
-    .then(orders => {
-      // console.log("searched products",orders)
-      res.json(orders);
-    });
+
+    if(type === "Charity")
+    query.where('charity_id', userId) // <-- only if param exists
+  else
+    query.where('user_id', userId) // <-- for instance
+
+  query.then(function(results) {
+    console.log("query" ,results)
+    //query success
+
+    results.map(item => {
+      return (
+        item
+      )
+    })
+    res.send();
+  })
+  .then(null, function(err) {
+    //query fail
+    res.status(500).send(err);
+  }); */
+
+  knex.raw(`SELECT orders.user_id, orders.charity_id, json_build_object('orderId', id, 'lineItems', 
+    (SELECT json_agg(json_build_object('id',line_items.id, 'product', products.name))
+    FROM line_items INNER JOIN products ON (line_items.product_id = products.id)
+    where line_items.order_id=orders.id)) from orders 
+    where ${type === "Charity" ? `orders.charity_id=${userId}` : `orders.user_id=${userId}`}`)
+  .then(response => {
+    console.log("query responseee", response)
+   res.send({
+    current_user_id: userId,
+     orders:response.rows.map(row => {
+     return {
+      user_id: row.user_id,
+      charity_id: row.charity_id,
+      line_items: row.json_build_object
+     }
+   })})
+  })
 });
 
 
@@ -270,7 +304,7 @@ app.post("/api/order", (req, res) => {
     })
     .returning('id')
     .then(ids => {
-      console.log('id', ids)
+      // console.log('id', ids)
       const productsToInsert = products.map(product => {
         return {
           order_id: ids[0],
@@ -279,9 +313,15 @@ app.post("/api/order", (req, res) => {
       })
 
       knex('line_items').insert(productsToInsert).returning("*").then(line_items => {
-        console.log('order', line_items)
-        res.status(200).send(line_items)
-      })
+        
+          line_items.forEach(item => {
+            knex.raw(`UPDATE products set deleted_at = current_date where products.id = ${item.product_id}`).then(response => {
+              console.log('response', response)
+            })
+          })
+          
+          res.status(200).send(line_items)
+        })
         .catch(error => {
           res.status(400).send(error);
         });
