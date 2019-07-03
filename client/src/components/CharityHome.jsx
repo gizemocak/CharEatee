@@ -6,6 +6,13 @@ import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
+import styled, { keyframes } from "styled-components";
+import { fadeIn } from 'react-animations';
+const FadeInAnimation = keyframes`${fadeIn}`;
+const FadeInDiv = styled.div`
+  animation: 3s ${FadeInAnimation};
+`;
+
 export default function CharityHome(props) {
   const [geoLoc, setGeoLoc] = useState({ lat: 43.6478476, lng: -79.3912643 });
   const [searchValue, setSearchValue] = useState("");
@@ -63,6 +70,7 @@ export default function CharityHome(props) {
     <>
       <NavBar id={props.match.params.id} />
 
+      <fadeInDiv>
       {googleMapsAPIKey && filteredStores.length > 0 && geoLoc && (
         <MapContainer
           apiKey={googleMapsAPIKey}
@@ -79,13 +87,18 @@ export default function CharityHome(props) {
             value={searchValue}
             onChange={onChange}
             className="search-input"
+            style={
+              {
+                backgroundColor: '#f9ecbb'
+              }
+            }
           />
         </Form.Group>
-        <Button variant="primary" type="submit" className="search-button">
+        <Button variant="primary" type="submit" className="search-button" style={{display: 'none'}}>
           Search
         </Button>
       </Form>
-      
+    </fadeInDiv>
     </>
   );
 }
