@@ -11,7 +11,7 @@
         margin-top: 2rem;
     }
     .cart {
-        background-color: #ea8787d4;
+        background-color: #f5b4b4d4;
         padding: 0.5rem 1rem;
         font-size: 18px;
     }
@@ -20,9 +20,13 @@
 
     .itemsList {
         .checkoutButton {
-            background-color: #ea8787d4;
+            background-color: #f5b4b4d4;
             border: none;
         }
+        .checkoutButton:hover {
+            background-color: #ea8787d4;
+        }
+
         .singleItem {
             Button {
                 float: right;

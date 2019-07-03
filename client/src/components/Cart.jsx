@@ -4,7 +4,15 @@ import NavBar from "./NavBar";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faDonate } from '@fortawesome/free-solid-svg-icons';
 import "../style/Cart.scss";
+
+import styled, { keyframes } from "styled-components";
+import { lightSpeedIn } from 'react-animations';
+const LightSpeedInAnimation = keyframes`${lightSpeedIn}`;
+const LightSpeedInDiv = styled.div`
+  animation: 2s ${LightSpeedInAnimation};
+`;
 
 export default function Cart(props) {
   const cart = useStoreState(state => state.cart);
@@ -32,8 +40,9 @@ export default function Cart(props) {
   };
 
   return (
-    <>
+    <div className="showCart">
       <NavBar />
+      <LightSpeedInDiv>
       <p className="your">Your Cart ({cart.length})</p>
       {cart.length > 0 &&
         cart.map(item => {
@@ -59,7 +68,8 @@ export default function Cart(props) {
           );
         })}
 
-      <Button onClick={placeOrder}>Place Order</Button>
-    </>
+      <Button className="placebutt" onClick={placeOrder}>Place Order <FontAwesomeIcon icon={faDonate}/></Button>
+    </LightSpeedInDiv>
+    </div>
   );
 }
