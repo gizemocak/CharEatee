@@ -4,15 +4,19 @@ import { useStoreState, useStoreActions, StoreProvider } from "easy-peasy";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import "../style/Profile.scss";
-import Card from "react-bootstrap/Card";
-import Accordion from "react-bootstrap/Accordion";
-import posed from "react-pose";
+import Card from 'react-bootstrap/Card';
+import Accordion from 'react-bootstrap/Accordion';
+import posed from 'react-pose';
+import ListGroup from 'react-bootstrap/ListGroup';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 import styled, { keyframes } from "styled-components";
-import { fadeInUp } from "react-animations";
+import { fadeInUp } from 'react-animations';
 const FadeInUpAnimation = keyframes`${fadeInUp}`;
 const FadeInUpDiv = styled.div`
-  animation: 2s ${FadeInUpAnimation};
+  animation: 500ms ${FadeInUpAnimation};
 `;
 
 const Hover = posed.div({
@@ -43,8 +47,10 @@ export default function Profile(props) {
   const removeFromCart = useStoreActions(action => action.removeFromCart);
 
   const [clicked, updateClickedButton] = useState(false);
+  const [toggleState, setToggleState] = useState("+");
+  // const usersInfo = useStoreState(state => state.pins);
 
-  console.log(cart);
+
   useEffect(() => {
     fetchStores();
   }, []);
@@ -68,6 +74,11 @@ export default function Profile(props) {
       updateClickedButton(false);
     }
   };
+  
+
+  const toggle = () => {
+    setToggleState(toggleState === "+" ? "-" : "+");
+  }
 
   let user = JSON.parse(localStorage.getItem("user"));
 
@@ -75,127 +86,113 @@ export default function Profile(props) {
     return store.id === Number(props.match.params.id);
   });
   console.log("filtered", filteredStore);
+  console.log('stooooores', stores)
+
+
+
 
   return (
     <div className="showItems">
       <NavBar />
       <FadeInUpDiv>
-        {user.type === "Charity" && (
-          <Link to="/cart">cart: {cart.length} </Link>
-        )}
+        <div className="subNav">
+        <p><Link to={`/charity/home/${user.user_id}`}>Go back to Map</Link></p>
+        {user.type === "Charity" && <p className="cart"><Link to="/cart"><FontAwesomeIcon icon={faShoppingCart}/> cart: {cart.length} </Link></p>}
+        </div>
 
-        <h3> Welcome back, {username && username}</h3>
-        {user.type === "Grocer/Restaurant" && stores && (
+        <h3> Welcome back, {user && user.name}</h3>
+        {user.type === "Grocer/Restaurant" && stores &&
           <div className="greeting">
             <p>We really appreciate your kindness!</p>
-            <p>
-              Click{" "}
-              <Link
-                to={`/grocery/home/${
-                  JSON.parse(localStorage.getItem("user")).user_id
-                }`}
-              >
-                HERE
-              </Link>{" "}
-              if you want to make more donations
-            </p>
+            <p>Click <Link to={`/grocery/home/${JSON.parse(localStorage.getItem('user')).user_id}`}>HERE</Link> if you want to make more donations</p>
             <p>Or you can check your past donations below:</p>
-          </div>
-        )}
+          </div>}
+
+        {user.type === "Charity" && stores && <
+          div className="greeting">
+            <p>Please select the items you need from this store:</p>
+          </div>}
 
         <ul>
           {user.type === "Charity" && stores && (
-            <div>
-              {filteredStore.products &&
-                filteredStore.products.map(item => {
+            <div className="itemsList">
+              {filteredStore && filteredStore.products &&
+                filteredStore.products.filter(item =>  !item.deleted_at).map((item, index) => {
                   return (
-                    <div>
-                      <li>
-                        {item.name} {item.quantity} {item.unit}
-                        <Button
-                          onClick={() => {
-                            handleAddToCart(item);
-                          }}
-                          name="add to cart"
-                        />
-                      </li>
+                    <div className="singleItem">
+                      <ListGroup>
+                      <ListGroup.Item action variant="warning">
+                        {item.name}: {item.quantity} {item.unit} 
+                        <br/>
+                        Expires: {item.expiry} 
+                        <br/>
+                        <img src={item.imgurl}/>
+                        <Button id={index} onClick={() => {handleAddToCart(item); toggle();}}>{toggleState}</Button>
+                      </ListGroup.Item>
+                    </ListGroup>
+                    <br/>
                     </div>
                   );
                 })}
               {cart.length > 0 && (
-                <Button
+                <Button className="checkoutButton"
                   onClick={() => {
                     props.history.push("/cart");
                   }}
                 >
-                  Checkout{" "}
-                  {cart.length === 1 ? "1 Item" : `${cart.length} Items`}
+                  Checkout {cart.length === 1 ? "1 Item" : `${cart.length} Items`}
                 </Button>
               )}
             </div>
           )}
 
-          {user.type === "Grocer/Restaurant" &&
-            stores &&
-            stores.map(item => {
-              if (item.user_id === Number(props.match.params.id)) {
-                if (username !== item.username) {
-                  setUserName(item.username);
-                }
+        {user.type === "Grocer/Restaurant" &&
+          stores &&
+          stores.map(store => {
+            if (store.id === Number(props.match.params.id)) {
+              if (username !== store.username) {
+                setUserName(store.username);
+              }
+              return store.products.map(product => {
                 return (
                   <div className="grocerItems">
                     <Accordion>
                       <Card>
                         <Card.Header>
-                          <Accordion.Toggle
-                            as={Button}
-                            variant="link"
-                            eventKey="0"
-                          >
-                            <Hover className="hoverTitle">{item.name}</Hover>
+                          <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                            <Hover className="hoverTitle">{product.name}</Hover>
                           </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
                           <Card.Body>
-                            Quantity: {item.quantity} {item.unit}
-                            <hr />
-                            Expiry Date: {item.expiry_date.slice(0, 10)}
+                            Quantity: {product.quantity} {product.unit}
+                            <hr/>
+                            Expiry Date: {product.expiry.slice(0,10)}
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
                       <Card>
                         <Card.Header>
-                          <Accordion.Toggle
-                            as={Button}
-                            variant="link"
-                            eventKey="1"
-                          >
-                            <Hover className="hoverTitle">
-                              Image of {item.name}
-                            </Hover>
+                          <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                            <Hover className="hoverTitle">Image of {product.name}</Hover>
                           </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey="1">
                           <Card.Body>
-                            {item.imgurl ? (
-                              <img
-                                src={item.imgurl}
-                                style={{ height: "5rem" }}
-                              />
-                            ) : (
-                              <p>No image for this item</p>
-                            )}
+                            {product.imgurl? <img src={product.imgurl} style={{height: '5rem'}}/> : <p>No image for this item</p>}
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
-                      <br />
+                      <br/>
                     </Accordion>
+  
                   </div>
                 );
-              }
-            })}
-        </ul>
-        <footer className="footPf">
+              })
+            }
+          })}
+      </ul>
+      <footer className="footPf">
           <span>Give a little. Help a lot.</span>
         </footer>
       </FadeInUpDiv>
