@@ -24,12 +24,11 @@ export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
   const ZoomInAnimation = keyframes`${zoomIn}`;
   const ZoomInDiv = styled.div`
-    animation: 2s ${ZoomInAnimation};
+    animation: 1s ${ZoomInAnimation};
   `;
 
   let user = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([{}]);
-  const clearCart = useStoreActions(actions => actions.clearCart);
 
   const Hover = posed.div({
     hoverable: true,
@@ -66,12 +65,6 @@ export default function OrderHistory(props) {
       .then(res => setProducts(res))
       .then(res => console.log("state", products));
   }, []);
-
-  const goToMap = e => {
-    e.preventDefault();
-    clearCart();
-    props.history.push(`/charity/home/${user.user_id}`);
-  };
 
   return (
     <>

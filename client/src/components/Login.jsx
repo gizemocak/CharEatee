@@ -7,11 +7,10 @@ import "../style/Login.scss";
 import { Link } from "react-router-dom";
 
 import styled, { keyframes } from "styled-components";
-import { rotateInUpLeft } from "react-animations";
-
-const RotateInUpLeftAnimation = keyframes`${rotateInUpLeft}`;
-const RotateInUpLeftYDiv = styled.div`
-  animation: 2s ${RotateInUpLeftAnimation};
+import { fadeInRight } from "react-animations";
+const FadeInRightAnimation = keyframes`${fadeInRight}`;
+const FadeInRightYDiv = styled.div`
+  animation: 1s ${FadeInRightAnimation};
 `;
 
 export default function Login(props) {
@@ -60,7 +59,7 @@ export default function Login(props) {
   return (
     <div className="loginBox">
       <NavBar />
-      <RotateInUpLeftYDiv>
+      <FadeInRightYDiv>
         <h1>Login</h1>
         <p>Click <Link to={"/signup"}>HERE</Link> if you are not a member yet</p>
         <Form onSubmit={formSubmit}>
@@ -99,7 +98,7 @@ export default function Login(props) {
         <footer className="footLg">
           <span>Incredible donation, incredible you.</span>
         </footer>
-      </RotateInUpLeftYDiv>
+      </FadeInRightYDiv>
     </div>
   );
 }
