@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
 import styled, { keyframes } from "styled-components";
-import { fadeIn } from 'react-animations';
+import { fadeIn } from "react-animations";
 const FadeInAnimation = keyframes`${fadeIn}`;
 const FadeInDiv = styled.div`
   animation: 3s ${FadeInAnimation};
@@ -24,7 +24,7 @@ export default function CharityHome(props) {
   const [displayedStores, setDisplayedStores] = useState([]);
 
   useEffect(() => {
-      window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
 
     getGeoLocation();
     fetchStores();
@@ -47,14 +47,13 @@ export default function CharityHome(props) {
   };
 
   const onChange = e => {
-
     setSearchValue(e.target.value);
     if (e.target.value.length === 0) {
       setDisplayedStores(filteredStores);
     } else {
       let newDisplayedStores = filteredStores.filter(store =>
-        store.products.find(
-          product => product.name.toLowerCase() === e.target.value.toLowerCase()
+        store.products.find(product =>
+          product.name.toLowerCase().includes(e.target.value.toLowerCase())
         )
       );
       setDisplayedStores(newDisplayedStores);
@@ -71,36 +70,39 @@ export default function CharityHome(props) {
       <NavBar id={props.match.params.id} />
 
       <fadeInDiv>
-      {googleMapsAPIKey && filteredStores.length > 0 && geoLoc && (
-        <MapContainer
-          apiKey={googleMapsAPIKey}
-          geoLocation={geoLoc}
-          pins={displayedStores}
-        />
-      )}
-
-      <Form onSubmit={onSubmit}>
-        <Form.Group>
-          <Form.Control
-            type="text"
-            placeholder="search an item"
-            value={searchValue}
-            onChange={onChange}
-            className="search-input"
-            style={
-              {
-                backgroundColor: 'rgb(245, 245, 245)',
-                position: 'fixed',
-                bottom: '0px'
-              }
-            }
+        {googleMapsAPIKey && filteredStores.length > 0 && geoLoc && (
+          <MapContainer
+            apiKey={googleMapsAPIKey}
+            geoLocation={geoLoc}
+            pins={displayedStores}
           />
-        </Form.Group>
-        <Button variant="primary" type="submit" className="search-button" style={{display: 'none'}}>
-          Search
-        </Button>
-      </Form>
-    </fadeInDiv>
+        )}
+
+        <Form onSubmit={onSubmit}>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              placeholder="search an item"
+              value={searchValue}
+              onChange={onChange}
+              className="search-input"
+              style={{
+                backgroundColor: "rgb(245, 245, 245)",
+                position: "fixed",
+                bottom: "0px"
+              }}
+            />
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+            className="search-button"
+            style={{ display: "none" }}
+          >
+            Search
+          </Button>
+        </Form>
+      </fadeInDiv>
     </>
   );
 }
