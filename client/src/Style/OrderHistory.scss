@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=K2D:500&display=swap');
+
+%tab {
+    color: black;
+    text-decoration: underline;
+}
+
+.jbt {
+    font-family: 'K2D', sans-serif;
+    background-color: antiquewhite;
+    color: #727275;
+
+    #bmap {
+        background-color: #f19898;
+        border: none;
+    }
+    #bmap:hover {
+        background-color: #f18080;
+    }
+}
+
+.orderBody {
+    font-family: 'K2D', sans-serif;
+
+    .otabs {
+        // background-color: antiquewhite;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 15px;
+
+        #uncontrolled-tab-example-tab-1, #uncontrolled-tab-example-tab-2, #uncontrolled-tab-example-tab-3 {
+            color: #727275;
+            padding: 0.3rem 0.3rem;
+
+        }
+        #uncontrolled-tab-example-tab-1:hover{ 
+            @extend %tab;
+        }
+        #uncontrolled-tab-example-tab-2:hover{ 
+            @extend %tab;
+        }   
+        #uncontrolled-tab-example-tab-3:hover{ 
+            @extend %tab;
+        }      
+    }
+    .orderItemList {
+        margin-top: 2rem;
+
+    }
+    #l1 {
+        background-color: white;
+    }
+}

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./NavBar";
+import "../style/OrderHistory.scss";
+
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import Button from "react-bootstrap/Button";
 
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from "react-router-dom";
@@ -7,6 +11,12 @@ import { Link } from "react-router-dom";
 import "../style/Profile.scss";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Nav from 'react-bootstrap/Nav';
+
 import posed from "react-pose";
 import ListGroup from "react-bootstrap/ListGroup";
 
@@ -27,6 +37,14 @@ export default function OrderHistory(props) {
 
   let user = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([{}]);
+
+  const clearCart = useStoreActions(actions => actions.clearCart);
+
+  const goToMap = e => {
+    e.preventDefault();
+    clearCart();
+    props.history.push(`/charity/home/${user.user_id}`);
+  };
 
   const Hover = posed.div({
     hoverable: true,
@@ -68,50 +86,104 @@ export default function OrderHistory(props) {
     <>
       <Navbar />
       <div className="greeting">
-        <h3>{JSON.parse(localStorage.getItem("user")).name}</h3>
+      <Jumbotron className="jbt">
+        <h3>Thank for your order, {user.name}</h3>
+        <p>
+          Please contact the grocer/restuarant to arrange the pickup or delivery.
+        </p>
+        <p>
+        <Button id="bmap" variant="primary"  onClick={goToMap}>Go back to the Map to view more donations</Button>
+        </p>
+    </Jumbotron>
+
         {JSON.parse(localStorage.getItem("user")).type === "Charity" ? (
-          <div>
+          <div className="orderBody">
 
-            <Link to={`/charity/home/${user.user_id}`}>See the map</Link>
-            <div>Your Order History</div>
-            <ul>
-              {order.map(item => {
-                return <li>{item.name}</li>;
-              })}
-            </ul>
-
+            <Tabs defaultActiveKey="1" id="uncontrolled-tab-example" className="otabs">
+              <Tab eventKey="1" title="This Week" className="stabs">
+                <div className="orderItemList">
+                  {products &&
+                    products.orders &&
+                    products.orders.map(item => {
+                      return (
+                        <div className="hisList">
+                          {item.line_items.lineItems &&
+                            item.line_items.lineItems.map(product => {
+                              console.log("product", product.product);
+                              return (
+                                <div className="singleItem">
+                                  <ListGroup>
+                                    <ListGroup.Item action variant="info" id="l1">
+                                      {product.product}
+                                    </ListGroup.Item>
+                                  </ListGroup>
+                                  <br />
+                                </div>
+                              );
+                            })}
+                        </div>
+                      );
+                    })}
+                </div>
+              </Tab>
+              <Tab eventKey="2" title="Past One Month" className="stabs">
+                <div className="orderItemList">
+                  {products &&
+                    products.orders &&
+                    products.orders.map(item => {
+                      return (
+                        <div className="hisList">
+                          {item.line_items.lineItems &&
+                            item.line_items.lineItems.map(product => {
+                              console.log("productsssss", product);
+                              return (
+                                <div className="singleItem">
+                                  <ListGroup>
+                                    <ListGroup.Item action variant="warning" id="l2">
+                                      {product.product}: {product.quantity} {product.expiry}
+                                    </ListGroup.Item>
+                                  </ListGroup>
+                                  <br />
+                                </div>
+                              );
+                            })}
+                        </div>
+                      );
+                    })}
+                </div>
+              </Tab>
+              <Tab eventKey="3" title="Past One year" className="stabs">
+                <div className="orderItemList">
+                  {products &&
+                    products.orders &&
+                    products.orders.map(item => {
+                      return (
+                        <div className="hisList">
+                          {item.line_items.lineItems &&
+                            item.line_items.lineItems.map(product => {
+                              console.log("product", product.product);
+                              return (
+                                <div className="singleItem">
+                                  <ListGroup>
+                                    <ListGroup.Item action variant="secondary" id="l3">
+                                      {product.product}
+                                    </ListGroup.Item>
+                                  </ListGroup>
+                                  <br />
+                                </div>
+                              );
+                            })}
+                        </div>
+                      );
+                    })}
+                </div>
+              </Tab>
+            </Tabs>
           </div>
         ) : (
           <div>Your Donations History</div>
         )}
       </div>
-      <ul>
-        <div className="itemList">
-          {products &&
-            products.orders &&
-            products.orders.map(item => {
-              return (
-                <div>
-                  {item.line_items.lineItems &&
-                    item.line_items.lineItems.map(product => {
-                      console.log("product", product.product);
-                      return (
-                        <div className="singleItem">
-                          <ListGroup>
-                            <ListGroup.Item action variant="warning">
-                              {product.product}
-                            </ListGroup.Item>
-                          </ListGroup>
-                          <br />
-                        </div>
-                      );
-                    })}
-                </div>
-              );
-              // console.log("item", item.line_items.lineItems);
-            })}
-        </div>
-      </ul>
     </>
   );
 }
