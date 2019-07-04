@@ -9,30 +9,25 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from "react-router-dom";
 
 import "../style/Profile.scss";
-import Card from "react-bootstrap/Card";
-import Accordion from "react-bootstrap/Accordion";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Nav from 'react-bootstrap/Nav';
 
 import posed from "react-pose";
 import ListGroup from "react-bootstrap/ListGroup";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 
 import styled, { keyframes } from "styled-components";
-import { fadeInUp } from "react-animations";
+import { zoomIn } from "react-animations";
 
 
 
 export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
-  const FadeInUpAnimation = keyframes`${fadeInUp}`;
-  const FadeInUpDiv = styled.div`
-    animation: 500ms ${FadeInUpAnimation};
+  const ZoomInAnimation = keyframes`${zoomIn}`;
+  const ZoomInDiv = styled.div`
+    animation: 2s ${ZoomInAnimation};
   `;
 
   let user = JSON.parse(localStorage.getItem("user"));
@@ -85,6 +80,7 @@ export default function OrderHistory(props) {
   return (
     <>
       <Navbar />
+      <ZoomInDiv>
       <div className="greeting">
       <Jumbotron className="jbt">
         <h3>Thank for your order, {user.name}</h3>
@@ -98,7 +94,7 @@ export default function OrderHistory(props) {
 
         {JSON.parse(localStorage.getItem("user")).type === "Charity" ? (
           <div className="orderBody">
-
+            <h5 style={{color: '#727275'}}>Your Order History <FontAwesomeIcon icon={faReceipt} /></h5>
             <Tabs defaultActiveKey="1" id="uncontrolled-tab-example" className="otabs">
               <Tab eventKey="1" title="This Week" className="stabs">
                 <div className="orderItemList">
@@ -126,7 +122,7 @@ export default function OrderHistory(props) {
                     })}
                 </div>
               </Tab>
-              <Tab eventKey="2" title="Past One Month" className="stabs">
+              <Tab eventKey="2" title="Past 1 Month" className="stabs">
                 <div className="orderItemList">
                   {products &&
                     products.orders &&
@@ -140,7 +136,7 @@ export default function OrderHistory(props) {
                                 <div className="singleItem">
                                   <ListGroup>
                                     <ListGroup.Item action variant="warning" id="l2">
-                                      {product.product}: {product.quantity} {product.expiry}
+                                      {product.product}
                                     </ListGroup.Item>
                                   </ListGroup>
                                   <br />
@@ -152,7 +148,7 @@ export default function OrderHistory(props) {
                     })}
                 </div>
               </Tab>
-              <Tab eventKey="3" title="Past One year" className="stabs">
+              <Tab eventKey="3" title="Past 1 year" className="stabs">
                 <div className="orderItemList">
                   {products &&
                     products.orders &&
@@ -184,6 +180,10 @@ export default function OrderHistory(props) {
           <div>Your Donations History</div>
         )}
       </div>
+      <footer className="ofoot">
+        <span>Share your joy of charity.</span>
+      </footer>
+      </ZoomInDiv>
     </>
   );
 }
