@@ -24,7 +24,7 @@ export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
   const ZoomInAnimation = keyframes`${zoomIn}`;
   const ZoomInDiv = styled.div`
-    animation: 2s ${ZoomInAnimation};
+    animation: 1s ${ZoomInAnimation};
   `;
 
   let user = JSON.parse(localStorage.getItem("user"));

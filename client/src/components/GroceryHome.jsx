@@ -17,7 +17,7 @@ import { bounceInUp } from 'react-animations';
 import { wobble } from 'react-animations';
 const WobbleAnimation = keyframes`${wobble}`;
 const WobbleDiv = styled.div`
-  animation: 2s ${WobbleAnimation};
+  animation: 1s ${WobbleAnimation};
 `;
 
 const BounceInUpAnimation = keyframes`${bounceInUp}`;
@@ -26,9 +26,6 @@ const BounceInUpDiv = styled.div`
 `;
 
 export default function GroceryHome(props) {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-});
 
   // Setup state for this page
   const [camera, updateCamera] = useState(true);

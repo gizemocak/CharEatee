@@ -15,7 +15,7 @@ import styled, { keyframes } from "styled-components";
 import { flipInX } from "react-animations";
 const FlipInXAnimation = keyframes`${flipInX}`;
 const FlipInXDiv = styled.div`
-  animation: 2s ${FlipInXAnimation};
+  animation: 1.5s ${FlipInXAnimation};
 `;
 
 const Box = posed.div({

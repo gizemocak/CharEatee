@@ -7,11 +7,11 @@ import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
 import "../style/SignupForm.scss";
 import styled, { keyframes } from "styled-components";
-import { rotateInUpRight } from 'react-animations';
+import { fadeInRight } from 'react-animations';
 
-const RotateInUpRightAnimation = keyframes`${rotateInUpRight}`;
-const RotateInUpRightYDiv = styled.div`
-  animation: 2s ${RotateInUpRightAnimation};
+const FadeInRightAnimation = keyframes`${fadeInRight}`;
+const FadeInRightYDiv = styled.div`
+  animation: 1s ${FadeInRightAnimation};
 `;
 
 export default function SignUpForm(props) {
@@ -74,7 +74,7 @@ export default function SignUpForm(props) {
   return (
     <div className="signupBox">
       <NavBar />
-      <RotateInUpRightYDiv>
+      <FadeInRightYDiv>
         <h1>Register your account</h1>
         <Form onSubmit={formSubmit}>
           <Form.Group controlId="exampleForm.ControlSelect1">
@@ -201,7 +201,7 @@ export default function SignUpForm(props) {
         <footer className="footRg">
           <span>Opening minds, changing lives.</span>
         </footer>
-      </RotateInUpRightYDiv>
+      </FadeInRightYDiv>
     </div>
   );
 }
