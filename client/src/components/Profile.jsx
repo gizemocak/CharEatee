@@ -52,6 +52,7 @@ export default function Profile(props) {
 
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchStores();
   }, []);
 
@@ -125,7 +126,8 @@ export default function Profile(props) {
                         Expires: {item.expiry} 
                         <br/>
                         <img src={item.imgurl} style={{height: '5rem', marginTop: '1rem'}}/>
-                        <Button id={index} onClick={() => {handleAddToCart(item); toggle();}}>{toggleState}</Button>
+                        <Button id={index} onClick={() => {handleAddToCart(item)}} style={{marginLeft: '0.5rem', height: '35px', width: '35px'}}>-</Button>
+                        <Button id={index} onClick={() => {handleAddToCart(item)}} style={{height: '35px', width: '35px'}}>+</Button>
                       </ListGroup.Item>
                     </ListGroup>
                     <br/>

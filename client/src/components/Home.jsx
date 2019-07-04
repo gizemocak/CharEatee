@@ -79,6 +79,10 @@ const Slogan5 = () => (
 
 
 export default class Home extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
+  
   render() {
     let user = JSON.parse(localStorage.getItem("user"));
     return (

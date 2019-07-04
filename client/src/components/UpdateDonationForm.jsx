@@ -4,6 +4,9 @@ import Button from "react-bootstrap/Button";
 import "../style/UpdateDonationForm.scss"
 
 export default class UpdateDonationForm extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0)
+  }
   render() {
     const {formItem} = this.props;
     return(

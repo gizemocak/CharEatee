@@ -7,7 +7,8 @@ const style = {
   position: "relative",
   width: "100vw",
   height: "100vh",
-  left:'-10px'
+  left: '-30px',
+  right: '-30px'
 };
 class GoogleMap extends React.Component {
   constructor(props) {
@@ -76,14 +77,14 @@ class GoogleMap extends React.Component {
             this.props.history.push(`/profile/${selectedPlace.id}`);
           }}
         >
-          <h6>{selectedPlace.name}</h6>
+          <h6 className="store-name">{selectedPlace.name}</h6>
         </a>
-        <ul>
+
           {selectedPlace.products &&
             selectedPlace.products.filter(item => !item.deleted_at).map(item => {
-              return <li>{item.name}</li>;
+              return <div>{item.name}</div>;
             })}
-        </ul>
+
       </div>
     );
     ReactDOM.render(
