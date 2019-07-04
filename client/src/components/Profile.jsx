@@ -54,6 +54,7 @@ export default function Profile(props) {
     setTimeout(() => {
       fetchStores();
     }, 500);
+    window.scrollTo(0, 0);
   }, []);
 
   const handleAddToCart = item => {
@@ -152,10 +153,23 @@ export default function Profile(props) {
                               id={index}
                               onClick={() => {
                                 handleAddToCart(item);
-                                toggle();
+                              }}
+                              style={{
+                                marginLeft: "0.5rem",
+                                height: "35px",
+                                width: "35px"
                               }}
                             >
-                              {toggleState}
+                              -
+                            </Button>
+                            <Button
+                              id={index}
+                              onClick={() => {
+                                handleAddToCart(item);
+                              }}
+                              style={{ height: "35px", width: "35px" }}
+                            >
+                              +
                             </Button>
                           </ListGroup.Item>
                         </ListGroup>

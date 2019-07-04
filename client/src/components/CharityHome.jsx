@@ -6,6 +6,13 @@ import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
+import styled, { keyframes } from "styled-components";
+import { fadeIn } from "react-animations";
+const FadeInAnimation = keyframes`${fadeIn}`;
+const FadeInDiv = styled.div`
+  animation: 3s ${FadeInAnimation};
+`;
+
 export default function CharityHome(props) {
   const [geoLoc, setGeoLoc] = useState({ lat: 43.6478476, lng: -79.3912643 });
   const [searchValue, setSearchValue] = useState("");
@@ -17,6 +24,8 @@ export default function CharityHome(props) {
   const [displayedStores, setDisplayedStores] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     getGeoLocation();
     fetchStores();
   }, []);
@@ -60,28 +69,40 @@ export default function CharityHome(props) {
     <>
       <NavBar id={props.match.params.id} />
 
-      {googleMapsAPIKey && filteredStores.length > 0 && geoLoc && (
-        <MapContainer
-          apiKey={googleMapsAPIKey}
-          geoLocation={geoLoc}
-          pins={displayedStores}
-        />
-      )}
-
-      <Form onSubmit={onSubmit}>
-        <Form.Group>
-          <Form.Control
-            type="text"
-            placeholder="search an item"
-            value={searchValue}
-            onChange={onChange}
-            className="search-input"
+      <fadeInDiv>
+        {googleMapsAPIKey && filteredStores.length > 0 && geoLoc && (
+          <MapContainer
+            apiKey={googleMapsAPIKey}
+            geoLocation={geoLoc}
+            pins={displayedStores}
           />
-        </Form.Group>
-        <Button variant="primary" type="submit" className="search-button">
-          Search
-        </Button>
-      </Form>
+        )}
+
+        <Form onSubmit={onSubmit}>
+          <Form.Group>
+            <Form.Control
+              type="text"
+              placeholder="search an item"
+              value={searchValue}
+              onChange={onChange}
+              className="search-input"
+              style={{
+                backgroundColor: "rgb(245, 245, 245)",
+                position: "fixed",
+                bottom: "0px"
+              }}
+            />
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+            className="search-button"
+            style={{ display: "none" }}
+          >
+            Search
+          </Button>
+        </Form>
+      </fadeInDiv>
     </>
   );
 }

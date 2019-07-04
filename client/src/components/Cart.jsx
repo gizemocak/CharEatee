@@ -11,7 +11,7 @@ import styled, { keyframes } from "styled-components";
 import { lightSpeedIn } from "react-animations";
 const LightSpeedInAnimation = keyframes`${lightSpeedIn}`;
 const LightSpeedInDiv = styled.div`
-  animation: 2s ${LightSpeedInAnimation};
+  animation: 1s ${LightSpeedInAnimation};
 `;
 
 export default function Cart(props) {
@@ -19,6 +19,8 @@ export default function Cart(props) {
   const addToOrder = useStoreActions(actions => actions.addToOrder);
 
   useEffect(() => {
+      window.scrollTo(0, 0)
+
     if (cart.length === 0) {
       props.history.push("/login");
     }
