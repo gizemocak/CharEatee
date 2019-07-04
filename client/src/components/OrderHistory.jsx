@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./NavBar";
+
 import "../style/OrderHistory.scss";
 
 import Jumbotron from 'react-bootstrap/Jumbotron';
@@ -7,21 +8,17 @@ import Button from "react-bootstrap/Button";
 
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from "react-router-dom";
-
 import "../style/Profile.scss";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
 import posed from "react-pose";
 import ListGroup from "react-bootstrap/ListGroup";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 
 import styled, { keyframes } from "styled-components";
 import { zoomIn } from "react-animations";
-
-
 
 export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
@@ -32,6 +29,7 @@ export default function OrderHistory(props) {
 
   let user = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([{}]);
+  const clearCart = useStoreActions(actions => actions.clearCart);
 
   const clearCart = useStoreActions(actions => actions.clearCart);
 
@@ -76,6 +74,12 @@ export default function OrderHistory(props) {
       .then(res => setProducts(res))
       .then(res => console.log("state", products));
   }, []);
+
+  const goToMap = e => {
+    e.preventDefault();
+    clearCart();
+    props.history.push(`/charity/home/${user.user_id}`);
+  };
 
   return (
     <>
@@ -187,4 +191,3 @@ export default function OrderHistory(props) {
     </>
   );
 }
-
