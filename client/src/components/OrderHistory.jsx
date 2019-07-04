@@ -29,7 +29,6 @@ export default function OrderHistory(props) {
 
   let user = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([{}]);
-  const clearCart = useStoreActions(actions => actions.clearCart);
 
   const clearCart = useStoreActions(actions => actions.clearCart);
 
@@ -74,12 +73,6 @@ export default function OrderHistory(props) {
       .then(res => setProducts(res))
       .then(res => console.log("state", products));
   }, []);
-
-  const goToMap = e => {
-    e.preventDefault();
-    clearCart();
-    props.history.push(`/charity/home/${user.user_id}`);
-  };
 
   return (
     <>

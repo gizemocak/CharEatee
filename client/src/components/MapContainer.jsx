@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { withRouter } from "react-router";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
+import "../style/MapContainer.scss";
 
 const style = {
   position: "relative",
@@ -71,8 +72,8 @@ class GoogleMap extends React.Component {
 
   onInfoWindowOpen = (selectedPlace, e) => {
     const button = (
-      <div>
-        <a
+      <div className="popup">
+        <a id="go"
           onClick={e => {
             this.props.history.push(`/profile/${selectedPlace.id}`);
           }}
@@ -82,7 +83,12 @@ class GoogleMap extends React.Component {
 
           {selectedPlace.products &&
             selectedPlace.products.filter(item => !item.deleted_at).map(item => {
-              return <div>{item.name}</div>;
+              console.log('yoyoyyoyoyoyo',item)
+              return <div className="store-items">
+                {item.name}: {item.quantity} {item.unit}
+                <br/>
+                <span className="exp">Expires: {item.expiry}</span>
+              </div>;
             })}
 
       </div>
