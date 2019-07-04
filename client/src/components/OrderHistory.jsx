@@ -19,13 +19,13 @@ import { faReceipt } from "@fortawesome/free-solid-svg-icons";
 
 import styled, { keyframes } from "styled-components";
 import { zoomIn } from "react-animations";
+const ZoomInAnimation = keyframes`${zoomIn}`;
+const ZoomInDiv = styled.div`
+  animation: 1.5s ${ZoomInAnimation};
+`;
 
 export default function OrderHistory(props) {
   const order = useStoreState(state => state.order);
-  const ZoomInAnimation = keyframes`${zoomIn}`;
-  const ZoomInDiv = styled.div`
-    animation: 1s ${ZoomInAnimation};
-  `;
 
   let user = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([{}]);
@@ -65,6 +65,13 @@ export default function OrderHistory(props) {
       .then(res => setProducts(res))
       .then(res => console.log("state", products));
   }, []);
+
+  const clearCart = useStoreActions(actions => actions.clearCart);
+  const goToMap = e => {
+    e.preventDefault();
+    clearCart();
+    props.history.push(`/charity/home/${user.user_id}`);
+  };
 
   return (
     <>
