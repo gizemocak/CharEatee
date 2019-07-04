@@ -38,14 +38,13 @@ export default function CharityHome(props) {
   };
 
   const onChange = e => {
-
     setSearchValue(e.target.value);
     if (e.target.value.length === 0) {
       setDisplayedStores(filteredStores);
     } else {
       let newDisplayedStores = filteredStores.filter(store =>
-        store.products.find(
-          product => product.name.toLowerCase() === e.target.value.toLowerCase()
+        store.products.find(product =>
+          product.name.toLowerCase().includes(e.target.value.toLowerCase())
         )
       );
       setDisplayedStores(newDisplayedStores);
@@ -83,7 +82,6 @@ export default function CharityHome(props) {
           Search
         </Button>
       </Form>
-      
     </>
   );
 }

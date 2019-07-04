@@ -45,11 +45,12 @@ app.use(
 );
 
 var options = {
-  provider: 'openstreetmap',
+  provider: 'mapquest',
   // Optional depending on the providers
   httpAdapter: 'https', // Default
-  apiKey: process.env.GOOGLEMAPS_APIKEY, // for Mapquest, OpenCage, Google Premier
-  formatter: null // 'gpx', 'string', ...
+  apiKey: 'iDLEXonskFKEUB6TBroSALKR01fduQrw', // for Mapquest, OpenCage, Google Premier
+  formatter: null, // 'gpx', 'string', ...
+  'User-Agent': 'chareatee app'
 };
 console.log("api", process.env.GOOGLEMAPS_APIKEY)
 var geocoder = NodeGeocoder(options);
@@ -80,6 +81,28 @@ app.get('/', (req, res) => {
 
 ////////////REGISTER ROUTES///////////////
 
+app.post("/api/geoCode", (req, res) => {
+  const {
+    address,
+    city,
+    postalcode,
+  } = req.body
+  const addressArray = address.split(" ")
+  const [streetNumber, ...rest] = addressArray
+  console.log(req.body)
+  console.log(streetNumber, rest.join(' '))
+  geocoder.geocode({
+    address,
+    city,
+    zipcode: postalcode,
+    state: 'ontario',
+    country: 'Canada'
+  }, function (err, geocoderResponse) {
+    console.log('geocoderResponse', geocoderResponse)
+    res.send('ok')
+  })
+})
+
 app.post("/api/register", (req, res) => {
   // console.log("register reqbody", req.body)
 
@@ -106,6 +129,7 @@ app.post("/api/register", (req, res) => {
     }
     let latitude = ''
     let longitude = ''
+
     geocoder.geocode({
       address,
       city,
@@ -113,6 +137,7 @@ app.post("/api/register", (req, res) => {
       state: 'ontario',
       country: 'Canada'
     }, function (err, geocoderResponse) {
+      console.log('geocoderResponse', geocoderResponse)
       knex('users')
         .returning('id')
         .insert([{
@@ -158,7 +183,10 @@ app.post("/api/register", (req, res) => {
 ///////////LOGIN ROUTES///////////////////
 app.post("/api/login", (req, res) => {
 
-  const { email, password } = req.body
+  const {
+    email,
+    password
+  } = req.body
 
   knex.select('*').from('users').where('email', email).first().then((user) => {
     // console.log('user', user);
@@ -230,7 +258,9 @@ app.get("/api/v2/stores", (req, res) => {
 ////////////Get A Donation/////////////////////
 app.get("/api/products", (req, res) => {
   //check if query string exists, search that query in the database and show the ones that have the key
-  const { search } = req.query;
+  const {
+    search
+  } = req.query;
 
   if (search) {
     knex
@@ -253,7 +283,10 @@ app.get("/api/products", (req, res) => {
 });
 ////////////get orders/////////////////////
 app.get("/api/orders/", (req, res) => {
-  const { userId, type } = req.query
+  const {
+    userId,
+    type
+  } = req.query
   /* var query = knex("orders")
     .select("*")
 
@@ -330,16 +363,16 @@ app.post("/api/order", (req, res) => {
         .then(line_items => {
           line_items.forEach(item => {
             knex.raw(`UPDATE products set deleted_at = current_date where products.id = ${item.product_id}`)
-            .then(response => {
-              client.messages.create({
-                body: `Order placed by Charity Organization for product ID ${item.product_id}, Please respond to customer with an estimate of time when order will be ready for pickup`,
-                to: '+15149636889',  // Text this number to grocery store
-                from: '+14388062570' // From a valid Twilio number
+              .then(response => {
+                client.messages.create({
+                    body: `Order placed by Charity Organization for product ID ${item.product_id}, Please respond to customer with an estimate of time when order will be ready for pickup`,
+                    to: '+15149636889', // Text this number to grocery store
+                    from: '+14388062570' // From a valid Twilio number
+                  })
+                  .then((message) => console.log('messagebody:', message.body))
+                  .catch(err => console.log('ERR:', err));
+
               })
-                .then((message) => console.log('messagebody:', message.body))
-                .catch(err => console.log('ERR:', err));
-              
-            })
           })
           res.status(200).send(line_items)
         })
@@ -359,5 +392,3 @@ const port = process.env.PORT || 8080;
 app.listen(port);
 
 console.log('App is listening on port ' + port);
-
-
