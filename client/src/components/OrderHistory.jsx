@@ -3,14 +3,14 @@ import Navbar from "./NavBar";
 
 import "../style/OrderHistory.scss";
 
-import Jumbotron from 'react-bootstrap/Jumbotron';
+import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
 
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from "react-router-dom";
 import "../style/Profile.scss";
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 import posed from "react-pose";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -31,14 +31,6 @@ export default function OrderHistory(props) {
   const [products, setProducts] = useState([{}]);
   const clearCart = useStoreActions(actions => actions.clearCart);
 
-  const clearCart = useStoreActions(actions => actions.clearCart);
-
-  const goToMap = e => {
-    e.preventDefault();
-    clearCart();
-    props.history.push(`/charity/home/${user.user_id}`);
-  };
-
   const Hover = posed.div({
     hoverable: true,
     pressable: true,
@@ -57,7 +49,7 @@ export default function OrderHistory(props) {
   });
 
   useEffect(() => {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
 
     fetch(
       `http://localhost:8080/api/orders/?userId=${user.user_id}&type=${
@@ -85,108 +77,129 @@ export default function OrderHistory(props) {
     <>
       <Navbar />
       <ZoomInDiv>
-      <div className="greeting">
-      <Jumbotron className="jbt">
-        <h3>Thank for your order, {user.name}</h3>
-        <p>
-          Please contact the grocer/restuarant to arrange the pickup or delivery.
-        </p>
-        <p>
-        <Button id="bmap" variant="primary"  onClick={goToMap}>Go back to the Map to view more donations</Button>
-        </p>
-    </Jumbotron>
+        <div className="greeting">
+          <Jumbotron className="jbt">
+            <h3>Thank for your order, {user.name}</h3>
+            <p>
+              Please contact the grocer/restuarant to arrange the pickup or
+              delivery.
+            </p>
+            <p>
+              <Button id="bmap" variant="primary" onClick={goToMap}>
+                Go back to the Map to view more donations
+              </Button>
+            </p>
+          </Jumbotron>
 
-        {JSON.parse(localStorage.getItem("user")).type === "Charity" ? (
-          <div className="orderBody">
-            <h5 style={{color: '#727275'}}>Your Order History <FontAwesomeIcon icon={faReceipt} /></h5>
-            <Tabs defaultActiveKey="1" id="uncontrolled-tab-example" className="otabs">
-              <Tab eventKey="1" title="This Week" className="stabs">
-                <div className="orderItemList">
-                  {products &&
-                    products.orders &&
-                    products.orders.map(item => {
-                      return (
-                        <div className="hisList">
-                          {item.line_items.lineItems &&
-                            item.line_items.lineItems.map(product => {
-                              console.log("product", product.product);
-                              return (
-                                <div className="singleItem">
-                                  <ListGroup>
-                                    <ListGroup.Item action variant="info" id="l1">
-                                      {product.product}
-                                    </ListGroup.Item>
-                                  </ListGroup>
-                                  <br />
-                                </div>
-                              );
-                            })}
-                        </div>
-                      );
-                    })}
-                </div>
-              </Tab>
-              <Tab eventKey="2" title="Past 1 Month" className="stabs">
-                <div className="orderItemList">
-                  {products &&
-                    products.orders &&
-                    products.orders.map(item => {
-                      return (
-                        <div className="hisList">
-                          {item.line_items.lineItems &&
-                            item.line_items.lineItems.map(product => {
-                              console.log("productsssss", product);
-                              return (
-                                <div className="singleItem">
-                                  <ListGroup>
-                                    <ListGroup.Item action variant="warning" id="l2">
-                                      {product.product}
-                                    </ListGroup.Item>
-                                  </ListGroup>
-                                  <br />
-                                </div>
-                              );
-                            })}
-                        </div>
-                      );
-                    })}
-                </div>
-              </Tab>
-              <Tab eventKey="3" title="Past 1 year" className="stabs">
-                <div className="orderItemList">
-                  {products &&
-                    products.orders &&
-                    products.orders.map(item => {
-                      return (
-                        <div className="hisList">
-                          {item.line_items.lineItems &&
-                            item.line_items.lineItems.map(product => {
-                              console.log("product", product.product);
-                              return (
-                                <div className="singleItem">
-                                  <ListGroup>
-                                    <ListGroup.Item action variant="secondary" id="l3">
-                                      {product.product}
-                                    </ListGroup.Item>
-                                  </ListGroup>
-                                  <br />
-                                </div>
-                              );
-                            })}
-                        </div>
-                      );
-                    })}
-                </div>
-              </Tab>
-            </Tabs>
-          </div>
-        ) : (
-          <div>Your Donations History</div>
-        )}
-      </div>
-      <footer className="ofoot">
-        <span>Share your joy of charity.</span>
-      </footer>
+          {JSON.parse(localStorage.getItem("user")).type === "Charity" ? (
+            <div className="orderBody">
+              <h5 style={{ color: "#727275" }}>
+                Your Order History <FontAwesomeIcon icon={faReceipt} />
+              </h5>
+              <Tabs
+                defaultActiveKey="1"
+                id="uncontrolled-tab-example"
+                className="otabs"
+              >
+                <Tab eventKey="1" title="This Week" className="stabs">
+                  <div className="orderItemList">
+                    {products &&
+                      products.orders &&
+                      products.orders.map(item => {
+                        return (
+                          <div className="hisList">
+                            {item.line_items.lineItems &&
+                              item.line_items.lineItems.map(product => {
+                                console.log("product", product.product);
+                                return (
+                                  <div className="singleItem">
+                                    <ListGroup>
+                                      <ListGroup.Item
+                                        action
+                                        variant="info"
+                                        id="l1"
+                                      >
+                                        {product.product}
+                                      </ListGroup.Item>
+                                    </ListGroup>
+                                    <br />
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        );
+                      })}
+                  </div>
+                </Tab>
+                <Tab eventKey="2" title="Past 1 Month" className="stabs">
+                  <div className="orderItemList">
+                    {products &&
+                      products.orders &&
+                      products.orders.map(item => {
+                        return (
+                          <div className="hisList">
+                            {item.line_items.lineItems &&
+                              item.line_items.lineItems.map(product => {
+                                console.log("productsssss", product);
+                                return (
+                                  <div className="singleItem">
+                                    <ListGroup>
+                                      <ListGroup.Item
+                                        action
+                                        variant="warning"
+                                        id="l2"
+                                      >
+                                        {product.product}
+                                      </ListGroup.Item>
+                                    </ListGroup>
+                                    <br />
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        );
+                      })}
+                  </div>
+                </Tab>
+                <Tab eventKey="3" title="Past 1 year" className="stabs">
+                  <div className="orderItemList">
+                    {products &&
+                      products.orders &&
+                      products.orders.map(item => {
+                        return (
+                          <div className="hisList">
+                            {item.line_items.lineItems &&
+                              item.line_items.lineItems.map(product => {
+                                console.log("product", product.product);
+                                return (
+                                  <div className="singleItem">
+                                    <ListGroup>
+                                      <ListGroup.Item
+                                        action
+                                        variant="secondary"
+                                        id="l3"
+                                      >
+                                        {product.product}
+                                      </ListGroup.Item>
+                                    </ListGroup>
+                                    <br />
+                                  </div>
+                                );
+                              })}
+                          </div>
+                        );
+                      })}
+                  </div>
+                </Tab>
+              </Tabs>
+            </div>
+          ) : (
+            <div>Your Donations History</div>
+          )}
+        </div>
+        <footer className="ofoot">
+          <span>Share your joy of charity.</span>
+        </footer>
       </ZoomInDiv>
     </>
   );
