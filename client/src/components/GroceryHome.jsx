@@ -15,6 +15,8 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import styled, { keyframes } from "styled-components";
 import { bounceInUp } from 'react-animations';
 import { wobble } from 'react-animations';
+import { storage } from "../firebase";
+
 const WobbleAnimation = keyframes`${wobble}`;
 const WobbleDiv = styled.div`
   animation: 1s ${WobbleAnimation};
@@ -107,23 +109,31 @@ export default function GroceryHome(props) {
 
 
   const handleChange = (value, propertyName) => {
+    console.log("value from handlechange:", value)
+    console.log("propertyname from handlechange:", propertyName)
+
     const newFormData = { ...formData };
     newFormData[propertyName] = value;
     updateFormData(newFormData);
   };
 
   const handleImage = (value) => {
+    console.log("items in handleimage:", items)
+    console.log("value:", value)
+    
     items[items.length - 1].imgurl = value;
     updateItems([...items]);
   };
 
   const handleDonationSubmit = () => {
+    console.log("items in handledonationsubmit:", items)
+
     fetch('http://localhost:8080/api/products', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(items)
     }).then(res => {
-      // console.log("response", res);
+      console.log("response", res);
     })
   }
 
