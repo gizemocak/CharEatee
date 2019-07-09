@@ -43,10 +43,21 @@
 
 
 ## Getting Started
-Front-End
+
+1. Front-End
 Start with -> finalproject/client npm start
 React runs on localhost:3000
 <br>
-Back-End
+2. Back-End
 Express server runs on localhost:8080
-start with -> final-project npm start
+start with -> finalproject npm start
+
+3. If you would like to receive an SMS confirmation from Twilio, you will need to create a free account
+Once you have obtained your Account SID and Authentication Token, create a .env file in the /backend folder
+
+In that file, enter the following:
+TWILIO_ACCOUNT_SID=your_account_sid_here
+TWILIO_AUTH_TOKEN=your_auth_token_here
+
+4. Enjoy!
+
