@@ -15,7 +15,7 @@
 #### As grocery owner, I follow regulation strictly to provide fresh food to my customers, but there are still a lot of perishable food wasted everyday. Once food hits its sell-by date, they became unsaleables, I will be able to use the app: 
 - Login as grocery store owner / register if first time using the app
 - Post Food near or past its best-before date with prodcut photos, name, qty on daily basis
-- Once I got zero value order from charity orgnization for the food they need, I will be able to contact with them to arrange food delivery.
+- Once I got SMS and order from app, I will be able to contact with charity organization to arrange food delivery.
 ![](https://github.com/gizemocak/final-project/blob/master/client/public/images/donation.gif)
 
 #### As charity orgnization, I want to help my community and collect information from grocery store:
@@ -23,7 +23,7 @@
 - check on map to see all stores posted food for donation around me
 - when I click one store, I will have the detailed list of donation food
 - I could select and add to my cart, then place order with no money traction though
-- I will then be contacted by grocery owner for food delivery arrangement
+- The App will send SMS to grocer once order being placed
 ![](https://github.com/gizemocak/final-project/blob/master/client/public/images/charity.gif)
 
 
