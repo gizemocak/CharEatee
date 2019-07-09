@@ -55,7 +55,7 @@
 - start with -> finalproject npm start
 
 3. If you would like to receive an SMS confirmation from Twilio, you will need to create a free account
-- Once you have obtained your Account SID and Authentication Token, create a .env file in the /backend folder
+- Once you have obtained your Account SID and Authentication Token, create a .env file in the main folder
 - In that file, enter the following:
 - TWILIO_ACCOUNT_SID=your_account_sid_here
 - TWILIO_AUTH_TOKEN=your_auth_token_here
