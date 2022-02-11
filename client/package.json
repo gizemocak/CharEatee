@@ -16,7 +16,7 @@
     "font-awesome": "^4.7.0",
     "google-maps-react": "^2.0.2",
     "gsap": "^2.1.3",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "react": "^16.8.6",
     "react-animations": "^1.0.0",
     "react-bootstrap": "^1.0.0-beta.9",
