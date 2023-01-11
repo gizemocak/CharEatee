@@ -11,7 +11,7 @@
   "dependencies": {
     "bookshelf": "^0.15.1",
     "dotenv": "^8.0.0",
-    "knex": "^0.17.6",
+    "knex": "^2.4.0",
     "mysql": "^2.17.1",
     "pg": "^7.11.0"
   }
